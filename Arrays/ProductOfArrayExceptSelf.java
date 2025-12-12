@@ -1,4 +1,7 @@
 package Arrays;
+
+import java.util.Arrays;
+
 /**Find the array that's the result of the product of the array elements at each index except itself.
  * e.g. nums = [1, 2, 3, 4]
        output = [24, 12, 8, 6]
@@ -41,7 +44,7 @@ public class ProductOfArrayExceptSelf {
         int[] result=new int[n];
 
         result[0]=1;
-        for(int i=0;i<n;i++){
+        for(int i=1;i<n;i++){ //we startat index 1 since we'll do i-1
             result[i]=nums[i-1]*result[i-1]; //  product of all before
         }
 
@@ -68,14 +71,14 @@ public class ProductOfArrayExceptSelf {
 
         int[] prefix=new int[n];
         prefix[0]=1;
-        for(int i=0;i<n;i++){
+        for(int i=1;i<n;i++){ //due to the i-1 we start at index 1
             prefix[i]=nums[i-1]*prefix[i-1];
         }
 
         int[] suffix=new int[n];
         suffix[n-1]=1;
-        for(int i=n-1;i>=0;i++){
-            suffix[i]=nums[i+1]+suffix[i+1]; // the previous number since we are startingin the back i.e
+        for(int i=n-2;i>=0;i--){ //same here we'll do the i+1 so we start at the index before n-1
+            suffix[i]=nums[i+1]*suffix[i+1]; // the previous number since we are startingin the back i.e
         }
 
         int[] result=new int[n];
@@ -91,15 +94,15 @@ public class ProductOfArrayExceptSelf {
         int[] nums = {1, 2, 3, 4};
         int[] res = getProductExceptSelf(nums);
 
-        for (int num : res) {
-            System.out.print("O(1) space: "+num + " ");
-        }
+        
+        System.out.print("O(1) space: "+Arrays.toString(res) + " ");
+        
 
          int[] res2 = getProductExceptSelfOnSpace(nums);
 
-        for (int num : res2) {
-            System.out.print("O(n) space: "+ num + " ");
-        }
+    
+        System.out.print("O(n) space: "+ Arrays.toString(res2)+ " ");
+        
         // Output: 24 12 8 6
     }
     
