@@ -13,14 +13,14 @@ public class LongestIncreasingPath {
 
         int[][] memo=new int[m][n];
 
-        int maxLength=0;
+        int maxPathLength=0;
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
-                maxLength=Math.max(maxLength,dfs(i,j,matrix,memo,m,n));
+                maxPathLength=Math.max(maxPathLength,dfs(i,j,matrix,memo,m,n));
             }
         }
 
-        return maxLength;
+        return maxPathLength;
 
     }
 

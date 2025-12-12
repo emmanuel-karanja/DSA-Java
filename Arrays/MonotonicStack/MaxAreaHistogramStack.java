@@ -23,18 +23,21 @@ public class MaxAreaHistogramStack {
 
         int maxArea=0;
 
-        //we usually pad the end with a height of length 0
+        //we usually pad the end with a height of length 0, why?
         for(int i=0;i<=n;i++){
-            int h=(i==n)?0:heights[i];
+            int h=(i==n)?0:heights[i]; 
 
             
             while(!stack.isEmpty() && h < heights[stack.peek()]){
                 //calculate area
                 int height=heights[stack.pop()]; //height at the current top
-                int right=i;
-                int left= stack.isEmpty()? -1 : stack.peek();
+                int right=i; //current i is the right
 
-                //because each represent one bar to the left
+                int left= stack.isEmpty()? -1 : stack.peek(); //note this
+
+                //For each bar, find how far it can extend to the left and right before hitting a smaller bar.
+                //Width = right index - left index - 1. Why the -1? Because the left and right indices are the bars 
+                //smaller than the current bar, not the bar itself.
                 int width=right-left-1;
 
                 maxArea=Math.max(maxArea,width*height);

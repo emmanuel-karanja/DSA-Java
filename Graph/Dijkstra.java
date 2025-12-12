@@ -22,6 +22,8 @@ import java.util.*;
  * 
  * KEY: The step where we check if the popped node is visited or not is CRUCIAL to the entire algorithm.
  *     Without it we are not guaranteed to arrive at a global optimal.
+ * 
+ * Only those nodes that pass the relaxation test (i.e. newValue < oldValue) will be explored further.
  */
 class GraphNode {
     public int value; // node id
@@ -81,7 +83,8 @@ public class Dijkstra {
                 int weight = entry.getValue();
 
                 int newDist = curr.distance + weight;
-                if (newDist < distances.get(neighbor.value)) {
+                if (newDist < distances.get(neighbor.value)) { //You only explore those nodes that pass
+                    //the relaxation condition.
                     distances.put(neighbor.value, newDist);
                     minHeap.add(new QueueNode(neighbor, newDist));
                 }

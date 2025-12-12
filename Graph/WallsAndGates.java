@@ -63,7 +63,7 @@ public class WallsAndGates {
                 int nr=currCell.r+d[0];
                 int nc=currCell.c+d[1];
 
-                //check bounds
+                //check bounds and it's an empty room as opposed to a room with an obstacle or a gate.
                 if(nr>=0 && nr <rows && nc >=0 && nc<cols && rooms[nr][nc]==EMPTY_ROOM){
                     // KEY
                     int newDistance=distance+1;

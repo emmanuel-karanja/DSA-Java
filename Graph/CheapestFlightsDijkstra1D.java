@@ -20,6 +20,10 @@ import java.util.PriorityQueue;
  * Unlike Dijkstra we don't keep track of visited since we want to be able to re=add a processed node later on
  * provided we keep the stops and the cost down.
  * 
+ * We get the oldValue from the statelist. i.e.
+ * 
+ * 
+ * 
 */
 
 class GraphNode {
@@ -56,6 +60,7 @@ public class CheapestFlightsDijkstra1D {
 
         // 1D best cost array
         int[] bestCost = new int[n];
+        // We always initialize the cost for all nodes.
         Arrays.fill(bestCost, Integer.MAX_VALUE);
         bestCost[src] = 0;
 

@@ -55,7 +55,7 @@ public class AddTwoNumbers {
               int sum=(p!=null? p.value:0)+(q!=null?q.value:0)+carry;
               carry=(int) Math.floor(sum/10);
 
-              current.next=new ListNode(sum %10);
+              current.next=new ListNode(sum %10); //generate the next number
               current=current.next; //advance current pointer
               if(p!=null) p=p.next;
               if(q!=null) q=q.next;

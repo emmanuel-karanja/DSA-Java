@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
  *
  * Intuition:
  * ----------
+ * 
+ * 
  * 1. If the total number of cards is not divisible by W, return false.
  * 2. Count the frequency of each unique card.
  * 3. Sort the unique card values.
@@ -25,7 +27,14 @@ import java.util.stream.Collectors;
  *    - Otherwise, decrement the counts accordingly.
  * 
  * KEY: If we are at card key, we'll use up all the cards for the key+1 card i.e. we'll decreement the key+1 card count
- *  by the key card count.
+ *  by the key card count. i.e. 
+ * 
+  KEY REASONING: Starting from the current card,can we form full straights? e.g. if we have 2 with a count 3 as the starting
+  card, and we need 4 cards for the hand we'll need 3 counts of 3, 3 counts of 4 and 3 counts of 5 to form full straights.
+  If any of them has less, we can't and hence return false.
+ * 
+ * time O(n log n + n * W)  --? nlogn from sorting and n*W for the loop but we pick the dominant one
+ * so O(nlogn)
  */
 
 public class StraightHand {

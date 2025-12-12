@@ -56,7 +56,8 @@ public class SwimInRisingWater {
         while(!minHeap.isEmpty()){
                 QueueNode qNode=minHeap.poll();
 
-                int elevation=qNode.elevation;
+                int elevation=qNode.elevation;  //we don't even need to store the elevation since we can get it from the grid
+                //and we are not doing any thing to it.
                 int x=qNode.x;
                 int y=qNode.y;
 

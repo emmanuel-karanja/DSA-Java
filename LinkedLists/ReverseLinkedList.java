@@ -25,7 +25,7 @@ public class ReverseLinkedList {
             current=next;
         }
 
-        return prev;
+        return prev; //remember this
     }
 
     public static void main(String[] args){

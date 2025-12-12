@@ -10,12 +10,12 @@ class ListNode{
     }
 }
 
-public class MergedLinkedLists {
+public class MergeTwoLinkedLists {
 
     public static ListNode mergeTwo(ListNode l1, ListNode l2){
         //check if any of them are null
         if(l1==null && l2==null){
-            throw new IllegalArgumentException("Lists are null");
+            throw new IllegalArgumentException("Lists are null"); //optionlly return null.
         }
 
         if(l1==null) return l2;

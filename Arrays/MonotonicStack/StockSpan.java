@@ -16,7 +16,17 @@ import java.util.Arrays;
  * it suggests we have way of finding monotonically decreasing prices from today'sdate.
  * (This is basically a monotonically increasing stack i.e. the oldest price is the smallest)
  * Basically in the stack remove ALL PRICES GREATER THAN TODAY'S PRICE.
- * We pop untilwe find a price > today's price and stop
+ * We pop untilwe find a price > today's price and stop. And then find how many days since the current day
+ * to the day with price > today's price and find the gap i.e. right-left-1+1  we add the one since today's
+ * day is.
+ * 
+ * the argument for this is that right and left are one element past and the real
+ * distance is
+ * left+1, right-1 and we find the distance between via right-left+1
+ * 
+ * (right-1)-(left+1)+1
+ * right-1-left-1+1
+ * 
  */
 public class StockSpan {
 
@@ -30,15 +40,17 @@ public class StockSpan {
         int[] span=new int[prices.length];
         for(int i=0;i<prices.length;i++){
          
-             while(!stack.isEmpty() && prices[stack.peek()]<=prices[i]){
-                 stack.pop();//remove all the prices greater than the current price
+             while(!stack.isEmpty() && prices[i] >= prices[stack.peek()]){
+                 stack.pop();//remove all the prices LESS that today's price until the price at the top of the
+                 //stack contains a price > prices[i]
              }
 
-             //stack top now has a price>=currentPrice
+             //stack top now has a price > currentPrice
              //it's supposed to be right-left-1 but since we are considering the current price as well
              // we add 1 so it's right-left-1+1
              span[i]=stack.size()==0?i+1 : i-stack.peek();
 
+             //only after do we push the value to the stack
              stack.push(i);
         }
 

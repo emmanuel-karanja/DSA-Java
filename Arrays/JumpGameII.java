@@ -1,3 +1,4 @@
+package Arrays;
 /**Given an array of nums where each element represents the maximum jump length, at that position,
  * return the minimum number of jumps needed to reach the last index.
  * 

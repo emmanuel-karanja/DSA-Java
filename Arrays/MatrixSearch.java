@@ -1,3 +1,4 @@
+package Arrays;
 
 /**Given an integer mxn matrix where each row is sorted in ascending order and so are the columns, find an efficient way to establish
  *  if a target integer is in the matrix.
