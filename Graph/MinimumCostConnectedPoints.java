@@ -1,5 +1,6 @@
 package Graph;
 
+import java.util.Arrays;
 import java.util.PriorityQueue;
 
 
@@ -10,6 +11,7 @@ import java.util.PriorityQueue;
  * INTUTION:
  * 
  * This implies BFS. At each point, we go to all the surrounding points.
+ * This is actually Minimum Spanning Tree or Prim's Algorithm using MinHeap.
  * It implies MinHeap.
  * Check edges between u->v etc
  * 
@@ -32,39 +34,61 @@ class QueueNode {
     }
 }
 
+class Edge {
+    int to;
+    int cost;
+
+    Edge(int to, int cost) {
+        this.to = to;
+        this.cost = cost;
+    }
+}
+
 public class MinimumCostConnectedPoints {
 
     private static int manhattanDist(int[][] points, int i, int j) {
         return Math.abs(points[i][0] - points[j][0]) + Math.abs(points[i][1] - points[j][1]);
     }
 
-    public static int getMinCost(int[][] points) {
+     public static int getMinCost(int[][] points) {
         if (points == null || points.length == 0) return 0;
 
-        final int n = points.length;
+        int n = points.length;
+
         boolean[] visited = new boolean[n];
-        PriorityQueue<QueueNode> minHeap = new PriorityQueue<>((a, b) -> Integer.compare(a.cost, b.cost));
 
-        minHeap.add(new QueueNode(0, 0)); // start from point 0
+        // minDist[v] = minimum cost edge connecting v to current MST
+        int[] minDist = new int[n];
+        Arrays.fill(minDist, Integer.MAX_VALUE);
+        minDist[0] = 0;
+
+        PriorityQueue<Edge> minHeap =
+                new PriorityQueue<>((a, b) -> a.cost - b.cost);
+
+        minHeap.add(new Edge(0, 0));
+
         int totalCost = 0;
-        int count = 0;
+        int visitedCount = 0;
 
-        while (count < n) { // visit all points, we stop after we've visited all the points.
-            QueueNode node = minHeap.poll();
-            int u = node.node;
+        while (visitedCount < n) {
+            Edge cur = minHeap.poll();
+            int u = cur.to;
 
             if (visited[u]) continue;
 
-            //visit
+            // Add node to MST
             visited[u] = true;
-            totalCost += node.cost;
-            count++;
+            totalCost += cur.cost;
+            visitedCount++;
 
-            // add all edges from u to unvisited points, basically this point to all points hence this format
-            //basically you'll say at the current point, we check all unvisited points.
+            // Relax edges from u
             for (int v = 0; v < n; v++) {
                 if (!visited[v]) {
-                    minHeap.add(new QueueNode(v, manhattanDist(points, u, v)));
+                    int dist = manhattanDist(points, u, v);
+                    if (dist < minDist[v]) {
+                        minDist[v] = dist;
+                        minHeap.add(new Edge(v, dist));
+                    }
                 }
             }
         }

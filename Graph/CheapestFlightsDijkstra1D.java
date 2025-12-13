@@ -2,6 +2,7 @@ package Graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,44 +50,46 @@ class State {
 public class CheapestFlightsDijkstra1D {
 
     public static int getCheapestFlight(int[][] flights, int n, int src, int dst, int K) {
+
         // Build graph
         Map<Integer, List<GraphNode>> graph = new HashMap<>();
         for (int[] f : flights) {
-            int from=f[0];
-            int to=f[1];
-            int cost=f[2];
-            graph.computeIfAbsent(from, x -> new ArrayList<>()).add(new GraphNode(to, cost));
+            graph.computeIfAbsent(f[0], x -> new ArrayList<>())
+                 .add(new GraphNode(f[1], f[2]));
         }
 
-        // 1D best cost array
-        int[] bestCost = new int[n];
-        // We always initialize the cost for all nodes.
-        Arrays.fill(bestCost, Integer.MAX_VALUE);
-        bestCost[src] = 0;
+        // best[city][stops] = minimum cost to reach city using exactly stops edges
+        int[][] best = new int[n][K + 2];
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(best[i], Integer.MAX_VALUE);
+        }
 
-        // Min-heap by cost
-        PriorityQueue<State> minHeap = new PriorityQueue<>((a, b) -> Integer.compare(a.cost, b.cost));
-        minHeap.add(new State(src, 0, 0));
+        PriorityQueue<State> minHeap =
+            new PriorityQueue<>(Comparator.comparingInt(a -> a.cost));
+
+        minHeap.offer(new State(src, 0, 0));
+        best[src][0] = 0;
 
         while (!minHeap.isEmpty()) {
             State cur = minHeap.poll();
+
             int city = cur.city;
             int cost = cur.cost;
             int stops = cur.stops;
 
-            if (stops > K + 1) continue;  // prune paths exceeding K stops
+            // If destination reached within allowed stops, this is optimal
+            if (city == dst) return cost;
 
-            if (city == dst) return cost;  // first time we reach destination via min-heap -> cheapest
+            if (stops == K + 1) continue;
 
             if (!graph.containsKey(city)) continue;
 
             for (GraphNode next : graph.get(city)) {
                 int newCost = cost + next.cost;
 
-                // relaxation. Same node but now, we relax the cost
-                if (newCost < bestCost[next.city]) {
-                    bestCost[next.city] = newCost;
-                    minHeap.add(new State(next.city, newCost, stops + 1));
+                if (newCost < best[next.city][stops + 1]) {
+                    best[next.city][stops + 1] = newCost;  //since it's the same city but with 1 extra stop(this one)
+                    minHeap.offer(new State(next.city, newCost, stops + 1));
                 }
             }
         }

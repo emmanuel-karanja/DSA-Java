@@ -26,11 +26,11 @@ import java.util.*;
  * Only those nodes that pass the relaxation test (i.e. newValue < oldValue) will be explored further.
  */
 class GraphNode {
-    public int value; // node id
+    public int id; // node id
     public Map<GraphNode, Integer> neighbors; // neighbor -> edge weight
 
-    public GraphNode(int value) {
-        this.value = value;
+    public GraphNode(int id) {
+        this.id = id;
         this.neighbors = new HashMap<>();
     }
 
@@ -60,13 +60,13 @@ public class Dijkstra {
 
         // Initialize all distances to infinity
         for (GraphNode node : allNodes) {
-            distances.put(node.value, Integer.MAX_VALUE);
+            distances.put(node.id, Integer.MAX_VALUE);
         }
 
         // PriorityQueue orders by current shortest distance
         PriorityQueue<QueueNode> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a.distance));
         
-        distances.put(startNode.value, 0);
+        distances.put(startNode.id, 0);
         minHeap.add(new QueueNode(startNode, 0));
 
         while (!minHeap.isEmpty()) {
@@ -83,9 +83,9 @@ public class Dijkstra {
                 int weight = entry.getValue();
 
                 int newDist = curr.distance + weight;
-                if (newDist < distances.get(neighbor.value)) { //You only explore those nodes that pass
+                if (newDist < distances.get(neighbor.id)) { //You only explore those nodes that pass
                     //the relaxation condition.
-                    distances.put(neighbor.value, newDist);
+                    distances.put(neighbor.id, newDist);
                     minHeap.add(new QueueNode(neighbor, newDist));
                 }
             }
