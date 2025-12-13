@@ -34,7 +34,7 @@ public class NextWarmerDay {
 
         final int n=temperatures.length;
 
-        int[] results=new int[n];
+        int[] results=new int[n];  //array entries in java are usually initialized to 0.
 
         //prefer ArrayDeque over the Stack, it's faster, nonsynchronized and recommended by Java docs. Stack is legacy(deprecated)
         ArrayDeque<Integer> stack=new ArrayDeque<>(); 
@@ -42,12 +42,15 @@ public class NextWarmerDay {
         for(int i=0;i<n;i++){
             //If we encounter a warmer day,we pop the top
             while(!stack.isEmpty() && temperatures[i]>temperatures[stack.peek()]){
-                 int prevIndex=stack.pop(); //removeFirst
-
-                 results[prevIndex]=i-prevIndex;
+                 int prevIndex=stack.pop(); 
+                 //The stack only contains indices whose warmer day hasn’t been found yet.
+                 
+                 results[prevIndex]=i-prevIndex; //we want how many days until the next warmer day? i.e.
+                 // how many days between today and the next warmer day.
             }
 
             stack.push(i); //addFirst()
+            System.out.println("Stack so far:"+Arrays.toString(stack.toArray()));
         }
          return results;
     }

@@ -12,6 +12,11 @@ import java.util.List;
  * - Traverse the edges clockwise: left→right, top→bottom, right→left, bottom→top.
  * - After finishing a row/column, shrink the boundary accordingly. (use the edge label is the value to incr or decr)
  * - Each “lap” of the spiral is stored as an inner list.
+ * 
+ * In a matrix[i][j] the end of the first row is  0,j-1 and the end of the first column is i-1,0 and course the last
+ * element is i-1,j-1 and for avoidance of doubt j increases tothe right and the i increases from top the bottom
+ * 
+ * KEY: Stick to this convention in all your code. Because mixing up can fuck up a perfectly good interview. 
  */
 public class SpiralMatrix {
 
@@ -35,21 +40,21 @@ public class SpiralMatrix {
 
         while(left<=right && top<=bottom){
             //move left to right at the top
-            for(int i=left;i<=right;i++){
-                spiralList.add(matrix[top][i]);
+            for(int j=left;j<=right;j++){
+                spiralList.add(matrix[top][j]);
             }
             top++;
 
             //move from top to bottom on the right
-            for(int j=top;j<=bottom;j++){
-                spiralList.add(matrix[j][right]);
+            for(int i=top;i<=bottom;i++){
+                spiralList.add(matrix[i][right]);
             }
             right--;
 
             //move right to left at the bottom
             if(top<=bottom){
-                for(int i=right;i>=left;i--){
-                    spiralList.add(matrix[bottom][i]);
+                for(int j=right;j>=left;j--){
+                    spiralList.add(matrix[bottom][j]);
                 }
                 bottom--;
             }
@@ -57,8 +62,8 @@ public class SpiralMatrix {
             //move from bottom to top on the left
 
             if(left<=right){
-               for(int j=bottom;j>=top;j--){
-                spiralList.add(matrix[j][left]);
+               for(int i=bottom;i>=top;i--){
+                spiralList.add(matrix[i][left]);
                  }
                left++;
             }

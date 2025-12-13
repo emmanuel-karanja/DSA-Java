@@ -14,6 +14,10 @@ import java.util.List;
  * To do this in O(n):
  *   A deque, elements enter on the right, and you always ensure the element at end i.e. i-k is the smallest element
  *   as 
+ * 
+ * Take a note on how the deque is used here: We only use Front for removing those elements leaving the window.
+ * And, we now treat the Back like a normal stack wih removeLast() and addLast(), however the smallest
+ * element in this case is guaranteed to be at the front.
  */
 public class SmallestElementInAWindow {
     

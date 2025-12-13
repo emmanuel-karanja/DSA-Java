@@ -27,7 +27,7 @@ public class StoneWeights {
             maxHeap.add(w);
         }
 
-        while(maxHeap.size()>1){
+        while(maxHeap.size()>1){  //notice the condition since we are polling twice
             int x=maxHeap.poll();
             int y=maxHeap.poll();
 

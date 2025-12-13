@@ -11,6 +11,9 @@ package Arrays;
  * Before we leave the current window, we explore how far we can reach with one more jump from any index in this window.
    When the window is exhausted, we already know the best possible extension, so we commit one jump and form the next window.
    Each window corresponds to exactly one jump.
+
+   KEY: This is exactly the same thing as what we were doing in the other implemetation using steps,  here we are 
+        tracking the i==currentEnd instead of computing steps=i-maxReach
  * 
 
  */

@@ -15,8 +15,13 @@ import java.util.Map;
  * 
  * We can store the last index of the occurence of a given character.
  * 
+ * In each iteration, we ask; Is the current character at i still in the same partition or do we start
+ * a new partition? How? check if it's ending is greater than the currentending
+ * 
  * We know that a partition potentially ends there. Think of a partition as a window much in the same way we consider a window in
  * Jump Game II.
+ * 
+ * Each ending char in the map is a potential end of partition. So you compare it with the ending at this point.
  */
 public class PartitionLabels {
 
@@ -38,7 +43,8 @@ public class PartitionLabels {
 
 
        for(int i=0;i<s.length();i++){
-            end=Math.max(end, charLastIndexMap.get(s.charAt(i)));
+            int endCurrentChar=charLastIndexMap.get(s.charAt(i));
+            end=Math.max(end, endCurrentChar);
             //check if a partition potentially ends here. Think of it as a window much in the jump game 2. We've a window
             //and then we keep exploring if we find an ending that  ends here we update start.
             if(i==end){

@@ -52,7 +52,7 @@ public class ProductOfArrayExceptSelf {
         int suffix=1;
         for(int i=n-1;i>=0;i--){
             result[i]=result[i]*suffix; //result[i] already contains the prefix product
-            //we only update the suffix at this step
+            //we only update the suffix at this step    
             suffix*=nums[i];
         }
 

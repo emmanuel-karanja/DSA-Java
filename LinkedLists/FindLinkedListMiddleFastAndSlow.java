@@ -8,7 +8,7 @@ package LinkedLists;
  * Method 2: use a fast and slow pointer. Slow moves 1step, slow moves two step,when fast ==null, slow will point to the middle
  * 
  */
-public class FindLinkedListMiddle {
+public class FindLinkedListMiddleFastAndSlow {
 
     public static ListNode middleNode(ListNode head) {
         ListNode slow = head;
