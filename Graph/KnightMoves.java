@@ -11,6 +11,12 @@ import java.util.Set;
  * INTUTION:
  * Use BFS and know how many directions a knight can move, even for another piece, you'dconsider this,
  * 
+ * SYMMETRY: The valid board is (x, y), (-x, y), (x, -y), (-x, -y)
+
+  and to move to those squares it'll still the same number of moves.
+
+  We use x >=-2 and y>=-2 because shortest path may temporarily go negative.
+ * 
  */
 
 class Node{
@@ -37,7 +43,7 @@ public class KnightMoves {
                                   {-2,-1},{-1,-2},{2,-1},{1,-2}};
 
         Queue<Node> queue=new ArrayDeque<>();
-        Set<String> visited=new HashSet<>();
+        Set<String> visited=new HashSet<>();  //you are not immediatley aware of the dimensions.
 
         queue.add(new Node(0,0,0));
 

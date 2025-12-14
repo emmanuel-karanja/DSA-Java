@@ -35,7 +35,7 @@ public class DominoRotationsEfficient {
     }
 
     private static int checkCandidate(int candidate, int[] A, int[] B){
-        //Candidate ie eith A[0] or B[0]
+        //Candidate ie either A[0] or B[0]
 
         int rotateA=0;
         int rotateB=0;

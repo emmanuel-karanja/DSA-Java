@@ -54,9 +54,9 @@ public class DominoRotations {
             if(countA.getOrDefault(x,0) + countB.getOrDefault(x,0)
                  - countSame.getOrDefault(x,0)==n){
 
-                 int mostCommonInA=n-countA.getOrDefault(x, 0);
-                 int mostCommonInB=n-countB.getOrDefault(x,0);
-                 return Math.min(mostCommonInA,mostCommonInB);
+                 int diffInA=n-countA.getOrDefault(x, 0);
+                 int diffInB=n-countB.getOrDefault(x,0);
+                 return Math.min(diffInA,diffInB);
                 }
         }
 

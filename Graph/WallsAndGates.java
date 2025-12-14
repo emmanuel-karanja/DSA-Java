@@ -57,7 +57,7 @@ public class WallsAndGates {
             Cell currCell=queue.poll();
             int cr=currCell.r;
             int cc=currCell.c;
-            int distance=rooms[cr][cc];
+            int distance=rooms[cr][cc]; //we store the distance in the cell itself, not as a separate field in the queueNode
 
             for(int[]d : directions){
                 int nr=currCell.r+d[0];
