@@ -64,13 +64,13 @@ public class CapacityToShipPackages {
        return answer;
     }
 
-    private static boolean canShip(int[] weights, int capacity, int days) {
+    private static boolean canShip(int[] weights, int maxCapacity, int days) {
         int daysUsed = 1;
         int currentLoad = 0;
 
         for (int w : weights) {
             //if we exceed capacity even by 1 kg, we need a fresh day
-            if (currentLoad + w > capacity) {
+            if (currentLoad + w > maxCapacity) {
                 daysUsed++;
                 currentLoad = 0;
             }

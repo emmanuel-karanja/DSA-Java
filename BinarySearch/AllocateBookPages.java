@@ -49,17 +49,17 @@ public class AllocateBookPages {
         return answer;
     }
 
-    private static boolean canAllocate(int[] pages, int allocatedPages, int students){
+    private static boolean canAllocate(int[] pages, int maxPagesPerStudent, int students){
         int studentsUsed=1;
-        int currentSum=0;
+        int currentTotalPages=0;
 
         for(int p: pages){
-            if(currentSum+p > allocatedPages){
+            if(currentTotalPages+p > maxPagesPerStudent){ // we have surpassed a single student's capscity
                 studentsUsed++;
-                currentSum=0;
+                currentTotalPages=0;
             }
 
-            currentSum+=p;
+            currentTotalPages+=p;
 
             if(studentsUsed > students){
                 return false;

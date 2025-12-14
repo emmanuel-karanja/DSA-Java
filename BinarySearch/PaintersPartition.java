@@ -65,16 +65,16 @@ public class PaintersPartition {
         return answer;
     }
 
-    private static boolean canPaint(int[] boards, int painters, int maxTime) {
+    private static boolean canPaint(int[] boards, int painters, int maxTimePerPainter) {
         int paintersUsed = 1;
-        int currentSum = 0;
+        int currentTotalTime = 0;
 
         for (int b : boards) {
-            if (currentSum + b > maxTime) {
+            if (currentTotalTime + b > maxTimePerPainter) {
                 paintersUsed++;
-                currentSum = 0;
+                currentTotalTime = 0;
             }
-            currentSum += b;
+            currentTotalTime+= b;
 
             if (paintersUsed > painters) {
                 return false;
