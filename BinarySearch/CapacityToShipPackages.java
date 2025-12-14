@@ -10,13 +10,18 @@ Each day:
 
 Goal: find the minimum ship capacity so all packages are shipped in D days.
 
-INTUTION:
 
-Lower Bound==>Ship must be able to carry the heaviest package
+
+INTUTION:
+*Basically the simplest case is a ship that can carry 1 package of maximum weight. And you know if it can carry
+that one it sure as hell can carry all the others. And then you check the maximum capacity would be, one that
+can carry all of them in a single shipment or sum of weights.
+
+Lower Bound==>Ship must be able to carry the heaviest package (i.e. just one package)
     lowerBound=max(weights);
 
 
-Upper Bound==>Ship can carry the sum of all pckages weights
+Upper Bound==>Ship can carry the sum of all pckages weights all the packages in one trip assuming one trip a day
    upperBound=sum(weights)
 
 The capacity to carry in D days lies  between lowerBound and upperBound

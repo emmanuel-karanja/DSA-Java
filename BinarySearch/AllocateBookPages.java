@@ -17,6 +17,12 @@ Goal: Minimize the maximum number of pages assigned to a student.
 
 INTUTION:
 
+If one student was assigned all the books, it'd take them how long? That's the upper limit,
+and if a student was assigned one book at a time, that book would be at least the one with the
+most pages assuming reading rate is the same.
+
+So  we search between max(pages) and sum(pages)
+
 left= the longest book. How long will take all reading the longest book is the lower limit
 right= the total number of pages of all books.  i.e. how long a single student would take reading all
 of them.*/

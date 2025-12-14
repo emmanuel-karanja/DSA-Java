@@ -10,7 +10,7 @@ Rules (these are non-negotiable):
 3. A board cannot be split
 4. All painters work at the same speed
 
-The objective is to minimize the maximum time taken by any painter. Basically maximize the speed.
+The objective find the minimum time required by all the painters working for D days.
 
 
 INTUTION
