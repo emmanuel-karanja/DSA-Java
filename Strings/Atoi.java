@@ -46,5 +46,12 @@ public class Atoi {
         System.out.println(toNumber("4193 with words")); // 4193
         System.out.println(toNumber("words 123"));  // 0
         System.out.println(toNumber("-91283472332")); // -2147483648 (clamped)
+        System.out.println(toNumber("+"));   // 0
+        System.out.println(toNumber("   ")); // 0
+        System.out.println(toNumber("-"));   // 
+        System.out.println(toNumber("   -0012a42")); // -12
+        System.out.println(toNumber("--42")); // 0
+        System.out.println(toNumber("+-12")); // 0
+
     }
 }
