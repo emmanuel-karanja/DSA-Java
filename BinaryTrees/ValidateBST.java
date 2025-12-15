@@ -8,7 +8,17 @@ A BST satisfies:
 2. The right subtree of a node contains only nodes with values greater than the node’s value.
 3. Both left and right subtrees must also be BSTs.
 4. No duplicate values are allowed (typically, strictly < and > are used). */
+class TreeNode{
+    public TreeNode left;
+    public TreeNode right;
+    public int value;
 
+    public TreeNode(int value){
+        this.left=null;
+        this.right=null;
+        this.value=value;
+    }
+}
 public class ValidateBST {
   public static boolean isValidBST(TreeNode root) {
       //start off with null values for max and min they are for convenience dealing with

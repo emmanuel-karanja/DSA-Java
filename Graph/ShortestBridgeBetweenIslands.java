@@ -72,7 +72,7 @@ public class ShortestBridgeBetweenIslands {
                 return steps;
             }
 
-            if(matrix[nr][nc]==0){
+            if(matrix[nr][nc]==0){  //check if visited. Alternatively you could keep a nxn boolean matrix
                 //visit
                 matrix[nr][nc]=2;
                 int[] newCell={nr,nc,steps+1};
