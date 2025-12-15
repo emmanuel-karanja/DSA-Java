@@ -31,6 +31,7 @@ public class Atoi {
 
         if(sb.length() == 0) return 0; // no digits found
 
+        // Handle sign
         long num = Long.parseLong(sb.toString());
         if(signChar == '-') num = -num;
 
@@ -52,6 +53,5 @@ public class Atoi {
         System.out.println(toNumber("   -0012a42")); // -12
         System.out.println(toNumber("--42")); // 0
         System.out.println(toNumber("+-12")); // 0
-
     }
 }
