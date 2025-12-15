@@ -1,5 +1,5 @@
 package Strings;
-public class CompressString {
+public class CompressDecompressString {
     /**I'll assume we want to avoid repeating characters that are adjacent to each other. e.g.aaaabbb will become 4a3b */
 
     public static String compress(String s){
@@ -40,9 +40,12 @@ public class CompressString {
                 int count = 0;
 
                 // build the full number (handles 12, 100, etc.), this is the key, taking account of  double
-                //or even tripple digits
+                //or even tripple digits. I am harping on this because micro code flares here are things you'll find
+                //yourself using in other problems.
                 while (i < s.length() && Character.isDigit(s.charAt(i))) {
-                    count = count * 10 + (s.charAt(i) - '0');
+                    int currentNum=s.charAt(i)-'0'; //convert a char into an int
+
+                    count = count * 10 + currentNum;
                     i++;
                 }
 

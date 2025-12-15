@@ -21,7 +21,7 @@ public class InsertIntervalInSortedArray {
         int i = 0;
 
         // 1️ Add all intervals before newInterval
-        while (i < intervals.size() && intervals.get(i)[1] < newInterval[0]) {
+        while (i < intervals.size() && newInterval[0] > intervals.get(i)[1]) {
             result.add(intervals.get(i));
             i++;
         }

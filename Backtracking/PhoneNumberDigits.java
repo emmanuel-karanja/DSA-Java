@@ -64,10 +64,8 @@ public class PhoneNumberDigits {
        //the nextone
         for (char c : letters.toCharArray()) {
             candidate.append(c);  //make choice
-            System.out.println("  Choose: " + c + " -> candidate=" + candidate);
             backtrack(index + 1, candidate, map, digits, result);
             candidate.deleteCharAt(candidate.length() - 1); // backtrack /unmake choice
-            System.out.println("  Backtrack: removed " + c + " -> candidate=" + candidate);
         }
     }
 
