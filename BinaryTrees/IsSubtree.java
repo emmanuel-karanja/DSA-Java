@@ -1,16 +1,12 @@
 package BinaryTrees;
-/**Two tree are the same if and only if:
+/**For completeness.
  * 
- * 1. Both are null.
- * 2. Both are not null and they both have the same value, and their left and then right subtrees are the same tree.
+ *
+ * 1. A tree is a subtree of itself.
+ * 2. Both are null
+ * 3. They are the same tree or p's left subtree is a subtree or p.right is a subtree
  * 
- * 
- * IS SUBTREE:
- * 
- * A tree is a subtree of itself.
- * 
- * 1. Both are null
- * 2. They are the same tree or p's left subtree is a subtree or p.right is a subtree
+ * In this case  is q a subtree of p?
  */
 
 class TreeNode{
@@ -21,9 +17,15 @@ class TreeNode{
         this.value=value;
     }
 }
-public class IsSameTree {
 
-    public static boolean isSameTree(TreeNode p, TreeNode q){
+public class IsSubtree {
+     public static boolean isSubTree(TreeNode p,TreeNode q){
+        if(p==null) return false;
+        return isSameTree(p, q) || isSubTree(p.left,q) ||isSubTree(p.right,q);
+
+    }
+
+    private static boolean isSameTree(TreeNode p, TreeNode q){
         if(p==null && q==null) return true;
         if(p==null || q==null) return false;
 

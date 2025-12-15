@@ -75,7 +75,7 @@ public class PacificAtlanticWaterFlow {
 
     private static void dfs(int[][] heights, int r,int c, int rows,int cols,boolean[][] ocean){
 
-        if(ocean[r][c]) return;
+        if(ocean[r][c]) return;  //already visited, return
 
         ocean[r][c]=true;
         final int[][] directions={{1,0},{0,1},{-1,0},{0,-1}};

@@ -26,6 +26,8 @@ class Interval{
 }
 public class EmployeeFreeTime {
 
+    
+
     private static List<Interval> flattenAndSort(List<List<Interval>> intervals){
         return intervals.stream()
                          .flatMap(List::stream)

@@ -12,7 +12,7 @@ public class CompressString {
         StringBuilder sb=new StringBuilder();
 
         for(int i=1;i<s.length();i++){
-            if(s.charAt(i)==s.charAt(i-1)){
+            if(s.charAt(i)==s.charAt(i-1)){ //continue the current streak
                  currentCount++;
             }else{
                //we start a new streak
@@ -28,9 +28,53 @@ public class CompressString {
         return sb.toString();
     }
 
+    public static String decompress(String s) {
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+
+        while (i < s.length()) {
+            char c = s.charAt(i);
+
+            // Case 1: digit → parse full number
+            if (Character.isDigit(c)) {
+                int count = 0;
+
+                // build the full number (handles 12, 100, etc.), this is the key, taking account of  double
+                //or even tripple digits
+                while (i < s.length() && Character.isDigit(s.charAt(i))) {
+                    count = count * 10 + (s.charAt(i) - '0');
+                    i++;
+                }
+
+                // now s.charAt(i) must be the character to repeat
+                char ch = s.charAt(i);
+
+                for (int j = 0; j < count; j++) {
+                    sb.append(ch);
+                }
+
+                i++; // move past the character
+            }
+            // Case 2: non-digit → append directly
+            else {
+                sb.append(c);
+                i++;
+            }
+        }
+
+        return sb.toString();
+    }
+
     public static void main(String[] args){
         String s="aaaaaaaabbbbccaaaassss";
         System.out.println(s +" compressed is: "+compress(s));
+        System.out.println("Compression ratio: "+s.length()/compress(s).length());
+
+        String c=compress(s);
+        String dc=decompress(c);
+
+        System.out.println("Decompressed: "+dc);
+        System.out.println("Correct?: "+s.equals(dc));
 
     }
 

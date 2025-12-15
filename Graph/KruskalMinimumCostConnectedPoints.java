@@ -113,7 +113,9 @@ public class KruskalMinimumCostConnectedPoints {
             if (uf.union(e.u, e.v)) {
                 totalCost += e.cost;
                 edgesUsed++;
-                if (edgesUsed == n - 1) break; // MST complete
+                if (edgesUsed == n - 1) {
+                    break; // MST complete
+                }
             }
         }
 
