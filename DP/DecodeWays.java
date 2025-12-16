@@ -2,7 +2,7 @@ package DP;
 /**A message containing letters A-Z is encoded into numbers using the mapping
  *  A->1, B->2,C->3 ... Z->26. 
  * 
- * Given a string s containing only digits, return the number of ways to decode it.
+ * Given a string s containing only digits, return the total number of ways to decode it.
  * 
  * INTUITION
  * 
@@ -17,6 +17,41 @@ package DP;
  * backtracking. 
  * 
  * So backtracking is when you are asked WHAT ,and DP is suggested by underlining HOW MANY or COUNT.
+ * 
+ * DP BREAKDOWN:
+ * 
+ *  1.Goal
+    Find the total number of ways to decode the given digit string.
+
+    2. Choices and Rules
+    At position i, we can make the following choices:
+    Single-digit decode
+
+    Allowed if s[i-1] != '0'
+    Contribution:
+    dp[i] += dp[i-1]
+
+    Two-digit decode
+
+    Allowed if the substring s[i-2..i-1] forms a number between 10 and 26
+    Contribution:
+    dp[i] += dp[i-2]
+    Reason: decoding two digits consumes both digits, so i-1 cannot be used separately
+
+    3. State
+    dp[i] = total number of ways to decode the prefix ending at index i-1
+    (i.e., the first i characters)
+
+    4. Recurrence
+
+    dp[i] = 0
+    if single digit valid → dp[i] += dp[i-1]
+    if two digits valid   → dp[i] += dp[i-2]
+
+    5. Base Cases
+
+    dp[0] = 1   // empty string has one valid decoding
+    dp[1] = 1 if s[0] != '0', else 0
  */
 public class DecodeWays {
     

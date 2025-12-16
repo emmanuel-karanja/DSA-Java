@@ -5,7 +5,27 @@ package DP;
  * 
  * When at i, ask yourself, are we expanding the current subarray or starting a new one? 
  * This means keeping a maxSoFar, 
+ * 
+ * DO BREAKDOWN
+ * 
+ * GOAL: Find the maximum subarray sum, not the subarray itself.  Which means State is dp[x]
+ * 
+ * CHOICE: At index i, we have exactly two choices:
+        1.Start a new subarray at i 
+             Take arr[i] alone
+        2. Extend the previous subarray
+            Take dp[i-1] + arr[i]
+
+We do not consider all previous indices because dp[i-1] already encodes the optimal choice.
+ * STATE: At each step i dp[i] is the maximum subarray sum at i.
+ * 
+ * RECURRENCE RELATION:  dp[i]=Max(dp[i]+arr[i],arr[i])
+ * 
+ * BASE CASE: dp[0] (1 element array) dp[0]=arr[0]
+ * 
+ * SOLN: take the max(dp[0...n-1])
  */
+
 public class Kadane {
 
     public static int maxSubArraySum(int[] nums){
