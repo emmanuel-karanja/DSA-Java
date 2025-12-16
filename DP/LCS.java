@@ -16,13 +16,13 @@ public class LCS {
         final int m=s1.length();
         final int n=s2.length();
 
-        //prefil a 2d matrix with 0, in Java we don't need to prefill since it's prefilled by default.
+        //prefill a 2d matrix with 0, in Java we don't need to prefill since it's prefilled by default.
         int[][] dp=new int[m+1][n+1];
 
 
         for(int i=1;i<=m;i++){
             for(int j=1;j<=n;j++){
-                //weonly increase if s1[i]==s2[j]
+                //we only increase if s1[i]==s2[j]
                 if(s1.charAt(i-1)==s2.charAt(j-1)){
                     dp[i][j]=1+dp[i-1][j-1];
                 }else{
