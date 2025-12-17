@@ -8,10 +8,15 @@ public class BurstBalloons {
        1) Goal: Maximize the profit.
      * 
      * 2) State:
-     *    
+     *    Clear statement of sub-problem. e.g. to get the maximum profit when bursting balloon k,
+     *    we must ensure that we also get the max for all neighbours left of k and right of k, and k'sprofit
+     * 
      *    dp[left][right] = maximum coins obtainable by bursting all balloons
      *    strictly between positions 'left' and 'right'.
      *    (We pad the nums array with 1 at both ends, so left/right can be boundaries.)
+     * 
+     * *PADDING: it's done so that every balloon has a neighbour and we use 1 because as a multiplier
+     *  ,it has not effect.
      * 
      * 3) Choices:
      *    For a given interval (left, right), we choose a balloon 'k' to burst LAST
@@ -20,6 +25,9 @@ public class BurstBalloons {
      * 
      * *WE pick the last balloon since its neighbours will be known. If you pick the first balloon
      *  we can't know yet what its neighbours are that will guarantee a max.
+     * 
+     * *STABLE SUB-PROBLEMS-->This problem touches on an important aspect of DP where the subproblems
+     *  and sub-solutions need to be known and stable.
      * 
      * 4) Recurrence:
      *    dp[left][right] = max (dp[left][k] + nums[left]*nums[k]*nums[right] + dp[k][right])

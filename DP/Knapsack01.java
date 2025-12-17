@@ -20,6 +20,10 @@ package DP;
  *
  * Greedy Check:
  *   ❌ Cannot use greedy. Must explore all subproblems.
+ * 
+ * NOTE:
+ * That we reservce dp[0][0] for the base cases and if we try to match the same with the two weights and items arrays, 
+ * where the 0 in the dp represents no item or no weight weights[0] and item[0] represent actual items?
  */
 public class Knapsack01 {
 
