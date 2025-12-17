@@ -23,14 +23,16 @@ public class BurstBalloons {
      *    in this interval. Bursting it last ensures its neighbors at that moment
      *    are exactly nums[left] and nums[right], which determines the coins gained.
      * 
+     *  dp[left][right]=max(dp[left][right],dp[left][k]+nums[left]*nums[k]*nums[right]+dp[k][right])
+     * 
      * *WE pick the last balloon since its neighbours will be known. If you pick the first balloon
-     *  we can't know yet what its neighbours are that will guarantee a max.
+     *  we can't know yet what its neighbours are and hence we cannot know the sub-solutions.
      * 
      * *STABLE SUB-PROBLEMS-->This problem touches on an important aspect of DP where the subproblems
      *  and sub-solutions need to be known and stable.
      * 
      * 4) Recurrence:
-     *    dp[left][right] = max (dp[left][k] + nums[left]*nums[k]*nums[right] + dp[k][right])
+     *    dp[left][right] = max (dp[left][right],dp[left][k]+nums[left]*nums[k]*nums[right]+dp[k][right])
      *    i.e., coins from bursting left subinterval + coins from bursting k last + coins from right subinterval
      * 
      * 5) Base Case:
@@ -56,15 +58,15 @@ public class BurstBalloons {
         int[] arr = new int[n + 2];
         arr[0] = 1;
         arr[n + 1] = 1;
-        for (int i = 0; i < n; i++) arr[i + 1] = nums[i];
+        
+        for (int i = 0; i < n; i++) {
+            arr[i + 1] = nums[i];
+        }
 
         int[][] dp = new int[n + 2][n + 2];
 
-        // length = interval length
-        for (int length = 2; length <= n + 1; length++) { // interval of length 'length'
-            for (int left = 0; left + length <= n + 1; left++) {
-                int right = left + length;
-                // try every possible balloon k to burst last in (left, right)
+        for (int left = n; left >= 0; left--) {
+            for (int right = left + 2; right <= n + 1; right++) { // interval length >= 2
                 for (int k = left + 1; k < right; k++) {
                     dp[left][right] = Math.max(dp[left][right],
                             dp[left][k] + arr[left] * arr[k] * arr[right] + dp[k][right]);

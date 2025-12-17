@@ -6,12 +6,45 @@ Allowed operations:
  3. Replace a character.
  
  BREAKDOWN
- Goal: Find the minimum number of operations be it insert,delete or replace a character
- Choice: Do we do an operation here and which do we do? i.e. min(the min of delete, min of inset and min of
- replace)+1 i.e. i.e. current state needs updating only if the second part is true ie minof all mins of
- delete,insert,replace for the sub-problem at i-1 or j-1
- Recurrence relation: arises natural from the choice i.e. dp[x]=Min(dp[x],1+min(delete,replace,insert))
- BASE CASE: When s1.length==0 or s2.length==0*/
+  GOAL: Findthe minimum number of operations required to convert word1 to word2
+
+  STATE: dp[i][j] the minimal number of operations required to convert the first i chars of word1 to the first j chars
+    of word2.
+
+ CHOICES:
+    If word1[i]==word2[j] no op, we simply take the solution from dp[i-1][j-1]
+       dp[i][j]=dp[i-1][j-1]
+    
+    else?
+      we find the length by find the 1+ minof(deleteOPMinimumCost, insertOPMinimumCost, replaceOp)
+
+      dp[i][j]=1+Min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]) 
+
+    op:S
+      dp[i-1][j] → delete from word1
+      dp[i][j-1] → insert into word1
+      dp[i-1][j-1] → replace
+
+    *All of it is done relative to word1
+  RECURRENCE RELATIONS:
+    if(word1[i]==word2[j]): dp[i][j]=dp[i-1][j-1]
+    
+    else: 
+      dp[i][j]=1+Min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]) 
+    
+   BASE CASE:
+     dp[0][j]=j
+     dp[i][0]=i
+
+  
+  SOLN: dp[m][n]
+
+  KEY INSIGHTS:
+ *   - Only the three neighbors [i-1][j], [i][j-1], [i-1][j-1] affect dp[i][j].
+ *   - This ensures optimal substructure and overlapping subproblems, making it suitable for DP.
+ *   - This is a classic example of 2D DP over strings.
+
+*/
 public class EditDistance {
 
      // Recursive function to find edit distance
