@@ -29,7 +29,7 @@ public class Knapsack01 {
 
     public static int knapsack(int[] weight, int[] value, int W) {
         int n = weight.length;
-        int[][] dp = new int[n + 1][W + 1];
+        int[][] dp = new int[n + 1][W + 1];  //initialized to 0 implicitly all of them. I'd like to make it explicit.
 
         // Fill DP table
         for (int i = 1; i <= n; i++) {

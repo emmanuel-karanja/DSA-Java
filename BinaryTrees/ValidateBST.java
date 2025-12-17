@@ -36,6 +36,6 @@ public class ValidateBST {
 
       // For left subtree,the max is the node.value and for right subtree, the min is the current value
       return validate(node.left, min, node.value) &&
-            validate(node.right, node.value, max);
+             validate(node.right, node.value, max);
   }
 }

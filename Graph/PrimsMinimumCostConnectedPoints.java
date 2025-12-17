@@ -44,7 +44,7 @@ class Edge {
     }
 }
 
-public class MinimumCostConnectedPoints {
+public class PrimsMinimumCostConnectedPoints {
 
     private static int manhattanDist(int[][] points, int i, int j) {
         return Math.abs(points[i][0] - points[j][0]) + Math.abs(points[i][1] - points[j][1]);

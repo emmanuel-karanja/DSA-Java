@@ -20,7 +20,7 @@ class TreeNode{
     }
 }
 
-public class PurePathSum {
+public class PathSum {
     private static int dfsPure(TreeNode node){
         if(node == null) return 0;
 

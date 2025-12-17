@@ -27,7 +27,7 @@ class TreeNode{
     }
 }
 
-public class PathSum {
+public class MaximumPathSum {
     
     public static int maxPathSum=Integer.MIN_VALUE; //to care for negative values
 
@@ -82,7 +82,7 @@ public class PathSum {
         // Root node
         TreeNode root = new TreeNode(node2, node10R, 10);
 
-        int maxSum = PathSum.getPathSum(root);
+        int maxSum = MaximumPathSum.getPathSum(root);
         System.out.println("Maximum Path Sum: " + maxSum);
     }
 }
