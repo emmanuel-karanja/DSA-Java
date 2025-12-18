@@ -49,7 +49,7 @@ public class NextWarmerDay {
                  // how many days between today and the next warmer day.
             }
 
-            stack.push(i); //addFirst()
+            stack.push(i); //addFirst(), Basically add today's day
             System.out.println("Stack so far:"+Arrays.toString(stack.toArray()));
         }
          return results;

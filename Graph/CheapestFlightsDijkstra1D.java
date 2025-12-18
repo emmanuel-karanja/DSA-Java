@@ -59,16 +59,16 @@ public class CheapestFlightsDijkstra1D {
         }
 
         // best[city][stops] = minimum cost to reach city using exactly stops edges
-        int[][] best = new int[n][K + 2];
+        int[][] bestCost = new int[n][K + 2];
         for (int i = 0; i < n; i++) {
-            Arrays.fill(best[i], Integer.MAX_VALUE);
+            Arrays.fill(bestCost[i], Integer.MAX_VALUE);
         }
 
         PriorityQueue<State> minHeap =
             new PriorityQueue<>(Comparator.comparingInt(a -> a.cost));
 
         minHeap.offer(new State(src, 0, 0));
-        best[src][0] = 0;
+        bestCost[src][0] = 0;
 
         while (!minHeap.isEmpty()) {
             State cur = minHeap.poll();
@@ -87,8 +87,8 @@ public class CheapestFlightsDijkstra1D {
             for (GraphNode next : graph.get(city)) {
                 int newCost = cost + next.cost;
 
-                if (newCost < best[next.city][stops + 1]) {
-                    best[next.city][stops + 1] = newCost;  //since it's the same city but with 1 extra stop(this one)
+                if (newCost < bestCost[next.city][stops + 1]) {
+                    bestCost[next.city][stops + 1] = newCost;  //since it's the same city but with 1 extra stop(this one)
                     minHeap.offer(new State(next.city, newCost, stops + 1));
                 }
             }

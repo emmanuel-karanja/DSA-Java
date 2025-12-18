@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 /**Given an array of positive integers representing stock prices, with the indices as consecutive days.
  * 
- * Find the consecutive number of days(including today) when the prices was less than equal to today's price.
+ * Find the consecutive number of days(including today) when the prices was less than  or equal to today's price.
  * 
  * INTUTION:
  * 
@@ -40,14 +40,11 @@ public class StockSpan {
         int[] span=new int[prices.length];
         for(int i=0;i<prices.length;i++){
          
+            // Stack contains all the stock prices that have not encountered a high price until now.
              while(!stack.isEmpty() && prices[i] >= prices[stack.peek()]){
-                 stack.pop();//remove all the prices LESS that today's price until the price at the top of the
-                 //stack contains a price > prices[i]
+                 stack.pop(); 
              }
 
-             //stack top now has a price > currentPrice
-             //it's supposed to be right-left-1 but since we are considering the current price as well
-             // we add 1 so it's right-left-1+1
              span[i]=stack.size()==0?i+1 : i-stack.peek();
 
              //only after do we push the value to the stack

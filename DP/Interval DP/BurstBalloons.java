@@ -74,7 +74,7 @@ public class BurstBalloons {
             }
         }
 
-        return dp[0][n + 1];  //
+        return dp[0][n + 1];  // We need for the entire array from i to j.
     }
 
     public static void main(String[] args) {

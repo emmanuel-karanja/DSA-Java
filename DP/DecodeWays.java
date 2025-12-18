@@ -68,10 +68,10 @@ public class DecodeWays {
 
             //how many ways can I decode one digit ending at i? it's whatever dp[i] holds (most likely 0)
             //and the ways to decode characters ending at i-1
-            if(s.charAt(i-1)!='0') dp[i]+=dp[i-1];
+            if(s.charAt(i-1)!='0') {
+                dp[i]+=dp[i-1];
+            }
 
-            //how many ways can I decode two digits ending at i? it's wharever dp[i] holds (most likely 0)
-            //and how many ways to decode the characters ending at i-2
             if(i>1){
                 int twoDigit=Integer.parseInt(s.substring(i-2,i),10);
                 if(twoDigit >=10 && twoDigit<=26){

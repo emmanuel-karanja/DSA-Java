@@ -47,7 +47,7 @@ public class LPSPure {
             }
         }
 
-        return dp[0][n - 1]; // LPS length for the whole string
+        return dp[0][n - 1]; // LPS length for the whole string lets forget what dp means here; it's i to j 
     }
 
     public static void main(String[] args) {
