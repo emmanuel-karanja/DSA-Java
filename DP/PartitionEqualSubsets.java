@@ -26,7 +26,6 @@ Is it possible to form a subset whose sum equals target = totalSum / 2?
 
 STATE
 -----
-We define a DP state that directly stores the goal.
 
 dp[s] = true if it is possible to form sum s using SOME of the numbers
 we have processed so far.

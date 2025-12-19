@@ -42,7 +42,7 @@ public class SmallestElementInAWindow {
                 deque.removeFirst();
             }
 
-            // Maintain monotonic increasing order
+            // Maintain monotonic increasing order for max use > not <
             while (!deque.isEmpty() && nums[i]< nums[deque.peekLast()] ) {
                 deque.removeLast();
             }

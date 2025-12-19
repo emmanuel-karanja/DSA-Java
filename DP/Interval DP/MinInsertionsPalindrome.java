@@ -11,6 +11,7 @@
 BASE CASE:
   i==j
   dp[i][j]=0; //no operations needed
+  
 
 ORDER OF OPERATIONS:
   The state depends on dp[i+1][j-1], dp[i+1][j] and dp[i][j-1] which depend on SMALLER intervals.

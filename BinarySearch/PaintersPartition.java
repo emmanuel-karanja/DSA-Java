@@ -73,9 +73,9 @@ public class PaintersPartition {
         for (int b : boards) {
             if (currentTotalTime + b > maxTimePerPainter) {
                 paintersUsed++;
-                currentTotalTime = 0;
+                currentTotalTime = 0;  //reset here, it's extremely important
             }
-            currentTotalTime+= b;
+            currentTotalTime+= b;  //increment the time
 
             if (paintersUsed > painters) {
                 return false;
