@@ -9,6 +9,7 @@ An integer c representing the number of cows to place in the stalls.
 Goal: Place all c cows in the stalls such that the minimum distance between any two cows is maximized.
 
 
+
 Return the largest minimum distance possible. 
 
 e.g. Input: stalls = [1, 2, 4, 8, 9], c = 3
@@ -19,6 +20,9 @@ Explanation: Place cows at positions 1, 4, 8. Minimum distance = 3.
 INTUITION:
 
 Maximize the min: 'Space out as much as possible.'
+
+*Space them out as much as possible meaning when we find a value x that works, we continue searching the right
+ side space.
 
 This is a question of placing the cows from min to max. Min is 1 since the smallest distance is 1
 
@@ -67,6 +71,8 @@ public class AggressiveCows {
         int lastPos = stalls[0];  // Last placed cow
 
         for (int i = 1; i < stalls.length; i++) {
+            // MaxMin we have to check if the lastPos and current position is at least as big as minDist
+            // Note: we cannot invent new stall positions along the path. Stalls are fixed at those locations.
             if (stalls[i] - lastPos >= minDist) {
                 count++;
                 lastPos = stalls[i];

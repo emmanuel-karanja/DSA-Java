@@ -6,7 +6,9 @@ public class KokoBananas {
 
     public static int minEatingSpeed(int[] piles, int H) {
         int left = 1, right = 0;
-        for (int p : piles) right = Math.max(right, p);
+        for (int p : piles) {
+            right = Math.max(right, p);
+        }
 
         int answer = right;
         while (left <= right) {
@@ -20,6 +22,9 @@ public class KokoBananas {
         }
         return answer;
     }
+     
+    //At speed s, find the time per pile i.e. ceil(pile/speed) and find the sum of
+    // that and then compare it to h.
 
     private static boolean canEat(int[] piles, int H, int speed) {
         int hours = 0;
