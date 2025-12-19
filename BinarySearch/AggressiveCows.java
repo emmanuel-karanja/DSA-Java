@@ -80,5 +80,4 @@ public class AggressiveCows {
         System.out.println("Max minimum distance: " + maxDistanceBetweenCows(stalls, cows));
         // Output: 3
     }
-
 }
