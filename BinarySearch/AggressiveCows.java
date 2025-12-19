@@ -8,6 +8,7 @@ An array of integers stalls[] representing positions of n stalls along a straigh
 An integer c representing the number of cows to place in the stalls.
 Goal: Place all c cows in the stalls such that the minimum distance between any two cows is maximized.
 
+
 Return the largest minimum distance possible. 
 
 e.g. Input: stalls = [1, 2, 4, 8, 9], c = 3
@@ -16,6 +17,8 @@ Output: 3
 Explanation: Place cows at positions 1, 4, 8. Minimum distance = 3.
 
 INTUITION:
+
+Maximize the min: 'Space out as much as possible.'
 
 This is a question of placing the cows from min to max. Min is 1 since the smallest distance is 1
 

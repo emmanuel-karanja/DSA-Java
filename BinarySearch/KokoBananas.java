@@ -13,7 +13,7 @@ public class KokoBananas {
             int mid = left + (right - left) / 2;
             if (canEat(piles, H, mid)) {
                 answer = mid;
-                right = mid - 1;
+                right = mid - 1; //find smaller
             } else {
                 left = mid + 1;
             }

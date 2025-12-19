@@ -31,7 +31,7 @@ public class NewGasStationsPlacement {
             double mid = left + (right - left) / 2.0;
 
             if (canPlace(positions, k, mid)) {
-                right = mid; // try smaller maximum distance
+                right = mid; // try smaller maximum distance this right=mid only works if you are using doubles!!!
             } else {
                 left = mid; // need larger distance
             }
@@ -46,7 +46,7 @@ public class NewGasStationsPlacement {
 
         for (int i = 1; i < n; i++) {
             int gap = positions[i] - positions[i - 1];
-            int stationsForThisGap=(int) (gap / distance);
+            int stationsForThisGap=(int) Math.floor(gap-1/distance);
             totalPlaced += stationsForThisGap; // how many stations needed for this gap
         }
 
