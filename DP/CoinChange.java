@@ -9,9 +9,15 @@ package DP;
  * State:
  *   dp[x] = minimum coins needed to make amount x
  *
- * Choices / Decisions:
+ * Choice / Decision:
+ * For the current amount x, iterate over the coins and find the min. 
+ *  Do we take the current coin or not? 
+ * 
  *   At amount x, try every coin c such that c <= x.
  *   Take 1 coin c and add the solution for dp[x - c].
+ * 
+ *   i.e. we take the current coin and then add it to the number of coins to represent the balance
+ *    i.e. x-c
  *
  * Recurrence:
  *   dp[x] = min(dp[x - c] + 1) for all c in coins where x - c >= 0
@@ -36,7 +42,7 @@ public class CoinChange {
         // Bottom-up DP
         for (int x = 1; x <= amount; x++) {
             for (int coin : coins) {
-                if (x - coin >= 0) {
+                if (x - coin >= 0) {  // currentCoinValue <=x
                     dp[x] = Math.min(dp[x], dp[x - coin] + 1);
                 }
             }

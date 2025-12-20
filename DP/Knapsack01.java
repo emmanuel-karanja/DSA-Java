@@ -11,6 +11,8 @@ package DP;
  *
  * Choices / Decisions:
  *   Take item i (if weight allows) or leave it.
+ *   How do we take an item? Have we used it before? And is its weight <= remainingCapacity?
+ *   Take an item:
  *
  * Recurrence:
  *   dp[i][w] = max(dp[i-1][w], value[i] + dp[i-1][w - weight[i]])
@@ -36,6 +38,7 @@ public class Knapsack01 {
             for (int w = 1; w <= W; w++) {
                 if (weight[i - 1] <= w) {
                     dp[i][w] = Math.max(
+                        // By referencing the previous row, we make sure item i only taken once.
                         dp[i - 1][w], // leave item
                         value[i - 1] + dp[i - 1][w - weight[i - 1]] // take item
                     );

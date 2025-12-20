@@ -24,6 +24,19 @@ import java.util.*;
  *     Without it we are not guaranteed to arrive at a global optimal.
  * 
  * Only those nodes that pass the relaxation test (i.e. newValue < oldValue) will be explored further.
+ * 
+ * WHY THE GREEDY COMMITMENT:
+ * 
+ * The min-heap always gives you the node with the smallest current known distance from the source.
+   Let’s call this distance d.
+
+    All other nodes in the heap have distances ≥ d.
+    So when we pop a node u with distance d:
+    There is no way to reach u via any other path that is shorter than d.
+
+Why? Any alternative path must go through other nodes in the heap or nodes already visited.
+All nodes in the heap have distance ≥ d
+→ any path through them will only increase the distance, never decrease it.
  */
 class GraphNode {
     public int id; // node id
@@ -85,6 +98,7 @@ public class Dijkstra {
                 int newDist = curr.distance + weight;
                 if (newDist < distances.get(neighbor.id)) { //You only explore those nodes that pass
                     //the relaxation condition.
+                    // Only nodes to improve the current min distance are pushed into the heap
                     distances.put(neighbor.id, newDist);
                     minHeap.add(new QueueNode(neighbor, newDist));
                 }

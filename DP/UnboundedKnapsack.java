@@ -3,37 +3,53 @@ package DP;
 /**
  * Unbounded Knapsack - DP Breakdown
  *
- * Goal:
- *   Maximize total value without exceeding knapsack capacity.
- *
- * State:
- *   dp[w] = maximum value achievable with total weight ≤ w
- *
- * Choices / Decisions:
- *   For each weight w, try taking any item i (multiple times if needed)
- *
- * Recurrence:
- *   dp[w] = max(dp[w], value[i] + dp[w - weight[i]]) for all i where weight[i] <= w
+ * GOAL:
+ *   Maximize the total value of items in the knapsack without exceeding capacity W.
+ *   Each item can be taken unlimited times.
  * 
- * Difference from 0/1 Knapsack:
-    We do not move to the next item, because the same item can be used again.
+ 
  *
- * Base Case:
- *   dp[0] = 0
+ * STATE:
+ *   dp[w] = maximum value achievable with total weight ≤ w
+ *   - Represents the **best solution for weight w** considering all items.
+ * 
+ * * WE DON'T CARE ABOUT THE index of the item, here. We only care about the weight.
+ * 
  *
- * Greedy Check:
- *   ❌ Cannot use greedy; must explore all options.
+ * CHOICES / DECISIONS:
+ *   For each weight w:
+ *     - Try taking any item i (if weight[i] <= w)
+ *     - Each item can be used **multiple times**, so we stay at the same item row in the DP
+ *
+ * TRANSITION (RECURRENCE):
+ *   dp[w] = max(dp[w], value[i] + dp[w - weight[i]])  for all i where weight[i] <= w
+ *   - Either don’t take item i → dp[w] stays the same
+ *   - Or take item i → add its value and look at remaining capacity (dp[w - weight[i]])
+ *
+ * BASE CASE:
+ *   dp[0] = 0  // No weight → no value
+ *
+ * EVALUATION ORDER:
+ *   We compute dp[w] from 0 → W so that all subproblems for smaller weights are available
+ *
+ * GREEDY CHECK:
+ *   ❌ Cannot use greedy. Must explore all items at each capacity.
+ *
+ * DIFFERENCE FROM 0/1 KNAPSACK:
+ *   - In 0/1 Knapsack, we reference dp[i-1][w - weight[i-1]] → cannot reuse item
+ *   - In Unbounded Knapsack, we reference dp[w - weight[i]] → can reuse item multiple times
  */
 public class UnboundedKnapsack {
 
     public static int unboundedKnapsack(int[] weight, int[] value, int W) {
         int n = weight.length;
-        int[] dp = new int[W + 1];
+        int[] dp = new int[W + 1]; // dp[0..W], initialized to 0
 
-        // Bottom-up DP
+        // Bottom-up DP, we start from item with w 0 and item 0. In the 0/1 Knapsack, we start at 1.
         for (int w = 0; w <= W; w++) {
             for (int i = 0; i < n; i++) {
                 if (weight[i] <= w) {
+                    // Transition: take item i or not
                     dp[w] = Math.max(dp[w], value[i] + dp[w - weight[i]]);
                 }
             }
@@ -46,7 +62,8 @@ public class UnboundedKnapsack {
         int[] weight = {2, 3, 4};
         int[] value = {3, 4, 5};
         int W = 7;
+
         System.out.println("Maximum value: " + unboundedKnapsack(weight, value, W));
-        // Output: 10 (items 2+2+3 or 3+4 depending on combination)
+        // Output: 10 (e.g., items 3+4 or 2+2+3)
     }
 }

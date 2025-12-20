@@ -74,7 +74,7 @@ public class SwimInRisingWater {
                     int nx=x+d[0];
                     int ny=y+d[1];
 
-                    //check if the new cell is winthin bounds
+                    //check if the new cell is within bounds
                     if(nx>=0 && nx < n && ny>=0 && ny < m && !visited[nx][ny]){
 
                         //mark as visited

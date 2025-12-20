@@ -1,117 +1,83 @@
 package DP;
 
-/**Given an array of positive integers, determine if it can be partitioned into two subsets whose sumsare equal.
- * 
- * INTUTION:
- * 
- * If their sum is odd, we can't do that.
- * 
- FIRST THING — GOAL
-------------------
-Determine whether it is possible to split the given array into two subsets
-with equal sum.
-
-This is a YES / NO question.
-Dynamic Programming problems ask for quantifiable aggregates:
-"is it possible", "how many ways", "min", "max".
-We are NOT asked to list subsets or permutations.
-
-Let totalSum = sum(nums).
-If totalSum is odd, the goal is impossible.
-Otherwise, the problem reduces to:
-
-GOAL:
-Is it possible to form a subset whose sum equals target = totalSum / 2?
-
-
-STATE
------
-
-dp[s] = true if it is possible to form sum s using SOME of the numbers
-we have processed so far.
-dp[s] = false otherwise.
-
-This state uniquely represents a subproblem:
-"Can I make sum s with a prefix of the array?"
-
-
-CHOICES / DECISIONS
--------------------
-For each number num in nums, we make exactly two decisions:
-
-1) Take num → this contributes to forming sum s
-2) Do NOT take num → sum s remains unchanged
-
-These are the only valid choices.
-There is no greedy dominance: taking a number early does not dominate
-all future decisions.
-
-
-RECURRENCE RELATION
--------------------
-To form sum s after seeing num:
-
-dp[s] = dp[s] OR dp[s - num]
-
-Meaning:
-- Either sum s was already achievable without num
-- Or we can achieve s by taking num, if s - num was achievable before
-
-This is structured brute force:
-we explore all valid include/exclude paths but remember results.
-
-
-BASE CASE
----------
-dp[0] = true
-
-Why?
-A sum of 0 is always achievable by choosing nothing.
-This is the smallest stable sub-solution.
-
-
-EVALUATION ORDER RULE
----------------------
-Each dp[s] must depend only on states from the PREVIOUS iteration.
-
-To enforce this:
-- We iterate s from target DOWN TO num.
-
-This prevents reusing the same number multiple times.
-We start from the "end" because stable subsolutions live behind us.
-
-
-SOLUTION
---------
-After processing all numbers:
-If dp[target] is true, the array can be partitioned into two equal subsets.
+/**
+ * PROBLEM
+ * -------
+ * Given an array of positive integers, determine whether it can be partitioned
+ * into two subsets such that the sum of elements in both subsets is equal.
+ *
+ *
+ * GOAL
+ * ----
+ * Determine if there exists a subset of nums whose sum equals:
+ *      target = totalSum / 2
+ * If yes, the remaining numbers automatically sum to target as well.
+ *
+ *
+ * STATE
+ * -----
+ * dp[i][j] = true if it is possible to form sum j using the first i numbers (nums[0..i-1])
+ * dp[i][j] = false otherwise
+ *
+ *
+ * CHOICES / DECISIONS
+ * -------------------
+ * For nums[i-1], we can:
+ * 1) Take nums[i-1]  → contributes to forming sum j
+ * 2) Do NOT take     → sum j remains unchanged
+ *
+ *
+ * RECURRENCE RELATION
+ * -------------------
+ * dp[i][j] = dp[i-1][j] || (j >= nums[i-1] && dp[i-1][j - nums[i-1]])
+ *
+ *
+ * BASE CASE
+ * ---------
+ * dp[0][0] = true  → zero numbers can form sum 0
+ * dp[0][j>0] = false
+ *
+ *
+ * EVALUATION ORDER
+ * ----------------
+ * Fill i from 1 to n
+ * Fill j from 0 to target
+ *
+ *
+ * SOLUTION
+ * --------
+ * Answer is dp[n][target]
  */
 public class PartitionEqualSubsets {
 
-    public static boolean canPartition(int[] nums){
-        if(nums==null || nums.length==0) {
-            return false;
+    public static boolean canPartition(int[] nums) {
+        if (nums == null || nums.length == 0) return false;
+
+        int n = nums.length;
+        int totalSum = 0;
+        for (int num : nums) totalSum += num;
+
+        if (totalSum % 2 != 0) return false;
+
+        int target = totalSum / 2;
+
+        boolean[][] dp = new boolean[n + 1][target + 1];
+
+        // Base case
+        for (int i = 0; i <= n; i++) {
+            dp[i][0] = true; // sum 0 is always achievable with empty subset
         }
 
-        int sum=0;
-        for(int e: nums){
-            sum+=e;
-        }
-
-        if(sum % 2!=0) return false;
-
-        final int target=sum/2; 
-
-        boolean[] dp=new boolean[target+1]; // fills to false
-
-        for(int num: nums){
-            for(int i=target; i >=num;i--){
-                dp[i]=dp[i] || dp[i-num];
+        // Fill DP table
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= target; j++) {
+                dp[i][j] = dp[i - 1][j]; // do not take nums[i-1]
+                if (j >= nums[i - 1]) {
+                    dp[i][j] = dp[i][j] || dp[i - 1][j - nums[i - 1]]; // take nums[i-1]
+                }
             }
         }
-        
-        return dp[target];
-    }
-    
-}
 
+        return dp[n][target];
+    }
+}
