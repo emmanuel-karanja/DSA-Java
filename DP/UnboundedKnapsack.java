@@ -43,20 +43,24 @@ public class UnboundedKnapsack {
 
     public static int unboundedKnapsack(int[] weight, int[] value, int W) {
         int n = weight.length;
-        int[] dp = new int[W + 1]; // dp[0..W], initialized to 0
+        int[][] dp = new int[n+1][W + 1]; // dp[i][w], all initialized to 0
 
-        // Bottom-up DP, we start from item with w 0 and item 0. In the 0/1 Knapsack, we start at 1.
-        for (int w = 0; w <= W; w++) {
-            for (int i = 0; i < n; i++) {
-                if (weight[i] <= w) {
-                    // Transition: take item i or not
-                    dp[w] = Math.max(dp[w], value[i] + dp[w - weight[i]]);
+        for (int i = 1; i <= n; i++) {          // items
+            for (int w = 1; w <= W; w++) {      // capacity
+                if (weight[i-1] <= w) {
+                    dp[i][w] = Math.max(
+                        dp[i-1][w],                        // skip item i-1
+                        value[i-1] + dp[i][w - weight[i-1]] // take item i-1 again
+                    );
+                } else {
+                    dp[i][w] = dp[i-1][w]; // cannot take item
                 }
             }
         }
 
-        return dp[W];
+        return dp[n][W];
     }
+
 
     public static void main(String[] args) {
         int[] weight = {2, 3, 4};

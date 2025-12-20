@@ -33,7 +33,7 @@ public class Knapsack01 {
         int n = weight.length;
         int[][] dp = new int[n + 1][W + 1];  //initialized to 0 implicitly all of them. I'd like to make it explicit.
 
-        // Fill DP table
+        // Fill DP table why start at i=1, and w=1 well because we are doing the i-1 inside.
         for (int i = 1; i <= n; i++) {
             for (int w = 1; w <= W; w++) {
                 if (weight[i - 1] <= w) {
