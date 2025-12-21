@@ -7,13 +7,13 @@ package LinkedLists;
 class ListNode{
     public ListNode next;
     public int value;
-    public ListNode(ListNode next,int value){
-        this.next=next;
+    public ListNode(int value){
+        this.next=null;
         this.value=value;
     }
 
 }
-public class MergeSotLinkedList {
+public class MergeSortLinkedList {
 
 
     public static ListNode mergeSort(ListNode head){
@@ -48,11 +48,11 @@ public class MergeSotLinkedList {
         if(l1==null) return l2;
         if(l2==null) return l1;
 
-        ListNode dummy=new ListNode(null, 0);
+        ListNode dummy=new ListNode( 0);
         ListNode current=dummy;
 
         while(l1!=null && l2!=null){
-            if(l1.value < l2.value){
+            if(l1.value <= l2.value){
                 current.next=l1;
                 l1=l1.next;
             }else{
@@ -62,17 +62,8 @@ public class MergeSotLinkedList {
             current=current.next;
         }
 
-        while(l1!=null){
-            current.next=l1;
-            l1=l1.next;
-            current=current.next;
-        }
-
-        while(l2!=null){
-            current.next=l2;
-            l2=l2.next;
-            current=current.next;
-        }
+        if(l1 != null) current.next=l1;
+        if(l2!= null) current.next=l2;
 
         return dummy.next;
     }

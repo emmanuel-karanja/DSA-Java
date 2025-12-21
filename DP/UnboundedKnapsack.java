@@ -22,9 +22,14 @@ package DP;
  *     - Each item can be used **multiple times**, so we stay at the same item row in the DP
  *
  * TRANSITION (RECURRENCE):
- *   dp[w] = max(dp[w], value[i] + dp[w - weight[i]])  for all i where weight[i] <= w
+ *   dp[i][w] = max(dp[i-1][w], 
+ *           values[i] + dp[i][w - weight[i]])  for all i where weight[i] <= w
  *   - Either don’t take item i → dp[w] stays the same
  *   - Or take item i → add its value and look at remaining capacity (dp[w - weight[i]])
+ * 
+ *  What values[i] + dp[i][w - weight[i]] means  is: “I take one copy of item i (so I add values[i]), and then I add the
+ *   best value I can get from all the first i items with the remaining capacity w - weights[i] — including the possibility 
+ *   of taking item i again.”
  *
  * BASE CASE:
  *   dp[0] = 0  // No weight → no value
@@ -46,7 +51,8 @@ public class UnboundedKnapsack {
         int[][] dp = new int[n+1][W + 1]; // dp[i][w], all initialized to 0
 
         for (int i = 1; i <= n; i++) {          // items
-            for (int w = 1; w <= W; w++) {      // capacity
+            for (int w = 1; w <= W; w++) {   
+                   // capacity
                 if (weight[i-1] <= w) {
                     dp[i][w] = Math.max(
                         dp[i-1][w],                        // skip item i-1

@@ -54,7 +54,7 @@ public class WordLadder {
         visited.add(beginWord);
 
         //set word generation limits a to z
-        int aCode=(int) 'a';
+        int aCode=(int) 'a';  // This is how you get the char code in java.
         int zCode=(int) 'z';
 
         while(!queue.isEmpty()){

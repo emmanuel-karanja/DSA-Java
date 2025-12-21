@@ -7,15 +7,26 @@ package DP;
  *   Maximize total value without exceeding knapsack capacity.
  *
  * State:
- *   dp[i][w] = maximum value achievable using first i items with total weight ≤ w
+ * dp[i][w] = the maximum value you can get using only the first i items,
+ *            where each of those items can be used at most once, and the total weight is ≤ w.
  *
+ * “If I take item i, then everything else must come from the world where item i does not exist anymore.”
+ * 
  * Choices / Decisions:
  *   Take item i (if weight allows) or leave it.
  *   How do we take an item? Have we used it before? And is its weight <= remainingCapacity?
  *   Take an item:
+ * 
+ *   “If I take item i, then everything else must come from the world where item i does not exist anymore.”
  *
  * Recurrence:
- *   dp[i][w] = max(dp[i-1][w], value[i] + dp[i-1][w - weight[i]])
+ *   dp[i][w] = max(dp[i-1][w], 
+ *                 value[i] + dp[i-1][w - weight[i]])   //i is not considered anywhere here.
+ * 
+ *   Consider the yield case i.e.w e take the item.
+ * 
+ *    What values[i]+ dp[i-1][w-weights[i]]  "“I take item i (so I add values[i]), and then I add the best value I 
+ *    can get from the first i-1 items using the remaining capacity, which is w - weights[i].”"
  *
  * Base Case:
  *   dp[0][w] = 0, dp[i][0] = 0
@@ -26,8 +37,17 @@ package DP;
  * NOTE:
  * That we reservce dp[0][0] for the base cases and if we try to match the same with the two weights and items arrays, 
  * where the 0 in the dp represents no item or no weight weights[0] and item[0] represent actual items?
+ * 
+ * 
+ * MY BIG CONFUSION: 
+ * 
+ *  When i is used within dp[i][w] it means the first i items. and when used with weights[i] it means the
+ *  weight of the ith item.
+ * 
+ * Also realize that DP is 1 index and the arrays are 0 indexed meaning that when considering item i, 
+ *  we are really looking at i-1.
  */
-public class Knapsack01 {
+public class O1Knapsack {
 
     public static int knapsack(int[] weight, int[] value, int W) {
         int n = weight.length;

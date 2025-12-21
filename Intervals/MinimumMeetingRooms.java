@@ -45,11 +45,11 @@ public class MinimumMeetingRooms {
       int i=0;
       int j=0;
       int rooms=0;
-      int minRooms=0;
+      int maxRooms=0;
       while(i <startTimes.size()){
         if(startTimes.get(i) <endTimes.get(j)){  //a meeting starts
              rooms++;
-             minRooms=Math.max(minRooms,rooms);
+             maxRooms=Math.max(maxRooms,rooms);
              i++;
         }else{ //a meeting ends
             rooms--;
@@ -57,7 +57,7 @@ public class MinimumMeetingRooms {
         }
       }
 
-      return minRooms;
+      return maxRooms;
     }
     
     public static void main(String[] args){

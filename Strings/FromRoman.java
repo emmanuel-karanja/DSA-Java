@@ -1,3 +1,4 @@
+package Strings;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public class FromRoman {
 
     public static int convert(String roman){
         if(roman==null || roman.isEmpty()){
-            throw new IllegalArgumentException("Roman is null or empty.");
+            throw new IllegalArgumentException("Roman numeral is null or empty.");
         }
 
         int total=0;

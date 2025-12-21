@@ -43,6 +43,7 @@ public class FindAllAnagrams {
 
         // Count chars in p
         for (int i = 0; i < PLENGTH; i++) {
+            //this op gives you a number between 0 and 25
             pCount[p.charAt(i) - aCode]++;
         }
 
@@ -60,7 +61,7 @@ public class FindAllAnagrams {
             windowCount[s.charAt(i) - aCode]++;
 
             // Remove left-side char
-            int leftCharPos = i - PLENGTH;
+            int leftCharPos = i - PLENGTH;   //exclusive
             windowCount[s.charAt(leftCharPos) - aCode]--;
 
             // Compare

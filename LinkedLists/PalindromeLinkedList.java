@@ -12,38 +12,37 @@ class ListNode{
 }
 public class PalindromeLinkedList {
 
-    public static boolean isPalindrome(ListNode head){
-         if (head == null || head.next == null) { // empty or single node is palindrome
+    public static boolean isPalindrome(ListNode head) {
+        if (head == null || head.next == null) {
             return true;
         }
 
-        ListNode leftHalf=head;
+        ListNode slow = head;
+        ListNode fast = head;
 
-        //find middle
-        ListNode rightHalf=reverseLinkedList(getMiddle(head));
+        // find middle
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
 
-        while(rightHalf !=null && leftHalf!=null){
-            if(rightHalf.value!=leftHalf.value){
+        // skip middle node for odd-length lists , edge case
+        if (fast != null) {
+            slow = slow.next;
+        }
+
+        ListNode rightHalf = reverseLinkedList(slow);
+        ListNode leftHalf = head;
+
+        while (rightHalf != null) {
+            if (leftHalf.value != rightHalf.value) {
                 return false;
             }
-
-            leftHalf=leftHalf.next;
-            rightHalf=rightHalf.next;
+            leftHalf = leftHalf.next;
+            rightHalf = rightHalf.next;
         }
 
         return true;
-    }
-
-    private static ListNode getMiddle(ListNode head){
-        ListNode slow=head;
-        ListNode fast=head;
-
-        while(fast!=null && fast.next!=null){
-            slow=slow.next;
-            fast=fast.next.next;
-        }
-
-        return slow;
     }
 
     private static ListNode reverseLinkedList(ListNode head){

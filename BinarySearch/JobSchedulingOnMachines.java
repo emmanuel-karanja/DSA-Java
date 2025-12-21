@@ -79,12 +79,12 @@ public class JobSchedulingOnMachines {
         // Binary search to find minimum feasible max time
         while (right - left > eps) {
             double mid = left + (right - left) / 2;
-            if (isFeasible(sortedJobs, speeds, mid)) {
+            if (isFeasible(sortedJobs, speeds, mid)) { // feasible → try smaller
                 right = mid; 
-            }// feasible → try smaller
-            else {
+            }
+            else {// infeasible → try larger
                 left = mid;
-             } // infeasible → try larger
+             } 
         }
         return right;
     }
@@ -96,6 +96,8 @@ public class JobSchedulingOnMachines {
 
         for (int job : jobs) {
             boolean assigned = false;
+
+            // What you are doing here is trying to assign a job to a machine.
             for (int j = 0; j < speeds.length; j++) {
                 double curJobTime=job / (double) speeds[j];
                 // Can this machine j take this job?
@@ -105,7 +107,7 @@ public class JobSchedulingOnMachines {
                     break; 
                 } // If not, we try the next machine.
             }
-            if (!assigned) return false; // could not fit this job
+            if (!assigned) return false; // could not fit a certain job.\
         }
         return true;
     }
