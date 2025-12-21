@@ -21,6 +21,10 @@ package DP;
  *
  * Recurrence:
  *   dp[x] = min(dp[x - c] + 1) for all c in coins where x - c >= 0
+ * 
+ * dp[x-c] is basically, the number of coins it takes to form an amount x-c
+ * 
+ * where c is the current coin value.
  *
  * Base Case:
  *   dp[0] = 0  // zero coins needed to make amount 0
@@ -31,11 +35,11 @@ package DP;
 public class CoinChange {
 
     public static int coinChange(int[] coins, int amount) {
-        int max = amount + 1; // use as infinity
+        int INF = Integer.MAX_VALUE; // use as infinity
         int[] dp = new int[amount + 1];
         // Initialize dp array with "infinity"
         for (int i = 1; i <= amount; i++) {
-            dp[i] = max;
+            dp[i] =INF;
         }
         dp[0] = 0; // base case
 
@@ -48,7 +52,7 @@ public class CoinChange {
             }
         }
 
-        return dp[amount] == max ? -1 : dp[amount];
+        return dp[amount] == INF ? -1 : dp[amount];
     }
 
     public static void main(String[] args) {
