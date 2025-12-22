@@ -40,7 +40,7 @@ public class MedianOfTwoSortedArrays {
         int n = nums2.length;
 
         int left = 0;
-        int right = m; //note this
+        int right = m; //note this not m-1 but m
 
         while (left <= right) {
             int partitionM = left + (right - left) / 2;

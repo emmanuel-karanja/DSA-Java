@@ -36,7 +36,7 @@ public class CheapestFlightsBellmanFord {
             edges.add(new Edge(f[0], f[1], f[2]));
         }
 
-        // Initialize bestCost table: bestCost[city][stopsUsed]
+        // Initialize bestCost table: bestCost[city][edgesUsed]
         int[][] bestCost = new int[n][K + 2];
         for (int i = 0; i < n; i++) {
             Arrays.fill(bestCost[i], INF);

@@ -79,7 +79,7 @@ public class CapacityToShipPackages {
                 daysUsed++;
                 currentLoad = 0;
             }
-            //we are still within capacity
+            //we are still within capacity, we don't need an extra day
             currentLoad += w;
 
             //check if we exceed required days

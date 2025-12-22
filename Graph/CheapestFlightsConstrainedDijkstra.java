@@ -85,7 +85,8 @@ public class CheapestFlightsConstrainedDijkstra {
         }
 
         /* ---------------- DP table ----------------
-         * edgesUsed ∈ [0 .. K+1]  →  K+2 slots
+         * edgesUsed ∈ [0 .. K+1]  →  K+2 slots i.e. edges=stops+1, and then account for the extra 1 slot for the src
+         node so K+1+1=k+2, this applies to any discrete resource constraint with a hard limit.
          */
         int[][] bestCost = new int[n][K + 2];
         for (int i = 0; i < n; i++) {
@@ -113,7 +114,7 @@ public class CheapestFlightsConstrainedDijkstra {
             }
 
             // Cannot expand further if max edges already used
-            if (edgesUsed == K + 1) {
+            if (edgesUsed == K + 1) {  
                 continue;
             }
 
