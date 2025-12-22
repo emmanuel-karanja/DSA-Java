@@ -41,7 +41,7 @@ public class CheapestFlightsBellmanFord {
         for (int i = 0; i < n; i++) {
             Arrays.fill(bestCost[i], INF);
         }
-        
+
         bestCost[src][0] = 0;
 
         // Relax edges up to K+1 times (0..K stops)
@@ -55,7 +55,10 @@ public class CheapestFlightsBellmanFord {
 
         // Find the minimum cost to dst using <= K+1 edges (i.e., <= K stops)
         int minCost = INF;
+
+        // 0 stop means we are at the source.
         for (int stops = 1; stops <= K + 1; stops++) {
+            // This is where dst comes in.
             minCost = Math.min(minCost, bestCost[dst][stops]);
         }
 

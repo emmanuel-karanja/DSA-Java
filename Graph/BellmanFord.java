@@ -43,7 +43,8 @@ public class BellmanFord {
         // Relax all edges V-1 times
         for (int i = 0; i < V - 1; i++) {
             for (Edge e : edges) {
-                if (dist[e.u] != Integer.MAX_VALUE && dist[e.u] + e.w < dist[e.v]) {
+                if (dist[e.u] != Integer.MAX_VALUE && 
+                    dist[e.u] + e.w < dist[e.v]) {
                     dist[e.v] = dist[e.u] + e.w;
                 }
             }
