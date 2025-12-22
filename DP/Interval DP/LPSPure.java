@@ -9,7 +9,7 @@
  * State:
  *   dp[i][j] = length of LPS in substring s[i..j]   
  * 
- * *This is where we used to bite the dust. Because we didn't know the meaning
+ * *This is where I used to bite the dust. Because I didn't know the meaning
  * of the state.
  *
  * Choices / Decisions:

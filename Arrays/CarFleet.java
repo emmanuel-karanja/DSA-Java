@@ -16,6 +16,9 @@ import java.util.Arrays;
  * Calculate the time each car takes to reach the target, keep track of the time for the previous
  *  car. if currentCarTime > previousTargetTime it forms a new fleet.  Otherwise, it's part of the fleet
  *  that will arriveat previousTargetTime
+ * 
+ * This is because cars that will arrive together have a fleetTime less or equal to the current fleet time.
+ * i.e. faster ones will catch up with slower ones and slow down to that speed.
  */
 
 class Car{
@@ -49,7 +52,7 @@ public class CarFleet {
             cars[i]=new Car(distance[i],speed[i]);
         }
 
-        //sort
+        //sort descending order
         Arrays.sort(cars, (a, b) -> Integer.compare(b.position, a.position));
 
         int fleetCount=0;

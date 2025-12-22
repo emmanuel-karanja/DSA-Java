@@ -35,7 +35,7 @@ SOLUTION:
       for(int len=2;len <=n;len++){
         for(int i=0;i+len-1<n;i++){
           int j=i+len-1;
-          //evaluate transations
+          //evaluate transitions
           if(s.charAt(i)==s.charAt(j)){
              dp[i][j]=dp[i+1][j-1];
           }else{
