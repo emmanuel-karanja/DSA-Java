@@ -37,6 +37,15 @@ import java.util.*;
 Why? Any alternative path must go through other nodes in the heap or nodes already visited.
 All nodes in the heap have distance ≥ d
 → any path through them will only increase the distance, never decrease it.
+
+Role of the visited set:
+A node can appear in the heap multiple times with different distances.
+The first time it is popped, that distance is the shortest possible.
+Later occurrences are ignored by visited.contains(node)
+Without this check:
+
+You could process a node multiple times
+And potentially violate the assumption that we finalized its shortest distance
  */
 class GraphNode {
     public int id; // node id

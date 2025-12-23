@@ -26,6 +26,28 @@ package Graph;
  * - Edge List: {source, destination, -log(rate)}
  * - Iterations: V-1 passes to relax edges, V-th pass to detect negative cycle
  * - Complexity: O(V * E)
+ * 
+ * 
+ * KEY: WHY WE NEGATE THE LOGS
+ * 
+ * rate1 × rate2 × ... × rateN > 1
+
+   log(product) > log(1)
+   log(product) > 0
+
+   log(rate1) + log(rate2) + ... > 0
+
+   But Bellman–Ford detects negative cycles, not positive ones.
+
+   So we flip the sign:
+
+   weight = -log(rate)
+
+   Now:
+
+   sum(-log(rate)) < 0
+
+
  */
 
 import java.util.*;
@@ -70,6 +92,8 @@ public class ArbitrageDetector {
         }
 
         // 4. Check for negative cycle (V-th pass)
+       // Find shortest paths even with negative weights
+       // Detect if any edge can still be relaxed on the V-th iteration
         for (Edge e : edges) {
             if (dist[e.u] + e.weight < dist[e.v] - 1e-9) { // handle floating point precision
                 return true; // Arbitrage detected

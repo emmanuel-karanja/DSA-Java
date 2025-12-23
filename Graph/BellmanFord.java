@@ -45,7 +45,7 @@ public class BellmanFord {
             for (Edge e : edges) {
                 if (dist[e.u] != Integer.MAX_VALUE && 
                     dist[e.u] + e.w < dist[e.v]) {
-                    
+                        
                     dist[e.v] = dist[e.u] + e.w;
                 }
             }

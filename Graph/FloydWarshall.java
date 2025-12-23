@@ -1,3 +1,5 @@
+package Graph;
+
 /**
  * PROBLEM: All-Pairs Shortest Paths using Floyd–Warshall
  * 
@@ -24,11 +26,10 @@
  *   dist[0][2] = 7 (via 1), which is the shortest path
  */
 
-import java.util.Arrays;
 
 public class FloydWarshall {
 
-    private static final int INF = 1000000000; // large value representing infinity
+    private static final int INF = Integer.MAX_VALUE; // large value representing infinity
 
     public static int[][] floydWarshall(int[][] graph) {
         int V = graph.length;
@@ -56,7 +57,7 @@ public class FloydWarshall {
     }
 
     public static void main(String[] args) {
-        int INF = 1000000000;
+        int INF = Integer.MAX_VALUE;
 
         // Graph represented as adjacency matrix
         // 0 = vertex 0, 1 = vertex 1, 2 = vertex 2

@@ -102,7 +102,8 @@ public class KruskalMinimumCostConnectedPoints {
             }
         }
 
-        // Sort edges by ascending order of cost.
+        // Sort edges by ascending order of cost. Why ascending order? We want to prioritize the ones with the shortest
+        // distances first.
         edges.sort(Comparator.comparingInt(e -> e.cost)); // If you sort in descending order, you get the maximum cost
 
         UnionFind uf = new UnionFind(n);
