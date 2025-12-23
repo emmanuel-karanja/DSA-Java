@@ -103,7 +103,7 @@ public class KruskalMinimumCostConnectedPoints {
         }
 
         // Sort edges by ascending order of cost.
-        edges.sort(Comparator.comparingInt(e -> e.cost));
+        edges.sort(Comparator.comparingInt(e -> e.cost)); // If you sort in descending order, you get the maximum cost
 
         UnionFind uf = new UnionFind(n);
         int totalCost = 0;
