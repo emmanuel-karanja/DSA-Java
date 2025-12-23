@@ -4,7 +4,21 @@ package DP;
 Output: [["a","a","b"], ["aa","b"]]
 KEYS:
 
-1. Precompute the palindrome dp array to check partitions.*/
+INTUITION:
+
+1. Iterate over the string and create a dp table such dp[i][j] tells if you if the substring between i and j inclusive
+   is a palindrome. This is simple the rules are s[i]==s[j] && (j-1<=2 || isPalindrome(dp[i+1][j-1])) what this
+   condition means is that a string of length 1 or the inner string between i+1,j-1 is a palindrome.
+
+2. Do another pass using the first DP and a second one with lists of words (actual palindromes). You can do a messy DP
+   or simpyl do backtracking to find those palindromes.
+
+
+*Since the first step is an interval DP problem, we iterate from the end i.e. from n+1 
+
+
+
+*/
 import java.util.*;
 
 public class PalindromePartitionDP {
@@ -13,39 +27,37 @@ public class PalindromePartitionDP {
         int n = s.length();
         boolean[][] isPal = new boolean[n][n];
 
-        // Precompute palindrome table, we are checking to to see if substring(i,j) is a palidrome here
-        // Now j>=i and we start from the end to avoid repeated computations. if we are at i,j, we check
-        // if the inner substring from i+1 to j-1 is a palidrome as well
+        // Precompute palindromes (interval DP)
         for (int i = n - 1; i >= 0; i--) {
             for (int j = i; j < n; j++) {
-                if (s.charAt(i) == s.charAt(j) && (j - i <= 2 || isPal[i + 1][j - 1])) {
+                if (s.charAt(i) == s.charAt(j) &&
+                    (j - i <= 2 || isPal[i + 1][j - 1])) {
                     isPal[i][j] = true;
                 }
             }
         }
 
-        // dp[i] = list of partitions of s[i..n-1]
-        List<List<String>>[] dp = new ArrayList[n + 1];
-        dp[n] = new ArrayList<>();
-        dp[n].add(new ArrayList<>()); // base case: empty string
+        List<List<String>> res = new ArrayList<>();
+        backtrack(0, s, isPal, new ArrayList<>(), res);
+        return res;
+    }
 
-        for (int i = n - 1; i >= 0; i--) {
-            dp[i] = new ArrayList<>();
-            for (int j = i; j < n; j++) {
-                if (isPal[i][j]) {
-                    String pal = s.substring(i, j + 1);
-                    for (List<String> list : dp[j + 1]) {
-                        List<String> newList = new ArrayList<>();
-                        newList.add(pal);
-                        newList.addAll(list);
-                        dp[i].add(newList);
-                    }
-                }
-            }
+    private static void backtrack(int start, String s, boolean[][] isPal,
+                                List<String> path, List<List<String>> res) {
+        if (start == s.length()) {
+            res.add(new ArrayList<>(path));  //copy path solutuion and add it to the solution.
+            return;
         }
 
-        return dp[0];
+        for (int end = start; end < s.length(); end++) {
+            if (isPal[start][end]) {
+                path.add(s.substring(start, end + 1)); ///choose character at end+1
+                backtrack(end + 1, s, isPal, path, res);
+                path.remove(path.size() - 1);  //unchoose it
+            }
+        }
     }
+
 
     public static void main(String[] args) {
         String s = "aab";
