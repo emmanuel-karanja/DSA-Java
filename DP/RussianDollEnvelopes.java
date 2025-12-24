@@ -41,38 +41,30 @@ class Envelope{
 }
 public class RussianDollEnvelopes {
     
-    public static int getEnvelopesCount(List<Envelope> envelopes){
+    public static int getEnvelopesCount(List<Envelope> envelopes) {
+        if (envelopes == null || envelopes.isEmpty()) return 0;
 
+        // 1. Sort Width Ascending. If widths equal, Height Descending.
         Collections.sort(envelopes, (a, b) -> {
-            if (a.width != b.width) return b.width - a.width;
-            return b.height - a.height;
+            if (a.width != b.width) return a.width - b.width;
+            return b.height - a.height; 
         });
 
+        int n = envelopes.size();
+        int[] dp = new int[n];
+        int maxOverall = 0;
 
-        final int n=envelopes.size();
-        int[] dp=new int[n];
-
-        //set base case
-        for(int i=0;i<n;i++){
-            dp[i]=1;
-        }
-
-        for(int i=1;i<n;i++){
-            for(int j=0;j<i;j++){
-               if(envelopes.get(i).height < envelopes.get(j).height && envelopes.get(i).width <envelopes.get(j).width){
-                   dp[i]=Math.max(dp[i],1+dp[j]);
-               }
+        for (int i = 0; i < n; i++) {
+            dp[i] = 1; // Base case: every envelope is a sequence of 1
+            for (int j = 0; j < i; j++) {
+                // Since width is already handled by sorting (and the tie-breaker),
+                // we only need to check height strictly increasing.
+                if (envelopes.get(i).height > envelopes.get(j).height) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
             }
+            maxOverall = Math.max(maxOverall, dp[i]);
         }
-
-        //return max of dp
-
-        int max=0;
-        for(int val: dp){
-            max=Math.max(max,val);
-        }
-
-        return max;
-
+        return maxOverall;
     }
 }

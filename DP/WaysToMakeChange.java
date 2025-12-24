@@ -17,7 +17,7 @@ package DP;
  * Output = 4
  *
  * INTUITION:
- * This is an Unbounded Knapsack / Coin Change (count ways) problem.
+ * This is an Unbounded Knapsack(You can use each coin more than once) / Coin Change (count ways) problem.
  *
  * DP STATE:
  * dp[x][i] = number of ways to make amount x using the first i coins
