@@ -7,9 +7,11 @@ package Graph;
  * Given a weighted directed graph (can have negative edges but no negative cycles),
  * compute the shortest distance between every pair of vertices.
  * 
+ * This is basically Dynamic Programming. 
+ * 
  * USE CASES:
  * 1. Find shortest path distances between all pairs of nodes.
- * 2. Detect negative cycles (if dist[i][i] < 0 after the algorithm, negative cycle exists).
+ * 2. Detect negative cycles (if dist[i][i] < 0 after the algorithm, negative cycle exists). NOTE THIS!
  * 3. Path reconstruction (with a small modification) to find actual shortest paths.
  * 4. Transitive closure / reachability problems (can be adapted).
  * 

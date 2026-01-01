@@ -31,6 +31,12 @@ package DP;
  *
  * 2. Include the coin (unlimited times):
  *    dp[x - coins[i - 1]][i]
+ * 
+ *  And we are finding ways:
+ * 
+ *  so
+ * 
+ *  dp[x][i]+=dp[x=coins[i-1]][i] 
  *
  * RECURRENCE:
  * dp[x][i] = dp[x][i - 1]

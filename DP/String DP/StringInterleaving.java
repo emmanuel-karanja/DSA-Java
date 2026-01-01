@@ -1,4 +1,4 @@
-package DP;
+
 
 /**
  * String Interleaving – DP Breakdown
@@ -54,6 +54,32 @@ package DP;
  *   s1[0] and s2[0] are real characters, but dp index 0 represents
  *   “using none of that string”.
  *   This intentional offset keeps the recurrence clean and uniform.
+ * 
+ * 
+ * KEY NOTE:
+ * The "Prefix" Requirement
+In DP, dp[i][j] doesn't just mean "Is the current character a match?" It means "Is the entire prefix up to
+ this point a valid interleave?"
+
+If s1 is empty, then for dp[0][j] to be true, every single character in s2 from index 0 to j-1 must match
+ s3 from 0 to j-1 in the exact same order.
+
+The "Broken Link" Example
+Imagine:
+
+s1 = "" (Empty)
+s2 = "ABC"
+s3 = "AXC"
+
+If you set the whole first row to true, you are saying s3 is a valid interleave of s1 and s2. But look at
+ the second character:
+
+dp[0][1] (A matches A): True
+dp[0][2] (X does NOT match B): False
+dp[0][3] (C matches C): ?
+
+Even though the third character matches, the "chain" was broken at the second character. If the prefix is invalid,
+ the entire path is dead.
  */
 
 class StringInterleaving {
@@ -69,12 +95,11 @@ class StringInterleaving {
 
         dp[0][0] = true;
 
-        // If s2 is empty, then, all the characters in s3 came from s1.
+        // Refer to key note above for an explanation.
         for (int i = 1; i <= m; i++) {
             dp[i][0] = dp[i - 1][0] && s1.charAt(i - 1) == s3.charAt(i - 1);
         }
 
-        // If s1 is empty,then all the characters in s3 came from s2.
         for (int j = 1; j <= n; j++) {
             dp[0][j] =dp[0][j - 1] && s2.charAt(j - 1) == s3.charAt(j - 1);
         }

@@ -117,7 +117,9 @@ public class FenwickTree {
         FenwickTree ft = new FenwickTree(nums.length);
 
         // Build tree
-        for (int i = 0; i < nums.length; i++) ft.update(i, nums[i]);
+        for (int i = 0; i < nums.length; i++) {
+            ft.update(i, nums[i]);
+        }
 
         System.out.println("Sum [0..4]: " + ft.query(4)); // 1+7+3+0+7 = 18
         System.out.println("Sum [3..8]: " + ft.queryRange(3, 8)); // 0+7+8+3+2+6 = 26

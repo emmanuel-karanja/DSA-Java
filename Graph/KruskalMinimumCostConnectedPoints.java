@@ -24,7 +24,7 @@ import java.util.*;
  * n(n-1) but you are counting the edges twice i.e. (i,j)->(j,i) and (j,i)->(i,j) and since the
  * the graph is undirected, we divide by 2.
  * 
- * 
+ * Time: O(ElogV)
  * 
  * n(n-1)/2 i.e. (n^2-n)/2
  */

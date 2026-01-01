@@ -23,6 +23,8 @@ import java.util.PriorityQueue;
  */
 /**
  * Minimum cost to connect all points (MST using Manhattan distance).
+ * 
+ *Time: O(E log V)
  */
 class QueueNode {
     public int node;

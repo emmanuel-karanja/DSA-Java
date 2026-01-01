@@ -1,4 +1,4 @@
-package DP;
+
 /**Given a string s, partition it into all possible lists of substrings such that each substring is a palindrome.
  * s = "aab"
 Output: [["a","a","b"], ["aa","b"]]

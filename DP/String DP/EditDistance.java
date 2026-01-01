@@ -1,4 +1,4 @@
-package DP;
+
 /**Given two words word1 and word2, find the minimum number of operations to convert word1 into word2.
 Allowed operations:
  1. Insert a character
