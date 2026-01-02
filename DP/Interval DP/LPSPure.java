@@ -19,7 +19,7 @@
  * Recurrence:
  *   dp[i][j] = (s[i] == s[j]) ? 2 + dp[i+1][j-1] : max(dp[i+1][j], dp[i][j-1])
  *
- * Base Cases:
+ * Base State:
  *   dp[i][i] = 1  // single character palindrome
  *
  * Greedy Check:
@@ -31,7 +31,7 @@ public class LPSPure {
         int n = s.length();
         int[][] dp = new int[n][n];
 
-        // Base case: single character palindromes
+        // Base state: single character palindromes
         for (int i = 0; i < n; i++) {
             dp[i][i] = 1;
         }

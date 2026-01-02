@@ -45,7 +45,8 @@ public class MaxAreaHistogramStack {
 
                 //For each bar, find how far it can extend to the left and right before hitting a smaller bar.
                 //Width = right index - left index - 1. Why the -1? Because the left and right indices are the bars 
-                //smaller than the current bar, not the bar itself.
+                //1 beyond the limit and hence we should be subtracting 1 from bothleft and right i.e. (right-1)-(left+1)+1
+                // = right-1-left-1+1= right-left-1
                 int width=right-left-1;
 
                 maxArea=Math.max(maxArea,width*height);

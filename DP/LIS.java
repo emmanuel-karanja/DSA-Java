@@ -24,7 +24,7 @@ public class LIS {
             throw new IllegalArgumentException("Number list is empty or null.");
         }
 
-        if(nums.length==1) return 1;
+        if(nums.length==1) return 1;  // where there is base case we don't need to model the base state.
 
         int[]dp=new int[nums.length];
         int max=1;

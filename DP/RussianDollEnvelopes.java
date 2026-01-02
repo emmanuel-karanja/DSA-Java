@@ -42,7 +42,8 @@ class Envelope{
 public class RussianDollEnvelopes {
     
     public static int getEnvelopesCount(List<Envelope> envelopes) {
-        if (envelopes == null || envelopes.isEmpty()) return 0;
+
+        if (envelopes == null || envelopes.isEmpty()) return 0;  // again the base case and not a base state.
 
         // 1. Sort Width Ascending. If widths equal, Height Descending.
         Collections.sort(envelopes, (a, b) -> {

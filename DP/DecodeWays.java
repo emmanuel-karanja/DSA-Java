@@ -68,7 +68,7 @@ public class DecodeWays {
 
             //how many ways can I decode one digit ending at i? it's whatever dp[i] holds (most likely 0)
             //and the ways to decode characters ending at i-1
-            if(s.charAt(i-1)!='0') {
+            if(s.charAt(i-1)!='0') {  // Keep note of the i-1 for the current i given that the is 1 based.
                 dp[i]+=dp[i-1];
             }
 

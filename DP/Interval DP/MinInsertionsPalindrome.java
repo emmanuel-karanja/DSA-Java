@@ -28,7 +28,7 @@ SOLUTION:
       //get length
       final int n=s.length();
 
-      if(n<=1) return 0;
+      if(n<=1) return 0;  //  base case example for a zero length string.
 
       int[][]  dp=new int[n][n];
 
