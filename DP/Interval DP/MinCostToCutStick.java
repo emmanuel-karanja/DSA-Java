@@ -65,7 +65,9 @@ public class MinCostToCutStick {
 
         int[][] dp = new int[m + 2][m + 2];
 
-        // Interval DP: length = 2 means no cuts in between
+       /**We sort allCuts to ensure intervals in the DP correspond to actual contiguous stick segments. 
+        * Without sorting, the recurrence allCuts[right] - allCuts[left] and the subinterval DP would break,
+        * giving incorrect results. */
         for (int len = 2; len < m + 2; len++) {
             for (int left = 0; left + len < m + 2; left++) {
                 int right = left + len;
