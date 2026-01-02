@@ -36,7 +36,7 @@ SOLUTION:
         for(int j=i;j<n;j++){
            //if it's a plaindrome we do nothin
           if(s.charAt(i)==s.charAt(j)){
-               dp[i][j]=dp[i+1][j-1];
+               dp[i][j]=dp[i+1][j-1]; // No operation
           }else{
                dp[i][j]=1+ Math.min(dp[i+1][j],dp[i][j-1]);
           }

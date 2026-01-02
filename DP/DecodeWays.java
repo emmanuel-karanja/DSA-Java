@@ -60,7 +60,7 @@ public class DecodeWays {
 
         int[] dp= new int[n+1]; //auto filled with 0
 
-        dp[0]=1; //there is only way one way to decode a string of length 1.
+        dp[0]=1; //there is only way one way to decode a string of length 0.
 
         //dp[i] is basically, ways to decode the first i characters of s. i.e. s[0...i-1]
         
@@ -72,7 +72,7 @@ public class DecodeWays {
                 dp[i]+=dp[i-1];
             }
 
-            if(i>1){
+            if(i>1){  //you have to test this condition
                 int twoDigit=Integer.parseInt(s.substring(i-2,i),10);
                 if(twoDigit >=10 && twoDigit<=26){
                     dp[i]+=dp[i-2];

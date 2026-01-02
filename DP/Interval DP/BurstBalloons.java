@@ -65,6 +65,7 @@ public class BurstBalloons {
 
         int[][] dp = new int[n + 2][n + 2];
 
+        // We begin at dp[0].length-2 to accomodate right and k
         for (int left = n; left >= 0; left--) {
             for (int right = left + 2; right <= n + 1; right++) { // interval length >= 2
                 for (int k = left + 1; k < right; k++) {

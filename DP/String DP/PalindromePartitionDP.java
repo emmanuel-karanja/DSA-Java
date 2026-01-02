@@ -28,11 +28,10 @@ public class PalindromePartitionDP {
         boolean[][] isPal = new boolean[n][n];
 
         // Precompute palindromes (interval DP)
-        for (int i = n - 1; i >= 0; i--) {
-            for (int j = i; j < n; j++) {
-                if (s.charAt(i) == s.charAt(j) &&
-                    (j - i <= 2 || isPal[i + 1][j - 1])) {
-                    isPal[i][j] = true;
+        for (int left = n - 1; left >= 0; left--) {
+            for (int right= left; right < n; right++) {
+                if (s.charAt(left) == s.charAt(right) && (right - left <= 2 || isPal[left + 1][right - 1])) {
+                    isPal[left][right] = true;
                 }
             }
         }

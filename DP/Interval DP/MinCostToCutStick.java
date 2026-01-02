@@ -59,18 +59,20 @@ public class MinCostToCutStick {
         allCuts[0] = 0;
         allCuts[m + 1] = n;
         System.arraycopy(cuts, 0, allCuts, 1, m);
+
+        // This is easy to forget. Take note.
         java.util.Arrays.sort(allCuts);
 
         int[][] dp = new int[m + 2][m + 2];
 
         // Interval DP: length = 2 means no cuts in between
         for (int len = 2; len < m + 2; len++) {
-            for (int i = 0; i + len < m + 2; i++) {
-                int j = i + len;
-                dp[i][j] = Integer.MAX_VALUE;
-                for (int k = i + 1; k < j; k++) {
-                    int cost = allCuts[j] - allCuts[i] + dp[i][k] + dp[k][j];
-                    dp[i][j] = Math.min(dp[i][j], cost);
+            for (int left = 0; left + len < m + 2; left++) {
+                int right = left + len;
+                dp[left][right] = Integer.MAX_VALUE;
+                for (int k = left + 1; k < right; k++) {
+                    int cost = allCuts[right] - allCuts[left] + dp[left][k] + dp[k][right];
+                    dp[left][right] = Math.min(dp[left][right], cost);
                 }
             }
         }
