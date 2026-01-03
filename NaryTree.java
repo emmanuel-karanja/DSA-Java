@@ -22,17 +22,6 @@ Now assume:
  
  */
 
-
-import java.util.*;
-
-/**
- * Dynamic N-ary Tree with O(1) level count queries.
- *
- * Features:
- * - Add/remove nodes dynamically
- * - Store node level for O(1) level count queries
- * - Remove node removes all descendants and updates counts
- */
 class Node {
     int val;
     int level;

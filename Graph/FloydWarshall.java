@@ -44,7 +44,7 @@ public class FloydWarshall {
             }
         }
 
-        // Floyd–Warshall main loop
+        // Floyd–Warshall main loop ,relax it v-1 times
         for (int k = 0; k < V; k++) {       // consider each intermediate vertex
             for (int i = 0; i < V; i++) {   // start vertex
                 for (int j = 0; j < V; j++) { // end vertex
