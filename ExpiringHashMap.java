@@ -1,22 +1,23 @@
 import java.util.concurrent.*;
 import java.util.Map;
+// Wrapper for value + expiration timestamp
+class CacheEntry<V> {
+    final V value;
+    final long expiryTimeMillis;
 
-public class ExpiringHashMap<K, V> {
-
-    // Wrapper for value + expiration timestamp
-    private static class CacheEntry<V> {
-        final V value;
-        final long expiryTimeMillis;
-
-        CacheEntry(V value, long ttlMillis) {
-            this.value = value;
-            this.expiryTimeMillis = System.currentTimeMillis() + ttlMillis;
-        }
-
-        boolean isExpired() {
-            return System.currentTimeMillis() > expiryTimeMillis;
-        }
+    CacheEntry(V value, long ttlMillis) {
+        this.value = value;
+        this.expiryTimeMillis = System.currentTimeMillis() + ttlMillis;
     }
+
+    boolean isExpired() {
+        return System.currentTimeMillis() > expiryTimeMillis;
+    }
+ }
+
+public class ExpiringHashMap<K, V> implements AutoCloseable{
+
+    
 
     private final ConcurrentHashMap<K, CacheEntry<V>> map = new ConcurrentHashMap<>();
     private final ScheduledExecutorService cleaner = Executors.newSingleThreadScheduledExecutor();
@@ -53,17 +54,16 @@ public class ExpiringHashMap<K, V> {
 
     /** Cleanup expired entries - called by ScheduledExecutorService */
     private void cleanup() {
-        long now = System.currentTimeMillis();
         for (Map.Entry<K, CacheEntry<V>> e : map.entrySet()) {
-            CacheEntry<V> entry = e.getValue();
-            if (entry.expiryTimeMillis <= now) {
-                map.remove(e.getKey(), entry);
-            }
+             if(e.getValue().isExpired()){
+                 map.remove(e.getKey());
+             }
         }
     }
 
     /** Shutdown the executor gracefully */
-    public void shutdown() {
+    @Override
+    public void close() {
         cleaner.shutdown();
         try {
             if (!cleaner.awaitTermination(1, TimeUnit.SECONDS)) {
