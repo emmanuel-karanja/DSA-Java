@@ -31,7 +31,7 @@ public class MinimumMeetingRooms {
 
     public static int getMinMeetingRooms(List<Interval> meetings){
 
-        //extract startTimes and endTimes into separate arrays and sort
+        // extract startTimes and endTimes into separate arrays and sort
         List<Integer> startTimes=meetings.stream()
                                   .map(i->i.startTime)
                                   .sorted()
@@ -41,17 +41,17 @@ public class MinimumMeetingRooms {
                                        .sorted()
                                        .collect(Collectors.toList());
 
-      //pointers for both
+      // pointers for both
       int i=0;
       int j=0;
       int rooms=0;
       int maxRooms=0;
       while(i <startTimes.size()){
-        if(startTimes.get(i) <endTimes.get(j)){  //a meeting starts
+        if(startTimes.get(i) <endTimes.get(j)){  // a meeting starts
              rooms++;
              maxRooms=Math.max(maxRooms,rooms);
              i++;
-        }else{ //a meeting ends
+        }else{ // a meeting ends
             rooms--;
             j++;
         }

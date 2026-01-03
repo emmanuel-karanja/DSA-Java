@@ -39,10 +39,11 @@ public class FruitIntoBaskets {
         for (int right = 0; right < fruits.length; right++) {
             count.put(fruits[right], count.getOrDefault(fruits[right], 0) + 1);
 
-            while (count.size() > 2) {   //if the count exceeds what we need that.
+            // If we find ourselves with more than two varieties, we need to decrement count
+            while (count.size() > 2) {   // If the count exceeds what we need that.
                 int leftFruit = fruits[left];
                 count.put(leftFruit, count.get(leftFruit) - 1);
-                if (count.get(leftFruit) == 0) {
+                if (count.get(leftFruit) == 0) {   // If the count drops to 0 remove the fruit
                     count.remove(leftFruit);
                 }
                 left++;

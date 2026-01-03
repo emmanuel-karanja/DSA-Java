@@ -1,4 +1,4 @@
-package BinaryTrees;
+package BinaryTrees.PathSum;
 /**
  * Given a binary tree where each node contains an integer value (which can be negative), 
  * find the maximum sum of values along any path from the root to a leaf (or from any node downward along
