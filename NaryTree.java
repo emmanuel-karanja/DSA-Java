@@ -18,19 +18,31 @@ Now assume:
  WHY I LOVE THIS PROBLEM:
 
  It jumps you out of the often memorized solutions. And into a different mode of thinking.
- 
+
  
  */
 
 
+import java.util.*;
+
+/**
+ * Dynamic N-ary Tree with O(1) level count queries.
+ *
+ * Features:
+ * - Add/remove nodes dynamically
+ * - Store node level for O(1) level count queries
+ * - Remove node removes all descendants and updates counts
+ */
 class Node {
     int val;
-    int level; // store the node's level
+    int level;
+    Node parent;
     List<Node> children;
 
-    Node(int val, int level) {
+    Node(int val, int level, Node parent) {
         this.val = val;
         this.level = level;
+        this.parent = parent;
         this.children = new ArrayList<>();
     }
 }
@@ -40,7 +52,7 @@ class NaryTree {
     Map<Integer, Integer> levelCount;
 
     public NaryTree(int rootVal) {
-        this.root = new Node(rootVal, 0);
+        this.root = new Node(rootVal, 0, null);
         this.levelCount = new HashMap<>();
         levelCount.put(0, 1); // root is level 0
     }
@@ -48,7 +60,7 @@ class NaryTree {
     // Add a child to a parent node
     public Node addChild(Node parent, int childVal) {
         int childLevel = parent.level + 1;
-        Node child = new Node(childVal, childLevel);
+        Node child = new Node(childVal, childLevel, parent);
         parent.children.add(child);
 
         // Update level count
@@ -58,21 +70,26 @@ class NaryTree {
 
     // Remove a node and all its descendants
     public void removeNode(Node node) {
-        // Decrement count for this node and all descendants
+        // Remove node from parent's children list
+        if (node.parent != null) {
+            node.parent.children.remove(node);
+        }
+
+        // Recursively remove node and descendants from level counts
         removeHelper(node);
-        // Also remove this node from its parent's children
-        // (Assuming we have reference to parent, or we can traverse to remove)
-        // For simplicity, let's assume caller removes from parent's list if needed
     }
 
     private void removeHelper(Node node) {
-        // Decrement count for this node
+        // Decrement count for this node's level
         levelCount.put(node.level, levelCount.get(node.level) - 1);
 
         // Recursively remove children
         for (Node child : node.children) {
             removeHelper(child);
         }
+
+        // Clear children list to free references
+        node.children.clear();
     }
 
     // O(1) query: count of nodes at a given level
@@ -80,7 +97,27 @@ class NaryTree {
         return levelCount.getOrDefault(level, 0);
     }
 
-     public static void main(String[] args) {
+    // Simple BFS to get all nodes at a given level (optional)
+    public List<Node> getNodesAtLevel(int targetLevel) {
+        List<Node> result = new ArrayList<>();
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            Node current = queue.poll();
+            if (current.level == targetLevel) {
+                result.add(current);
+            }
+            for (Node child : current.children) {
+                queue.offer(child);
+            }
+        }
+
+        return result;
+    }
+
+    // Demo
+    public static void main(String[] args) {
         NaryTree tree = new NaryTree(1); // root = 1
 
         Node node2 = tree.addChild(tree.root, 2);
@@ -96,6 +133,7 @@ class NaryTree {
         System.out.println(tree.getCountAtLevel(2)); // 3
 
         tree.removeNode(node2);
-        System.out.println(tree.getCountAtLevel(2)); // 1 (only node 7 remains)
+        System.out.println(tree.getCountAtLevel(1)); // 2 (node3, node4 remain)
+        System.out.println(tree.getCountAtLevel(2)); // 1 (only node7 remains)
     }
 }
