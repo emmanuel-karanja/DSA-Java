@@ -1,4 +1,4 @@
-package BinaryTrees;
+package BinaryTrees.PathSum;
 /**
 Given a binary tree and a target sum, return all root-to-leaf paths where the sum of node values equals the target sum.
 Each path should be represented as a list of node values.
@@ -7,6 +7,12 @@ A leaf is defined as a node with no children.
 INTUTION:
 
 DFS traversal of the tree and return when the remainingSum==0 or currentNode.value==remainingSum
+
+This is a backtracking algorithm: 
+
+  1. Choose node
+  2. Explore -->evaluate the solutions condition and bactrack left and righ
+  3. Unchoose node.
 
 ending conditions are:
 

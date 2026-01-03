@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**Given a string s, of lowercase letters,partition thes tring into as many parts as possible so that each letter
+/**Given a string s, of lowercase letters,partition the String into as many parts as possible so that each letter
  * appears in at most one part. Return a list of integers representing the size of these parts.
  * 
  * INTUTION:
@@ -41,7 +41,10 @@ public class PartitionLabels {
        int start=0;
        int end=0;
 
-
+      /** What we are really asking is does the character at i have an occurence further down the chain? And if so, 
+       *  we extend the current window. And if we find that we are at the last index we could reach further(the furthest
+       *  occurence of any of the character's we've met so far), we know we need to start a new partition.
+       */
        for(int i=0;i<s.length();i++){
             int endCurrentChar=charLastIndexMap.get(s.charAt(i));
             end=Math.max(end, endCurrentChar);

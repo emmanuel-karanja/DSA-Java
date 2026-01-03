@@ -1,12 +1,17 @@
-package BinaryTrees;
-/**Path sum is the total sum of values from any node to any other node.
+package BinaryTrees.PathSum;
+/**Path sum is the total sum of values from any node to any other node. i.e.like a diameter for path sums
  * 
  * Find the maxuimum of this given a binary tree.
  * 
  * INTUTION:
  * 
- * Use DFS and then keeptrack of the maxSum and use a diameter like computation . i.e.
+ * Use DFS and then keep track of the maxSum and use a diameter like computation . i.e.
  *   currentPathSum=leftPathSum+rightPathsum+currentNode.value
+ * 
+ * 
+ * 1. DFS like Pathsum 
+ * 2. Only include profitable paths.
+ * 3. Find the max.
  * 
  * 
  * 
@@ -27,7 +32,7 @@ class TreeNode{
     }
 }
 
-public class MaximumPathSum {
+public class MaxPathSum {
     
     public static int maxPathSum=Integer.MIN_VALUE; //to care for negative values
 
@@ -37,6 +42,7 @@ public class MaximumPathSum {
     private static int dfs(TreeNode node){
         if(node==null) return 0;
 
+        // We do the comparison to zero since we only want to include profitable branches
         int leftGain=Math.max(dfs(node.left),0); //do this to account for negative sums
         int rightGain=Math.max(dfs(node.right),0); //
 
@@ -82,7 +88,7 @@ public class MaximumPathSum {
         // Root node
         TreeNode root = new TreeNode(node2, node10R, 10);
 
-        int maxSum = MaximumPathSum.getPathSum(root);
+        int maxSum = MaxPathSum.getPathSum(root);
         System.out.println("Maximum Path Sum: " + maxSum);
     }
 }

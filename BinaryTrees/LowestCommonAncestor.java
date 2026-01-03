@@ -29,7 +29,7 @@ public class LowestCommonAncestor {
         return left != null ? left : right; //else return the non-null one.
     }
 
-    public static TreeNode lcaBST(TreeNode root, TreeNode p, TreeNode q){
+    public static TreeNode lcaIterative(TreeNode root, TreeNode p, TreeNode q){
          if(root==null) return null;
 
 

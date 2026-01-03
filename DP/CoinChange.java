@@ -37,7 +37,8 @@ public class CoinChange {
     public static int coinChange(int[] coins, int amount) {
         int INF = Integer.MAX_VALUE; // use as infinity
         int[] dp = new int[amount + 1];
-        // Initialize dp array with "infinity"
+        // Initialize dp array with "infinity", INF is used a  place holder state for cases wehre
+        // WE need to do minimization.
         for (int i = 1; i <= amount; i++) {
             dp[i] =INF;
         }
