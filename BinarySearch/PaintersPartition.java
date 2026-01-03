@@ -10,34 +10,32 @@ Rules (these are non-negotiable):
 3. A board cannot be split
 4. All painters work at the same speed
 
-The objective find the minimum time required by all the painters working for D days to paint all the
-boards.
+Find the minimum possible time required to paint all boards.
 
 
 INTUTION
 
-This is a binary search on the answer.
+What does “time” mean here?
 
-Lower bound = max(boards)
-(a painter must paint the largest board)
+All painters:
+  - work at the same speed
+  - paint board length per unit time
 
-PAINTERS: WILL BE AS SLOW AS THE PAINTER WITH THE LONGEST BOARD so, the lowerBound is the length of the
-longestboard and max is all the boards.
+So if a painter paints boards whose total length is L, the time they take is L.
 
-And How long will one painter take to paint all of them? That'a the upper limit.
+The total time of the job is:
 
+the maximum time taken by any painter
 
-Upper bound = sum(boards)
-(one painter paints everything)
+(because they work in parallel)”
 
-The feasibility function:
+Lowerbound: if I have 2 painters, and one has a board of length 5 and the other length 8, the unit time here is 
+8 since the 5 one will need to wait for the 8 board painter to finish before taking another board?
 
+i.e. the fastest time is the time it finish painting the longest board.
 
-“Can we paint all boards using ≤ k painters if each painter paints at most mid total length?”
+Upperbound: the time it takes one painter to paint all the boards.
 
-This is monotonic, so binary search applies.
-
-If order matters and partitions must be contiguous, think “binary search on the answer.”
 */
 public class PaintersPartition {
 

@@ -1,81 +1,92 @@
 package BinarySearch;
 
 /**
- * Problem: Rod Cutting for Maximum Pieces
+ * PROBLEM: Rod Cutting – Maximize Equal Piece Length
  *
- * Given:
- * - An array `rods[]` representing the lengths of n rods.
- * - An integer `L` representing the minimum allowed length of a piece.
+ * GIVEN:
+ * - An array `rods[]` where rods[i] is the length of the i-th rod
+ * - An integer `k` representing the minimum number of pieces required
  *
- * Goal:
- * - Cut the rods into pieces such that each piece has length >= L.
- * - Maximize the total number of pieces obtained.
+ * RULES (non-negotiable):
+ * 1. Rods may be cut arbitrarily
+ * 2. All pieces must have the SAME length
+ * 3. Pieces must have POSITIVE length
  *
- * Example:
- * Input: rods = [4, 7, 9], L = 3
- * Output: 5
- * Explanation:
- *  - Rod 4 → 1 piece of length 4
- *  - Rod 7 → 2 pieces: 3 + 4
- *  - Rod 9 → 2 pieces: 3 + 6
- *  Total = 1 + 2 + 2 = 5 pieces
+ * GOAL:
+ * - Find the MAXIMUM possible length `L` such that
+ *   we can obtain AT LEAST `k` pieces of length `L`
  *
- * Approach:
- * - Binary search on the candidate piece length.
- * - Check feasibility: Can we cut rods into pieces of length >= candidate?
- * - Search for the largest feasible piece length to maximize pieces.
+ * INTUITION:
+ * - If we choose a candidate length `L`,
+ *   each rod of length `r` can produce `r / L` pieces.
+ * - Total pieces = sum(r / L)
+ *
+ * MONOTONICITY:
+ * - If length `L` is feasible, any smaller length is also feasible
+ * - If length `L` is NOT feasible, any larger length is NOT feasible
+ *
+ * ⇒ Binary search on the answer applies.
+ *
+ * SEARCH SPACE:
+ * - Lower bound = 1
+ *   (smallest possible positive piece length)
+ *
+ * - Upper bound = max(rods)
+ *   (no piece can be longer than the longest rod)
+ *
+ * FEASIBILITY FUNCTION:
+ * “Can we cut the rods to get at least `k` pieces of length `L`?”
+ *
+ * TIME COMPLEXITY:
+ * - O(n log maxRodLength)
+ *
+ * SPACE COMPLEXITY:
+ * - O(1)
  */
 public class RodCutting {
 
-    public static int maxPieces(int[] rods, int L) {
-        // Binary search range: minimum length L to maximum rod length
-        int left = L;
+    public static int maxPieceLength(int[] rods, int k) {
+        int left = 1;
         int right = 0;
-        for (int rod : rods) right = Math.max(right, rod);
 
-        int maxPieces = 0;
+        for (int rod : rods) {
+            right = Math.max(right, rod);
+        }
+
+        int answer = 0;
 
         while (left <= right) {
             int mid = left + (right - left) / 2;
 
-            if (canCut(rods, mid, L)) {
-                // Feasible: count pieces and try longer pieces
-                maxPieces = countPieces(rods, mid);
+            if (canCut(rods, mid, k)) {
+                answer = mid;       // feasible, try longer pieces
                 left = mid + 1;
             } else {
-                // Not feasible: reduce piece length
-                right = mid - 1;
+                right = mid - 1;    // not feasible, shorten pieces
             }
         }
 
-        return maxPieces;
+        return answer;
     }
 
-    // Check if it's possible to cut all rods into pieces of length >= candidate
-    private static boolean canCut(int[] rods, int candidateLength, int L) {
-        if (candidateLength < L) return false; // must respect minimum length
+    // Feasibility check
+    private static boolean canCut(int[] rods, int length, int k) {
+        long pieces = 0;
 
-        long totalPieces = 0;
         for (int rod : rods) {
-            totalPieces += rod / candidateLength;
+            pieces += rod / length;
         }
 
-        return totalPieces > 0;
+        return pieces >= k;
     }
 
-    // Count total pieces if each piece has length candidateLength
-    private static int countPieces(int[] rods, int candidateLength) {
-        int pieces = 0;
-        for (int rod : rods) pieces += rod / candidateLength;
-        return pieces;
-    }
-
-    // Example driver code
+    // Driver
     public static void main(String[] args) {
         int[] rods = {4, 7, 9};
-        int L = 3;
+        int k = 5;
 
-        System.out.println("Maximum pieces: " + maxPieces(rods, L));
-        // Expected Output: 5
+        System.out.println("Maximum possible piece length = " +
+                maxPieceLength(rods, k));
+        // Output: 3
     }
 }

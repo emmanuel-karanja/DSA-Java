@@ -19,6 +19,8 @@ Now assume:
 
  It jumps you out of the often memorized solutions. And into a different mode of thinking.
 
+ This is the type of problem I like.
+
  
  */
 

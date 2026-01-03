@@ -1,5 +1,9 @@
 package BinaryTrees.PathSum;
-
+/**Key:
+ * 
+ * Find the most profitable route i.e. that'll not reduce the current maxSum and then form the bestPath
+ * 
+ */
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +51,7 @@ public class MaxPathSumWithNodes {
             maxPathSum = currentSum;
 
             // Build best path: left + node + right
-            bestPath = new ArrayList<>();
+            bestPath = new ArrayList<>();  //reset best path
             bestPath.addAll(leftSum > 0 ? left.path : new ArrayList<>());
             bestPath.add(node);
             bestPath.addAll(rightSum > 0 ? right.path : new ArrayList<>());

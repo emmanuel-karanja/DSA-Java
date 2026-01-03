@@ -31,6 +31,7 @@ public class NewGasStationsPlacement {
             double mid = left + (right - left) / 2.0;
 
             if (canPlace(positions, k, mid)) {
+                
                 right = mid; // try smaller maximum distance this right=mid only works if you are using doubles!!!
             } else {
                 left = mid; // need larger distance
