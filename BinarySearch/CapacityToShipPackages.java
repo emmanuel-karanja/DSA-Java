@@ -18,11 +18,12 @@ that one it sure as hell can carry all the others. And then you check the maximu
 can carry all of them in a single shipment or sum of weights.
 
 Lower Bound==>Ship must be able to carry the heaviest package (i.e. just one package)
-    lowerBound=max(weights);
+    lowerBound=max(weights); Even if you spread a package a day, it means at some point the biggest package will
+    have to be carried. So the minimum capacity is the heavest package.
 
 
 Upper Bound==>Ship can carry the sum of all pckages weights all the packages in one trip assuming one trip a day
-   upperBound=sum(weights)
+   upperBound=sum(weights)  or the capacity for a ship to carry all of them in one day.
 
 The capacity to carry in D days lies  between lowerBound and upperBound
 

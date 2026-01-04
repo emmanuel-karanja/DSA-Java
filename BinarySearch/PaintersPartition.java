@@ -5,7 +5,7 @@ package BinarySearch;
 
 Rules (these are non-negotiable):
 
-1.Each painter paints only contiguous boards (boards cannot be reshuffled or sorted)
+1. Each painter paints only contiguous boards (boards cannot be reshuffled or sorted)
 2. Boards must be painted in order
 3. A board cannot be split
 4. All painters work at the same speed
@@ -25,7 +25,9 @@ So if a painter paints boards whose total length is L, the time they take is L.
 
 The total time of the job is:
 
-the maximum time taken by any painter
+Lowerbound: the maximum time taken by any painter. Someone has to pick the longest plank. This is the shortest
+ time.
+:Upperbound: We have to ask what if one painter was assigned all the planks? 
 
 (because they work in parallel)”
 

@@ -67,16 +67,16 @@ public class AggressiveCows {
     }
 
    private static boolean canPlaceCows(int[] stalls, int cows, int minDist) {
-        int count = 1;            // Place first cow in the first stall
+        int placedCows = 1;            // Place first cow in the first stall
         int lastPos = stalls[0];  // Last placed cow
 
         for (int i = 1; i < stalls.length; i++) {
             // MaxMin we have to check if the lastPos and current position is at least as big as minDist
             // Note: we cannot invent new stall positions along the path. Stalls are fixed at those locations.
             if (stalls[i] - lastPos >= minDist) {
-                count++;
+                placedCows++;
                 lastPos = stalls[i];
-                if (count == cows) return true; // Successfully placed all cows
+                if (placedCows == cows) return true; // Successfully placed all cows
             }
         }
 

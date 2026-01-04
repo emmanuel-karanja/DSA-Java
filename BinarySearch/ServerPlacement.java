@@ -62,7 +62,7 @@ public class ServerPlacement {
         int lastPos = positions[0];
 
         for (int i = 1; i < positions.length; i++) {
-            if (positions[i] - lastPos > maxDistance) {
+            if (positions[i] - lastPos >= maxDistance) {
                 // Need to place a server here
                 placedServers++;
                 lastPos = positions[i];

@@ -13,6 +13,12 @@ package BinarySearch;
  * 3. Pieces must have POSITIVE length
  *
  * GOAL:
+ * 
+ * The upper limit is the length of the longest rod and the smallest is 1.
+ * 
+ * What we want is to minimize the piecesso we need to maximise the length of each piece.
+ * 
+ * So we search for lengths between [1...max(lengths)] such that the pieces count >=k
  * - Find the MAXIMUM possible length `L` such that
  *   we can obtain AT LEAST `k` pieces of length `L`
  *

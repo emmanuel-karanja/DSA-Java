@@ -2,21 +2,41 @@ package BinarySearch;
 
 import java.util.Arrays;
 
-/**Given piles of candies, and k children distribute the candies to maximize the minimum i.e. each kid gets as many as possible
- * but all get.
- * 
+/**
+ * PROBLEM: Maximum Candies per Child
+ *
+ * GIVEN:
+ * - An array `candies[]` where candies[i] represents the number of candies in the i-th pile
+ * - An integer `k` representing the number of children
+ *
+ * RULES:
+ * 1. Each child must get at least 1 candy
+ * 2. Candies can be taken from any pile, but each child gets exactly `candiesPerChild` candies
+ * 3. Piles can be split; a single pile can contribute to multiple children
+ *
+ * GOAL:
+ * - Maximize the minimum number of candies each child receives
+ *
  * INTUITION:
- * 
- * What's the minumum amount of candy a kid can get? 1 and the maximum? Size of the pile? Kids don't get the same amount
- * 
- * so suppose we search between 1 and max of candies?
- * 
+ * 1. Candidate answer = number of candies per child
+ * 2. Feasibility function: For a candidate number `candiesPerChild`, compute how many children
+ *    can be served from all piles. If >= k, candidate is feasible.
+ * 3. Monotone property:
+ *    - If `candiesPerChild` is feasible, any smaller number is also feasible
+ *    - If `candiesPerChild` is NOT feasible, any larger number is also NOT feasible
+ *
+ * SEARCH SPACE:
+ * - Lower bound = 1 (minimum possible positive candies per child)
+ * - Upper bound = max(candies) (largest pile determines the maximum possible per child)
+ *
+ * BINARY SEARCH:
+ * - Search for the largest feasible candidate
  */
 public class Candy {
+
     public static int maxCandies(int[] candies, int k) {
         int left = 1; // minimum candies per child
         int right = Arrays.stream(candies).max().orElse(0); // maximum possible candies from a single pile
-
         int result = 0;
 
         while (left <= right) {
@@ -40,10 +60,7 @@ public class Candy {
         int totalKids = 0;
 
         for (int pile : candies) {
-            // Here if the pile < candiesPerChild, we have 0, we've not allocated that pile. and it means
-            // candiesPerChild is too large and we'll pick a smaller value
-            int kidsForThisPipe=pile / candiesPerChild;
-            totalKids += kidsForThisPipe;
+            totalKids += pile / candiesPerChild;
         }
 
         return totalKids >= k;
@@ -54,6 +71,6 @@ public class Candy {
         int k = 3;
 
         int maxCandiesPerChild = maxCandies(candies, k);
-        System.out.println("Maximum candies per child: " + maxCandiesPerChild);
+        System.out.println("Maximum candies per child: " + maxCandiesPerChild); // Expected: 5
     }
 }
