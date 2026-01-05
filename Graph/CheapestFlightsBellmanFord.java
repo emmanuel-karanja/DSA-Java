@@ -42,12 +42,11 @@ public class CheapestFlightsBellmanFord {
             Arrays.fill(DP[i], INF);
         }
 
-        DP[src][0] = 0;
+        DP[src][0] = 0;  
 
         // Relax edges up to K+1 times (0..K stops) why K+1 since K is the nodes and we are updating
         // So to cover k stops we'll need K+1 edges to cover from src node to the target node. i.e. edges = stops + 1 = K + 1
         // Or the number of vertcies from src to dst is k+2 so the edges we need are E=V-1 or K+2-1
-
         // You relax edges as many times as the maximum number of edges you are willing (or guaranteed) to allow in a valid solution.
         for (int stops = 0; stops <= K; stops++) {
             for (Edge e : edges) {

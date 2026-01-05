@@ -1,6 +1,7 @@
 import java.util.concurrent.*;
 import java.util.Map;
-// Wrapper for value + expiration timestamp
+// Wrapper for value + expiration timestamp AutoCloseable allows you to use the try-with-resources type of resource
+// deallocation
 class CacheEntry<V> {
     final V value;
     final long expiryTimeMillis;
