@@ -23,6 +23,12 @@ package BinarySearch;
  * - Monotonic property allows **binary search over the day number** to find the last day
  *   a path exists efficiently.
  * 
+ * i.e. We know the first day of flooding is day 1 and the outermost is cells.length i.e. each cell is a day.
+ * 
+ * So:  WE find a value between [1...cells.length] and find all the land cells i.e. the only possible starting points.
+ *  We flood the grid until day d between [1...cells.length], and do a BFS to find out whether it's possible to reach the
+ * bottom row (first day cells), cells are 1 index based we convert them to 0 based.
+ * 
  * MODELING THE STATE (Using User Rubric):
  * 1. GOAL: Find the last day you can cross from top to bottom.
  * 2. TYPE: Binary Search on Answer + BFS (or DFS)
@@ -47,7 +53,8 @@ public class LastDayToCross {
     private static final int[][] DIRS = {{1,0},{-1,0},{0,1},{0,-1}};
 
     public int latestDayToCross(int row, int col, int[][] cells) {
-        int left = 1, right = cells.length;
+        int left = 1;
+        int right = cells.length;
         int ans = 0;
 
         while (left <= right) {
@@ -78,7 +85,7 @@ public class LastDayToCross {
 
         // Start from all land cells in the top row
         for (int c = 0; c < col; c++) {
-            if (grid[0][c] == 0) {
+            if (grid[0][c] == 0) {  // If it's land
                 q.offer(new int[]{0,c});
                 visited[0][c] = true;
             }
@@ -86,12 +93,15 @@ public class LastDayToCross {
 
         while (!q.isEmpty()) {
             int[] cell = q.poll();
-            int r = cell[0], cc = cell[1];
+            int r = cell[0];
+            int cc = cell[1];
 
             if (r == row - 1) return true; // reached bottom
 
             for (int[] d : DIRS) {
-                int nr = r + d[0], nc = cc + d[1];
+                int nr = r + d[0];
+                int nc = cc + d[1];
+
                 if (nr >= 0 && nr < row && nc >= 0 && nc < col 
                     && !visited[nr][nc] && grid[nr][nc] == 0) {
                     visited[nr][nc] = true;

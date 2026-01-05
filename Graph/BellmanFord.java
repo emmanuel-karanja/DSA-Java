@@ -41,6 +41,8 @@ public class BellmanFord {
         dist[src] = 0;
 
         // Relax all edges V-1 times
+        // Why? In a graph with V vertices, the longest simple shortest path has at most V − 1 edges.  Any path with ≥ V edges must repeat a vertex
+        // This would indicate a cycle.
         for (int i = 0; i < V - 1; i++) {
             for (Edge e : edges) {
                 if (dist[e.u] != Integer.MAX_VALUE && 

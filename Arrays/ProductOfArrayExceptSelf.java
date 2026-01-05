@@ -84,7 +84,7 @@ public class ProductOfArrayExceptSelf {
 
         int[] result=new int[n];
         for(int i=0;i<n;i++){
-            result[i]=prefix[i]*suffix[i];
+            result[i]=prefix[i]*suffix[i];  // Main
         }
 
         return result;

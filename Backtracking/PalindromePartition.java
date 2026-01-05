@@ -25,16 +25,16 @@ public class PalindromePartition {
     }
 
     private static void backtrack(String s, int start, List<String> path, List<List<String>> result) {
-        if (start == s.length()) {
+        if (start == s.length()) {   
             // Found a valid partition
-            result.add(new ArrayList<>(path));
+            result.add(new ArrayList<>(path));  // Create a copy and add to result
             return;
         }
 
         for (int end = start; end < s.length(); end++) {
             if (isPalindrome(s, start, end)) {
                 // Pick current substring
-                path.add(s.substring(start, end + 1));
+                path.add(s.substring(start, end + 1));   // substring(a,b) excludes b, so to include b you use substring(a,b+1)
                 // Recurse for the remaining string
                 backtrack(s, end + 1, path, result);
                 // Backtrack / remove the last choice

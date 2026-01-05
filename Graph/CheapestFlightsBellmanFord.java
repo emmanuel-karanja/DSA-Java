@@ -37,18 +37,23 @@ public class CheapestFlightsBellmanFord {
         }
 
         // Initialize bestCost table: bestCost[city][edgesUsed]
-        int[][] bestCost = new int[n][K + 2];
+        int[][] DP = new int[n][K + 2];
         for (int i = 0; i < n; i++) {
-            Arrays.fill(bestCost[i], INF);
+            Arrays.fill(DP[i], INF);
         }
 
-        bestCost[src][0] = 0;
+        DP[src][0] = 0;
 
-        // Relax edges up to K+1 times (0..K stops)
+        // Relax edges up to K+1 times (0..K stops) why K+1 since K is the nodes and we are updating
+        // So to cover k stops we'll need K+1 edges to cover from src node to the target node. i.e. edges = stops + 1 = K + 1
+        // Or the number of vertcies from src to dst is k+2 so the edges we need are E=V-1 or K+2-1
+
+        // You relax edges as many times as the maximum number of edges you are willing (or guaranteed) to allow in a valid solution.
         for (int stops = 0; stops <= K; stops++) {
             for (Edge e : edges) {
-                if (bestCost[e.u][stops] != INF) {
-                    bestCost[e.v][stops + 1] = Math.min(bestCost[e.v][stops + 1], bestCost[e.u][stops] + e.w);
+                if (DP[e.u][stops] != INF) {
+                    // This is like unbounded knapsack in that you can revisit cities using different stops count
+                    DP[e.v][stops + 1] = Math.min(DP[e.v][stops + 1],DP[e.u][stops] + e.w);
                 }
             }
         }
@@ -59,7 +64,7 @@ public class CheapestFlightsBellmanFord {
         // 0 stop means we are at the source.
         for (int stops = 1; stops <= K + 1; stops++) {
             // This is where dst comes in.
-            minCost = Math.min(minCost, bestCost[dst][stops]);
+            minCost = Math.min(minCost, DP[dst][stops]);
         }
 
         return minCost == INF ? -1 : minCost;
