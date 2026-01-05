@@ -46,8 +46,28 @@ package Graph;
  * - Navigation, routing, game AI
  */
 
+
+
 import java.util.*;
 
+/**
+ * Heuristics for Grid / Pathfinding Problems
+ * 
+ * 1. Manhattan Distance (4-direction grid, only horizontal/vertical moves)
+ *    h = |x1 - x2| + |y1 - y2|
+ * 
+ * 2. Chebyshev Distance (8-direction grid, diagonal allowed, cost = 1)
+ *    h = max(|x1 - x2|, |y1 - y2|)
+ * 
+ * 3. Euclidean Distance (straight-line distance)
+ *    h = sqrt((x1 - x2)^2 + (y1 - y2)^2)
+ * 
+ * 4. Octile Distance (8-direction grid, diagonal cost = sqrt(2), straight = 1)
+ *    dx = |x1 - x2|
+ *    dy = |y1 - y2|
+ *    h = min(dx, dy) * sqrt(2) + |dx - dy|
+ */
+  
 public class AStar {
 
     static class Node {
@@ -63,9 +83,27 @@ public class AStar {
         }
     }
 
-    // Manhattan distance heuristic (admissible for 4-direction grid)
-    private static int heuristic(int r1, int c1, int r2, int c2) {
-        return Math.abs(r1 - r2) + Math.abs(c1 - c2);
+    static class Heuristics {
+
+    public static int manhattan(int x1, int y1, int x2, int y2) {
+            return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+        }
+
+        public static int chebyshev(int x1, int y1, int x2, int y2) {
+            return Math.max(Math.abs(x1 - x2), Math.abs(y1 - y2));
+        }
+
+        public static double euclidean(int x1, int y1, int x2, int y2) {
+            int dx = x1 - x2;
+            int dy = y1 - y2;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        public static double octile(int x1, int y1, int x2, int y2) {
+            int dx = Math.abs(x1 - x2);
+            int dy = Math.abs(y1 - y2);
+            return Math.min(dx, dy) * Math.sqrt(2) + Math.abs(dx - dy);
+        }
     }
 
     public static int aStar(int[][] grid, int sr, int sc, int tr, int tc) {
@@ -76,7 +114,7 @@ public class AStar {
 
         PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a.f));
 
-        int h0 = heuristic(sr, sc, tr, tc);
+        int h0 = Heuristics.manhattan(sr, sc, tr, tc);
         pq.offer(new Node(sr, sc, 0, h0));
         bestG[sr][sc] = 0;
 
@@ -101,7 +139,7 @@ public class AStar {
                 if (newG < bestG[nr][nc]) {
                     bestG[nr][nc] = newG;
                     // Converges on the target fast.
-                    int h = heuristic(nr, nc, tr, tc);
+                    int h = Heuristics.manhattan(nr, nc, tr, tc);
                     pq.offer(new Node(nr, nc, newG, newG + h));
                 }
             }
