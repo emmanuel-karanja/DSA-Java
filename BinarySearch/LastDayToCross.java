@@ -29,6 +29,23 @@ package BinarySearch;
  *  We flood the grid until day d between [1...cells.length], and do a BFS to find out whether it's possible to reach the
  * bottom row (first day cells), cells are 1 index based we convert them to 0 based.
  * 
+ * 
+ * MENTAL MODEL:
+ * 
+ * 
+ * 
+ * 1. At first the entire grid given by row and col is land. 
+ * 2. The cells in the days array give you the co-ordinates of the flooding cells ordered day to day.
+ * 3. In java, doing a int[][] grid=new int[][]; effectively creates an all land grid where each value is initialized
+ *    to 0. 
+ * 4. We traverse days arrays from 0 to day-1 and take those cells and flood them in the grid. But first we reset them
+ *    from 1 based to 0 index based.
+ * 5. We then do a BFS from the top row adding all the cells that are land and expand out to see if we can reach the
+ *    last cell i.e. row-1,col-1. If we can't, we can't reach the target on that day i.e.
+ * 
+ *      - On this day from 0 to day-1, flood all the cells from an all land grid
+ *      - try to reach the target via BFS, if we can't, we try a smaller day
+ * 
  * MODELING THE STATE (Using User Rubric):
  * 1. GOAL: Find the last day you can cross from top to bottom.
  * 2. TYPE: Binary Search on Answer + BFS (or DFS)
@@ -54,7 +71,7 @@ public class LastDayToCross {
 
     public int latestDayToCross(int row, int col, int[][] cells) {
         int left = 1;
-        int right = cells.length;
+        int right = cells.length;  //last day of flooding
         int ans = 0;
 
         while (left <= right) {
@@ -71,15 +88,20 @@ public class LastDayToCross {
     }
 
     private boolean canCross(int row, int col, int[][] cells, int day) {
-        int[][] grid = new int[row][col];
+         // Note that the grid cells not visited will remain as 0 since Java initializes them to 0. So initlally cells are land
+         // we flood a few in the list.
+        int[][] grid = new int[row][col]; 
 
-        // Mark flooded cells up to current day
+        // Mark flooded cells up to current day, iterate over the cells and change the indexing and
+        // flood the corresponding positions on the grid.We only look at the cells we need to Flood.
         for (int i = 0; i < day; i++) {
+            // flood it row by row
             int r = cells[i][0]-1; // convert to 0-indexed
             int c = cells[i][1]-1;
             grid[r][c] = 1; // water
         }
 
+       
         Queue<int[]> q = new LinkedList<>();
         boolean[][] visited = new boolean[row][col];
 

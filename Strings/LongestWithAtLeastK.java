@@ -37,21 +37,22 @@ public class LongestWithAtLeastK {
             int[] freq = new int[26];
             int left = 0, right = 0;
             int uniqueInWindow = 0;
-            int countAtLeastK = 0;
+            int formed = 0;
 
             while (right < n) {
                 // -------------------------------
                 // 1. EXPAND window by including s[right]
                 // -------------------------------
-                int charIdxRight = s.charAt(right) - 'a';
+                int rightChar = s.charAt(right) - 'a';
 
-                if (freq[charIdxRight] == 0) {
+                if (freq[rightChar] == 0) {
                     uniqueInWindow++; // first occurrence of this char in window
                 }
-                freq[charIdxRight]++; // increment frequency count of that character
+                
+                freq[rightChar]++; // increment frequency count of that character
 
-                if (freq[charIdxRight] == k) {
-                    countAtLeastK++; // now this char satisfies at least k
+                if (freq[rightChar] == k) {  // check if it has made it
+                    formed++; // now this char satisfies at least k
                 }
                 right++; // move right pointer
 
@@ -59,15 +60,15 @@ public class LongestWithAtLeastK {
                 // 2. CONTRACT window if unique > targetUnique
                 // -------------------------------
                 while (uniqueInWindow > targetUnique) {
-                    int charIdxLeft = s.charAt(left) - 'a';
+                    int leftChar = s.charAt(left) - 'a';
 
                     // 
-                    if (freq[charIdxLeft] == k) {
-                        countAtLeastK--; // removing this char breaks "at least k"
+                    if (freq[leftChar] == k) {
+                        formed--; // removing this char breaks "at least k"
                     }
-                    freq[charIdxLeft]--; // decrement frequency
+                    freq[leftChar]--; // decrement frequency
 
-                    if (freq[charIdxLeft] == 0) {
+                    if (freq[leftChar] == 0) {
                         uniqueInWindow--; // char completely removed from window
                     }
                     left++; // move left pointer
@@ -76,7 +77,7 @@ public class LongestWithAtLeastK {
                 // -------------------------------
                 // 3. VALIDATE window
                 // -------------------------------
-                if (uniqueInWindow == targetUnique && uniqueInWindow == countAtLeastK) {
+                if (uniqueInWindow == targetUnique && uniqueInWindow == formed) {
                     maxLen = Math.max(maxLen, right - left);
                 }
             }

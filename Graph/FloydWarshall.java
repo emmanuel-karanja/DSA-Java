@@ -1,5 +1,9 @@
 package Graph;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
 /**
  * PROBLEM: All-Pairs Shortest Paths using Floyd–Warshall
  * 
@@ -29,6 +33,7 @@ package Graph;
  */
 
 
+
 public class FloydWarshall {
 
     private static final int INF = Integer.MAX_VALUE; // large value representing infinity
@@ -48,7 +53,7 @@ public class FloydWarshall {
         for (int k = 0; k < V; k++) {       // consider each intermediate vertex
             for (int i = 0; i < V; i++) {   // start vertex
                 for (int j = 0; j < V; j++) { // end vertex
-                    if (dist[i][k] < INF && dist[k][j] < INF) {
+                    if (dist[i][k] < INF && dist[k][j] < INF) {  // INF is for when an edge doesn't exist between i and j.
                         dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
                     }
                 }
@@ -90,5 +95,27 @@ public class FloydWarshall {
                 System.out.println("Negative cycle detected!");
             }
         }
+    }
+
+    // A helper function to convert an adj list to an adj matrix
+    public static int[][] adjListToMatrix(Map<Integer, List<int[]>> adjList, int n) {
+        int[][] matrix = new int[n][n];
+
+        // Initialize matrix with INF
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(matrix[i], INF);
+            matrix[i][i] = 0; // distance to self is 0
+        }
+
+        // Fill the matrix using adjacency list
+        for (int u : adjList.keySet()) {
+            for (int[] edge : adjList.get(u)) {
+                int v = edge[0];      // destination node
+                int weight = edge[1]; // edge weight
+                matrix[u][v] = weight;
+            }
+        }
+
+        return matrix;
     }
 }
