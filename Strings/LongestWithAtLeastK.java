@@ -43,12 +43,12 @@ public class LongestWithAtLeastK {
                 // -------------------------------
                 // 1. EXPAND window by including s[right]
                 // -------------------------------
-                int rightChar = s.charAt(right) - 'a';
+                int rightChar = s.charAt(right) - 'a';   //Gives us the index in the ref.
 
                 if (freq[rightChar] == 0) {
                     uniqueInWindow++; // first occurrence of this char in window
                 }
-                
+
                 freq[rightChar]++; // increment frequency count of that character
 
                 if (freq[rightChar] == k) {  // check if it has made it
@@ -57,7 +57,7 @@ public class LongestWithAtLeastK {
                 right++; // move right pointer
 
                 // -------------------------------
-                // 2. CONTRACT window if unique > targetUnique
+                //  window if unique > targetUnique
                 // -------------------------------
                 while (uniqueInWindow > targetUnique) {
                     int leftChar = s.charAt(left) - 'a';
@@ -75,7 +75,7 @@ public class LongestWithAtLeastK {
                 }
 
                 // -------------------------------
-                // 3. VALIDATE window
+                //validate window
                 // -------------------------------
                 if (uniqueInWindow == targetUnique && uniqueInWindow == formed) {
                     maxLen = Math.max(maxLen, right - left);

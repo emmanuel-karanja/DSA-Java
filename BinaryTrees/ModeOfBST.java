@@ -1,3 +1,5 @@
+package BinaryTrees;
+
 import java.util.*;
 
 /**
@@ -83,7 +85,7 @@ public class ModeOfBST {
         inorder(node.left);
 
         // Process current node
-        if (prevVal == null || node.val != prevVal) {
+        if (prevVal == null || node.val != prevVal) {    // Do we need to increase the streak or not?
             currCount = 1;
         } else {
             currCount++;
