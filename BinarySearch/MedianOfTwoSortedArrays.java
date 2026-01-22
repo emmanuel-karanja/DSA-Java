@@ -43,12 +43,12 @@ public class MedianOfTwoSortedArrays {
         int right = m; //note this not m-1 but m
 
         while (left <= right) {
-            int partitionM = left + (right - left) / 2;
-            int partitionN = (m + n + 1) / 2 - partitionM;
+            int mid = left + (right - left) / 2;
+            int partitionN = (m + n + 1) / 2 - mid;
 
             // Take it for granted that partitonM can move from 0 to m and partitionN from 0 to n
-            int maxLeftM = (partitionM == 0) ? Integer.MIN_VALUE : nums1[partitionM - 1];  //when arr1.length==0
-            int minRightM = (partitionM == m) ? Integer.MAX_VALUE : nums1[partitionM];  //where right=m and left==0
+            int maxLeftM = (mid == 0) ? Integer.MIN_VALUE : nums1[mid - 1];  //when arr1.length==0
+            int minRightM = (mid == m) ? Integer.MAX_VALUE : nums1[mid];  //where right=m and left==0
 
             int maxLeftN = (partitionN == 0) ? Integer.MIN_VALUE : nums2[partitionN - 1];
             int minRightN = (partitionN == n) ? Integer.MAX_VALUE : nums2[partitionN];
@@ -61,9 +61,9 @@ public class MedianOfTwoSortedArrays {
                     return Math.max(maxLeftM, maxLeftN);
                 }
             } else if (maxLeftM > minRightN) {
-                right = partitionM - 1; // move left
+                right = mid - 1; // move left
             } else {
-                left = partitionM + 1; // move right
+                left = mid + 1; // move right
             }
         }
 

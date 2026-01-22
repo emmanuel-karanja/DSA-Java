@@ -1,24 +1,7 @@
 package DP;
 
 import java.util.*;
-
-class Box{
-    int width, depth, height;
-
-    public Box(int w, int d, int h) {
-        width = w;
-        depth = d;
-        height = h;
-    }
-
-    public int getBaseArea(){
-        return width*depth;
-    }
-}
-
-public class BoxStacking {
-
-    /*
+/*
      Given an array of boxed with w,d,h, find the best arrangement to maximize the height if the boxes are stacked.
 
       INTUTION:
@@ -42,10 +25,25 @@ public class BoxStacking {
      *          we can place it on top of box i. i.e. the box at position i must have a smaller base than the one at i-1 or any
      *         other previous positions.
      *
-     * Recurrence: dp[i] = height[i] + max(dp[j]) for all j that can be on top
+     * Recurrence: dp[i] = max(dp[i],height[i] + dp[j]) for all j that can be on top
      *
      * Base case: dp[i] = height[i] (if no box can go on top)
      */
+class Box{
+    int width, depth, height;
+
+    public Box(int w, int d, int h) {
+        width = w;
+        depth = d;
+        height = h;
+    }
+
+    public int getBaseArea(){
+        return width*depth;
+    }
+}
+
+public class BoxStacking {
 
     public static int maxStackHeight(Box[] boxes) {
         int n = boxes.length;

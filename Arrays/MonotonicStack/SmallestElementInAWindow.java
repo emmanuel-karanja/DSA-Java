@@ -43,6 +43,7 @@ public class SmallestElementInAWindow {
             }
 
             // Maintain monotonic increasing order for max use > not <
+            // Deque contains all the values smaller than the current value
             while (!deque.isEmpty() && nums[i]< nums[deque.peekLast()] ) {
                 deque.removeLast();
             }

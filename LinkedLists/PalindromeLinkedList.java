@@ -38,8 +38,8 @@ public class PalindromeLinkedList {
             if (leftHalf.value != rightHalf.value) {
                 return false;
             }
-            leftHalf = leftHalf.next;
-            rightHalf = rightHalf.next;
+            leftHalf = leftHalf.next;  //advance list 1
+            rightHalf = rightHalf.next;  // advance list 2
         }
 
         return true;

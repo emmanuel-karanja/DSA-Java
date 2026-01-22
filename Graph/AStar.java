@@ -110,7 +110,9 @@ public class AStar {
         int m = grid.length, n = grid[0].length;
 
         int[][] bestG = new int[m][n];
-        for (int[] row : bestG) Arrays.fill(row, Integer.MAX_VALUE);
+        for (int[] row : bestG) {
+            Arrays.fill(row, Integer.MAX_VALUE);
+        }
 
         PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a.f));
 

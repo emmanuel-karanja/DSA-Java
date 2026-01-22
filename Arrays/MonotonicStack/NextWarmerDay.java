@@ -17,7 +17,7 @@ import java.util.Arrays;
  * stack. Now if the current element x is greater than the top, we pop all the elements until we encounter one greater.
  * We remove it because it breaks the monotonic order. 
  * 
- * Vice versa for the monotonic increasing. The TOP has the largest.
+ * Vice versa for the monotonic increasing. The TOP has the largest. And monotonic decreasing, the top has the smallest.
  * 
  * Using ArrayDeque we push to the front/top/left, and remove from the front only.
  * 

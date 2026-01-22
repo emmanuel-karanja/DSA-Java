@@ -57,8 +57,8 @@ public class AddTwoNumbers {
 
               current.next=new ListNode(sum %10); //generate the next number
               current=current.next; //advance current pointer
-              if(p!=null) p=p.next;
-              if(q!=null) q=q.next;
+              if(p!=null) p=p.next;  //advance p
+              if(q!=null) q=q.next; //advance q
         }
 
         //handle final carry

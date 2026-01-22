@@ -35,7 +35,9 @@ public class LongestIncreasingPath {
             int nx=x+d[0];
             int ny=y+d[1];
 
+            // The conditional that matrix[nx][ny] > matrix[x][y] needs to be obeyed 
             if(nx>=0 && nx< m && ny >=0 && ny<n && matrix[nx][ny]>matrix[x][y]){
+                 // This is pretty easy to forget i.e. we take a single step 
                 maxLength=Math.max(maxLength,1+dfs(nx, ny, matrix, memo, m, n));
             }
         }

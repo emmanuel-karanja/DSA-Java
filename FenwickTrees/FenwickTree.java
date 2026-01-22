@@ -92,7 +92,7 @@ public class FenwickTree {
         i++; // shift to 1-based indexing
         while (i <= n) {
             tree[i] += val;
-            i += i & -i; // move to parent
+            i += i & -i; // move forward to next within range
         }
     }
 
@@ -102,7 +102,7 @@ public class FenwickTree {
         int sum = 0;
         while (i > 0) {
             sum += tree[i];
-            i -= i & -i; // move to parent
+            i -= i & -i; // move backwards to those in range.
         }
         return sum;
     }

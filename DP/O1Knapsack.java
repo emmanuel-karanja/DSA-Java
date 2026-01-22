@@ -60,7 +60,7 @@ public class O1Knapsack {
                     dp[i][w] = Math.max(
                         // By referencing the previous row, we make sure item i only taken once.
                         dp[i - 1][w], // leave item
-                        value[i - 1] + dp[i - 1][w - weight[i - 1]] // take item
+                         dp[i - 1][w - weight[i - 1]]+value[i-1] // take item
                     );
                 } else {
                     dp[i][w] = dp[i - 1][w]; // cannot take item

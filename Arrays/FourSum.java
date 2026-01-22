@@ -3,7 +3,9 @@ package Arrays;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+/**This pattern repeats itself with five sum etc i.e. i,j,k, left and right with 3 nested for loops i.e.
+ *  k-2 nesting and the duplicate skip is the same.
+ */
 public class FourSum {
 
     public static List<int[]> fourSum(int[] nums, int target) {

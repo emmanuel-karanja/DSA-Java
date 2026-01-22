@@ -16,6 +16,9 @@ import java.util.Set;
   and to move to those squares it'll still the same number of moves.
 
   We use x >=-2 and y>=-2 because shortest path may temporarily go negative.
+
+  i.e. BFS because you expand on multiple directions simultaneously, until you find the first on that
+  hits the target.
  * 
  */
 
@@ -43,7 +46,7 @@ public class KnightMoves {
                                   {-2,-1},{-1,-2},{2,-1},{1,-2}};
 
         Queue<Node> queue=new ArrayDeque<>();
-        Set<String> visited=new HashSet<>();  //you are not immediatley aware of the dimensions.
+        Set<String> visited=new HashSet<>();  //you are not immediately aware of the dimensions.
 
         queue.add(new Node(0,0,0));
 
@@ -65,7 +68,7 @@ public class KnightMoves {
                 int newX=currX+d[0];
                 int newY=currY+d[1];
 
-                //bounds check, we check against the -2 due to symmetry
+                //bounds check, we check against the -2 due to symmetry 
                 if(newX >= -2 && newY>=-2 && !visited.contains(newX+":"+newY)){
                    visited.add(newX+":"+newY);
                    queue.add(new Node(newX,newY,currSteps+1));

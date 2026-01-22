@@ -37,7 +37,7 @@ public class MergeKSortedLists {
         }
 
         if(l1 != null) current.next=l1;
-        if(l2!= null) current.next=l2;
+        if(l2 != null) current.next=l2;
 
         return dummy.next; //still points to the head since current will point to end of merged list
 

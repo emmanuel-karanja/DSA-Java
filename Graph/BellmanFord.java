@@ -45,10 +45,9 @@ public class BellmanFord {
         // This would indicate a cycle.
         for (int i = 0; i < V - 1; i++) {
             for (Edge e : edges) {
-                if (dist[e.u] != Integer.MAX_VALUE && 
-                    dist[e.u] + e.w < dist[e.v]) {
-                        
-                    dist[e.v] = dist[e.u] + e.w;
+                int newDist=dist[e.u]+e.w;
+                if (dist[e.u] != Integer.MAX_VALUE &&  newDist< dist[e.v]) {     
+                    dist[e.v] =newDist;
                 }
             }
         }
