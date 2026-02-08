@@ -97,7 +97,7 @@ public class JobSchedulingOnMachines {
         for (int job : jobs) {
             boolean assigned = false;
 
-            // What you are doing here is trying to assign a job to a machine.
+            // Try to assigned the current job to any of the machines.
             for (int j = 0; j < speeds.length; j++) {
                 double curJobTime=job / (double) speeds[j];
                 // Can this machine j take this job?

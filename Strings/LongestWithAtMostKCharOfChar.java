@@ -1,5 +1,5 @@
 package Strings;
-/**Find the length of a substring within a String s where character count of character c is at most k */
+/**Find the longest length of a substring within a String s where character count of character c is at most k */
 public class LongestWithAtMostKCharOfChar {
     
     public static int longestWithAtMostCountOfChar(String s,char ch, int k){
@@ -9,6 +9,7 @@ public class LongestWithAtMostKCharOfChar {
         int maxLen=0;
 
         while(right < s.length()){
+
             if(s.charAt(right)==ch){
                 count++;
             }

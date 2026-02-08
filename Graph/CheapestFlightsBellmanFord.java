@@ -48,7 +48,7 @@ public class CheapestFlightsBellmanFord {
         // So to cover k stops we'll need K+1 edges to cover from src node to the target node. i.e. edges = stops + 1 = K + 1
         // Or the number of vertcies from src to dst is k+2 so the edges we need are E=V-1 or K+2-1
         // You relax edges as many times as the maximum number of edges you are willing (or guaranteed) to allow in a valid solution.
-        for (int stops = 0; stops <= K; stops++) {
+        for (int stops = 0; stops < K+1; stops++) {
             for (Edge e : edges) {
                 if (DP[e.u][stops] != INF) {
                     // This is like unbounded knapsack in that you can revisit cities using different stops count

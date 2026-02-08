@@ -47,6 +47,7 @@ public class PartitionLabels {
        */
        for(int i=0;i<s.length();i++){
             int endCurrentChar=charLastIndexMap.get(s.charAt(i));
+            // If we had one with a higher ending as a part of the current substring, we'd not update the end
             end=Math.max(end, endCurrentChar);
             //check if a partition potentially ends here. Think of it as a window much in the jump game 2. We've a window
             //and then we keep exploring if we find an ending that  ends here we update start.

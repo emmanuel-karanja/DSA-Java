@@ -17,14 +17,10 @@
  *   s3[i + j - 1] came from:
  *
  *   1) Take from s1
- *      - Allowed if i > 0
- *      - s1[i - 1] == s3[i + j - 1]
- *      - Previous state: dp[i - 1][j]
+ *      - Allowed if i > 0 && s1[i - 1] == s3[i + j - 1] && Previous state: dp[i - 1][j]
  *
  *   2) Take from s2
- *      - Allowed if j > 0
- *      - s2[j - 1] == s3[i + j - 1]
- *      - Previous state: dp[i][j - 1]
+ *      - Allowed if j > 0 &$s2[j - 1] == s3[i + j - 1] && Previous state: dp[i][j - 1]
  *
  * Recurrence:
  *   dp[i][j] =

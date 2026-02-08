@@ -25,6 +25,7 @@ public class LongestNonRepeating {
         int startIndex=0;
 
         while(right<str.length()){
+            // Remove all the characters from the left until only a single occurence of char at right remains
             while(charSet.contains(str.charAt(right))){
                 //shorten
                 char leftChar=str.charAt(left);

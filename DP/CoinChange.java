@@ -42,11 +42,11 @@ public class CoinChange {
         for (int i = 1; i <= amount; i++) {
             dp[i] =INF;
         }
-        dp[0] = 0; // base case
+        dp[0] = 0; // base state
 
         // Bottom-up DP
         for (int x = 1; x <= amount; x++) {
-            // find if any coin can satisfy th current amount 
+            // find if any coin can satisfy the current amount 
             for (int coin : coins) {
                 if (x - coin >= 0) {  // currentCoinValue <=x
                     dp[x] = Math.min(dp[x], dp[x - coin] + 1);

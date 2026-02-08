@@ -34,6 +34,7 @@ public class AtMostKDistinctChars {
             while(charMap.size() > k ){
                 //try to shrink
                 char leftChar=s.charAt(left);
+                
                 charMap.put(leftChar, charMap.get(leftChar)-1);
 
                 if(charMap.get(leftChar)==0){

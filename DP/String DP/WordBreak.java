@@ -1,4 +1,4 @@
-package DP;
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +10,9 @@ import java.util.Set;
 
   We generated a prefix from i->j and check if the prefix is the dictionary if it's, we check the remainder of the
    word s from j+1 to s.length-1 recursively.
+
+   dp[i] represents:
+   whether the substring s[0 .. i-1] (from index 0 up to but not including i) is breakable using the dictionary.
 
    You can even use memoization to speed up the recursive case
  */

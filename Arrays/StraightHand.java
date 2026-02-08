@@ -51,7 +51,10 @@ public class StraightHand {
         }
 
         // Sort the unique card values
-        List<Integer> sortedKeys = cardToCountMap.keySet().stream().sorted().collect(Collectors.toList());
+        List<Integer> sortedKeys = cardToCountMap.keySet()
+                                                 .stream()
+                                                 .sorted()
+                                                 .collect(Collectors.toList());
 
         for (int key : sortedKeys) {
             int keyFreq = cardToCountMap.get(key);

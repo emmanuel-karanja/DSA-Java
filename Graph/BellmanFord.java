@@ -54,7 +54,8 @@ public class BellmanFord {
 
         // Check for negative-weight cycles
         for (Edge e : edges) {
-            if (dist[e.u] != Integer.MAX_VALUE && dist[e.u] + e.w < dist[e.v]) {
+            int newDist=dist[e.u]+e.w;
+            if (dist[e.u] != Integer.MAX_VALUE && newDist < dist[e.v]) {
                 System.out.println("Graph contains a negative-weight cycle");
                 return null; // or throw exception
             }

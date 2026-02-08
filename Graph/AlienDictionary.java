@@ -28,7 +28,8 @@ public class AlienDictionary {
         // clear the graph if this is called multiple times
         charGraph.clear();
         inDegree.clear();
-            //initialize
+
+        //initialize
         for(String word: words){
             for (Character c: word.toCharArray()){
                 if(!charGraph.containsKey(c)){
@@ -63,6 +64,7 @@ public class AlienDictionary {
                 if(c1 != c2){  //we don't care about matching characters
                     if(!charGraph.get(c1).contains(c2)){ 
                         charGraph.get(c1).add(c2);
+                        //increment indegree of c2
                         inDegree.put(c2,inDegree.get(c2)+1);
                     }
                     break; //after the first uncommon we exit the inner loop

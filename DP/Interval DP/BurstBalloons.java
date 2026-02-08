@@ -65,15 +65,23 @@ public class BurstBalloons {
 
         int[][] dp = new int[n + 2][n + 2];
 
-        // We begin at dp[0].length-2 to accomodate right and k
-        for (int left = n; left >= 0; left--) {
-            for (int right = left + 2; right <= n + 1; right++) { // interval length >= 2
+        // Interval DP:
+        // dp[left][right] = max coins obtained by bursting balloons in (left, right)
+        // We iterate by increasing interval length
+        // len will increment by 1. 
+        for (int len = 2; len <= n + 1; len++) {  
+            for (int left = 0; left + len <= n + 1; left++) {
+                int right = left + len;
+                // Try each possible last balloon k in (left, right) for k>left and k <right
                 for (int k = left + 1; k < right; k++) {
-                    dp[left][right] = Math.max(dp[left][right],
-                            dp[left][k] + arr[left] * arr[k] * arr[right] + dp[k][right]);
+                    dp[left][right] = Math.max(
+                        dp[left][right],
+                        dp[left][k] + arr[left] * arr[k] * arr[right] + dp[k][right]
+                    );
                 }
             }
         }
+
 
         return dp[0][n + 1];  // We need for the entire array from i to j.
     }

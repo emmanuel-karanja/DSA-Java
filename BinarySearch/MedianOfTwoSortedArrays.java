@@ -1,33 +1,48 @@
 package BinarySearch;
 /**Find the median of two sorted arrays in less than O(nlogn) time:
- * 
- * INTUITION
- * 
- * Merging and finding the median is O(m+n)
- * 
- * Partition two array such that:
- * 
- * Arr1 = left1|right1
- * Arr2 = left2|right2
- * 
- * where left1,left2, right1 and right2 are the partitions.
- * 
- * 1. len(left1)+len(left2)<=len(right1)+len(right2)
- * 2. Max(left1,left2)<=min(right1,right2)
- * 
- * median=max(max(left1,left2),min(right1,right2))/2 for even length
- * median=max(max(left1,left2)) for odd length;
- * 
- * 
- * KEY: Binary search the smaller array
- * 
- * partition it first with left and right i.e. right=m at first
- * Key is to find maxLeft1, minRight1, maxLeft2, minRight2.
- * 
- * IT'S ALL ABOUT WHERE WE SPLIT THE SMALLER ARRAY. And the split is a binary split i.e. we are simply assigning left and right.
- * 
- * The higher we cut M, the lower we cut N.
- */
+
+MENTAL MODEL
+
+We do NOT search both arrays.
+We binary-search ONLY the shorter array (M).
+
+At any step we choose a cut `mid` in M (0 ≤ mid ≤ m).
+This cut forces a corresponding cut in the other array (N):
+
+    partitionN = (m + n + 1) / 2 - mid
+
+So the total number of elements on the left side is always correct.
+
+Think in terms of PARTITIONS, not indices.
+
+Each partition defines:
+    leftM | rightM
+    leftN | rightN
+
+The goal is to find a partition where:
+    max(leftM, leftN) ≤ min(rightM, rightN)
+
+Boundary cases are expressed via sentinels:
+    - If a left side is empty → maxLeft = -∞
+    - If a right side is empty → minRight = +∞
+
+This naturally handles cases where:
+    - mid == 0 or mid == m
+    - partitionN == 0 or partitionN == n
+    - m == 0 (the shorter array is empty)
+
+Binary search adjustment:
+    - If maxLeftM > minRightN → cut too far right in M → move left
+    - Else if maxLeftN > minRightM → cut too far left in M → move right
+
+Once the invariant holds, the median is:
+    - Odd total length: max(maxLeftM, maxLeftN)
+    - Even total length: average of max(left) and min(right)
+
+Key idea:
+The algorithm is about ordering across partitions, not merging arrays.
+*/
+
 public class MedianOfTwoSortedArrays {
 
     public static double getMedian(int[] nums1, int[] nums2) {
