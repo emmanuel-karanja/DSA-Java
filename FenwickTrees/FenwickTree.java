@@ -26,6 +26,11 @@ package FenwickTrees;
  *      - query: i -= i & -i  (move to parent node)
  * - Intuition: Node at index i covers a range of length (i & -i) ending at i.
  * 
+ * SUM
+ * tree[i]=sum of elements from (i−(i&−i)+1) to i 
+ * 
+ * i.e. the sum of the disjoint range from i- (i&-i) to i inclusive.
+ * 
  * WHY IT IS EFFICIENT:
  * - Each update or query only touches O(log n) nodes because binary indexing
  *   lets us jump through ranges in powers of two.

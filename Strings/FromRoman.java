@@ -51,8 +51,8 @@ public class FromRoman {
                 throw new IllegalArgumentException("Invalid roman numeral: "+c+" at position: "+i);
             }
 
-            if(value < prevValue){  //Follow the subtractive rule e.g. if we had IV, it's  1 and 5, prevvalue is 5
-            // and the current value is 1 and true value is 5-1 since we are starting from the end.
+            if(value < prevValue){  //Follow the subtractive rule e.g. if we had XIV, it's  10 and 1 and 5.
+            // starting from the right prev value is 0  a firs
                 total-=value;
             }else{
                 total+=value;

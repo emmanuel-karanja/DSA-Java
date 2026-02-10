@@ -10,7 +10,17 @@ import java.util.Queue;
 import java.util.Set;
 
 /**Given an arrayof node pairs that represent a graph and  that each pair represents and edge e.g. {a,b} means a->b, 
- * find the topological sort of the graph*/
+ * find the topological sort of the graph
+ * 
+ * INTUITION:
+ * 
+ * Indegree.size() == number of verticles/nodes in the graph.
+ * While doing BFS, we append nodes whose indegree drops to 0 to the sorted list. 
+ * If there is a cycle, nodes get deadlocked and we find that the sorted list is shorter than the
+ * number of vertices.
+ * 
+ * And in some cases no nodes have an indegree of 0. 
+ * */
 public class TopologicalSortBFS {
 
     public List<Character> getTopologicalSort(char[][] edges){
@@ -40,6 +50,9 @@ public class TopologicalSortBFS {
 
         while(!queue.isEmpty()){
             char node = queue.poll();
+
+           // Every node added to the sorted list had indegree 0 at the time it was added
+           // If a node is not added,it didn't reach indegree of 0. Cycle nodes are deadlocked.
             sorted.add(node);
 
             for(char neighbor : graph.getOrDefault(node, new HashSet<>())){
@@ -50,7 +63,8 @@ public class TopologicalSortBFS {
             }
         }
 
-        // If there was a cycle, return empty list
+        // If there was a cycle, return empty list. i.e sorted.size() < inDegree.size() is cycle exists.
+        // Why? Some nodes will never reach indegree of 0.
         return sorted.size() == inDegree.size() ? sorted : new ArrayList<>();
     }
 

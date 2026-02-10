@@ -66,7 +66,7 @@ public class WaysToMakeChange {
         int n = coins.length;
         int[][] dp = new int[amount + 1][n + 1];
 
-        // Base case: amount = 0 → 1 way (choose nothing)
+        // Base state: amount = 0 → 1 way (choose nothing)
         for (int i = 0; i <= n; i++) {
             dp[0][i] = 1;
         }
@@ -78,6 +78,7 @@ public class WaysToMakeChange {
                 dp[x][i] = dp[x][i - 1];
 
                 // Include current coin (unlimited)
+                // Current amount >= currnt coin value
                 if (x >= coins[i - 1]) {
                     dp[x][i] = dp[x][i]+dp[x - coins[i - 1]][i];
                 }

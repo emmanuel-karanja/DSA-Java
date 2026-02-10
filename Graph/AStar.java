@@ -109,6 +109,7 @@ public class AStar {
     public static int aStar(int[][] grid, int sr, int sc, int tr, int tc) {
         int m = grid.length, n = grid[0].length;
 
+        // Initialize the state
         int[][] bestG = new int[m][n];
         for (int[] row : bestG) {
             Arrays.fill(row, Integer.MAX_VALUE);
@@ -142,7 +143,8 @@ public class AStar {
                     bestG[nr][nc] = newG;
                     // Converges on the target fast.
                     int h = Heuristics.manhattan(nr, nc, tr, tc);
-                    pq.offer(new Node(nr, nc, newG, newG + h));
+                    int newF=newG+h;
+                    pq.offer(new Node(nr, nc, newG, newF));
                 }
             }
         }

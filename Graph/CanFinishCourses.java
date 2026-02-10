@@ -67,7 +67,8 @@ public class CanFinishCourses {
                 }
             }
         }
-
+  
+        // The topological sorted list length is equal to the number of vertices.
         return completedCourses == numCourses;
     }
 
