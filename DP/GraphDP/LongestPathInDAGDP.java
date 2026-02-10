@@ -53,6 +53,7 @@ public class LongestPathInDAGDP {
     static int dfs(Graph g, int u) {
         if (dp[u] != -1) return dp[u]; // memoization
         int maxLength = 1; // path includes u
+        
         for (int v : g.adj[u]) {
             maxLength = Math.max(maxLength, 1 + dfs(g, v));
         }

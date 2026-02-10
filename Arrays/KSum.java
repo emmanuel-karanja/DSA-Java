@@ -45,6 +45,7 @@ public class KSum {
 
                 if (sum == target) {
                     List<Integer> combination = new ArrayList<>(path);
+                    
                     combination.add(nums[left]);
                     combination.add(nums[right]);
                     result.add(combination);

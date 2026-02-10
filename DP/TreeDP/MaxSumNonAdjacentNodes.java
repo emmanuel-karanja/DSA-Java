@@ -24,6 +24,8 @@ package DP.TreeDP;
  *  1. How do we calculate notPick?  set to 0 at first and don't use the current node value
  *  2. How do we calculate the pick? use the current node value
  * 
+ * Also ensure the state of the children is computd before the evaluating the current node.
+ * 
  * 
  */
 
@@ -50,7 +52,9 @@ public class MaxSumNonAdjacentNodes {
         int notPick = 0;       // If we do not pick this node
 
         for (TreeNode child : node.children) {
+            // post-order
             int[] childDP = dfs(child);
+
             pick += childDP[0]; // can't pick children if current is picked
             notPick += Math.max(childDP[0], childDP[1]); // can pick or skip children
         }

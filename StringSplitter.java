@@ -48,7 +48,7 @@ public class StringSplitter {
 
     // Demo
     public static void main(String[] args) {
-        String input = "apple,  banana ;; cherry |   date  orange,,";
+        String input = "apple,  banana ;; cherry |      date  orange,,";
         String delimiters = ",;|";
 
         String[] tokens = splitString(input, delimiters, true);

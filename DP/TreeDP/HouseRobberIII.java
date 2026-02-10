@@ -1,4 +1,4 @@
-package DP;
+package DP.TreeDP;
 
 /**
  * DP BREAKDOWN: Tree DP (House Robber III)
