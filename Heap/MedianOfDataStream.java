@@ -18,7 +18,7 @@ public class MedianOfDataStream {
  private PriorityQueue<Integer> right=new PriorityQueue<>();//
 
   public void add(int value){
-    //Insert, Balance, maintain size property
+    //Insert, Balance, maintain Size property
     left.add(value);
 
     //balance

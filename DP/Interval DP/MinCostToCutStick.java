@@ -56,9 +56,11 @@ public class MinCostToCutStick {
     public int minCost(int n, int[] cuts) {
         int m = cuts.length;
          /**We sort allCuts to ensure intervals in the DP correspond to actual contiguous stick segments. 
-        * Without sorting, the recurrence allCuts[right] - allCuts[left] and the subinterval DP would break,
+        * 1. Without sorting, the recurrence allCuts[right] - allCuts[left] and the subinterval DP would break,
         * giving incorrect results. */
         java.util.Arrays.sort(cuts);            // sort the actual cuts
+
+        //2. Add sentinels at the end
         int[] allCuts = new int[m + 2];
         allCuts[0] = 0;               // left sentinel
         System.arraycopy(cuts, 0, allCuts, 1, m);
@@ -79,7 +81,7 @@ public class MinCostToCutStick {
             }
         }
 
-        return dp[0][m + 1];
+        return dp[0][m + 1];  //since we sorted
     }
 
     // -----------------------------

@@ -15,6 +15,10 @@ import java.util.Set;
    whether the substring s[0 .. i-1] (from index 0 up to but not including i) is breakable using the dictionary.
 
    You can even use memoization to speed up the recursive case
+
+   State:
+
+   dp[i] means : "is word ending at i breakable?"  
  */
 
 public class WordBreak {
@@ -34,10 +38,12 @@ public class WordBreak {
 
     public static boolean canBreakDP(String s, Set<String> wordDict){
         //create the dp array
+         // what does DP[i] mean? : "Is word ending at i breakable"
         boolean[] dp=new boolean[s.length()+1]; //auto initialized to false
+
         dp[0]=true; //an emptystring case or independent base case
 
-        //in 1D casws the entire subsection of the array before i is the dependency space 
+        //in 1D cases the entire subsection of the array before i is the dependency space 
         //hence we always check j==0 to j<i. 
         //dp[j] is literally wordfrom 0 to j
 

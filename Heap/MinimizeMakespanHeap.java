@@ -71,17 +71,19 @@ public class MinimizeMakespanHeap {
 
     public static double minimizeMakespan(int[] jobs, int[] speeds) {
 
-        //sort in descending order
+        //1. sort in descending order
         Arrays.sort(jobs);
 
         PriorityQueue<Machine> pq = new PriorityQueue<>(
             Comparator.comparingDouble(m -> m.time)
         );
 
+        // 2. Prep machine array initializing time to 0.0.
         for (int speed : speeds) {
             pq.add(new Machine(0.0, speed));
         }
 
+        //3. Prioritize the machine with the smallest time (hence more time left on clock) i.e. likly to take the largest job.
         for (int i = jobs.length - 1; i >= 0; i--) {
             Machine m = pq.poll();
             double curJobTime=jobs[i] / (double) m.speed;
@@ -90,6 +92,7 @@ public class MinimizeMakespanHeap {
         }
 
         double makespan = 0.0;
+        //4. Calculate the minspan
         for (Machine m : pq) {
             makespan = Math.max(makespan, m.time);
         }

@@ -74,7 +74,7 @@ public class EditDistance {
 
         int[][] dp = new int[m + 1][n + 1];
 
-        // Initialize base cases
+        // Initialize base states
         for (int i = 0; i <= m; i++) {
             dp[i][0] = i; // Deleting all characters from s1
         }

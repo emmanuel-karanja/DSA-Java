@@ -10,6 +10,80 @@ package DP.TreeDP;
  *
  * Goal:
  * Count the total number of valid colorings of the tree.
+ * 
+ *  * ================================================================
+ * INTUITIVE EXPLANATION (MENTAL MODEL)
+ * ================================================================
+ *
+ * This Tree DP works exactly like a PROBABILITY TREE,
+ * except we count the number of valid outcomes instead of probabilities.
+ *
+ * Core idea:
+ * ----------
+ * Ask this question at every node:
+ *
+ *   “If THIS node is colored with color c,
+ *    how many valid colorings exist in its entire subtree?”
+ *
+ * That number is dp[node][c].
+ *
+ * ------------------------------------------------
+ * SUM vs MULTIPLY (the most important intuition)
+ * ------------------------------------------------
+ *
+ * - SUM  → different choices (OR)
+ * - MULTIPLY → independent events (AND)
+ *
+ * This is the same rule you used in probability:
+ *
+ *   P(Head AND Six) = (1/2) × (1/6)
+ *
+ * Here, instead of probabilities, we count valid colorings.
+ *
+ * ------------------------------------------------
+ * How a node computes its dp
+ * ------------------------------------------------
+ *
+ * 1) Fix the color of the current node to c.
+ *
+ * 2) For EACH child:
+ *    - The child may use ANY color except c.
+ *    - So the number of valid ways for that child is:
+ *
+ *        sum(dp[child][cc]) for all cc != c
+ *
+ *    This is a SUM because the child has multiple allowed choices.
+ *
+ * 3) All children are independent once the parent’s color is fixed,
+ *    so we MULTIPLY the results from each child.
+ *
+ * Result:
+ *
+ *   dp[node][c] =
+ *     ∏ over all children:
+ *        ( Σ dp[child][cc] where cc ≠ c )
+ *
+ * ------------------------------------------------
+ * Why leaves start with dp = 1
+ * ------------------------------------------------
+ *
+ * A leaf node has no children.
+ * If it is colored with a fixed color c, that represents
+ * exactly ONE complete valid coloring.
+ *
+ * This is like reaching a leaf in a probability tree:
+ * it counts as one finished outcome.
+ *
+ * Therefore:
+ *
+ *   dp[leaf][c] = 1
+ *
+ * ------------------------------------------------
+ * One-sentence summary
+ * ------------------------------------------------
+ *
+ * Fix my color → ask each child how many ways they can adapt →
+ * multiply the results → pass the count upward.
  *
  * ----------------------------------------
  * STEP-BY-STEP DP BREAKDOWN (RUBRIC)
@@ -32,7 +106,7 @@ package DP.TreeDP;
  * For each node:
  *   - Choose one color `c` (0 .. K-1)
  * For each child:
- *   - The child may choose ANY color except `c`
+ *   - The child may choose ANY color except `c`  i.e. cc !=c
  *
  * 4️⃣ Recurrence Relation
  * For a fixed node and color c:
@@ -112,17 +186,20 @@ class TreeColoring {
 
     // Returns dp[node][c]
     private static long[] dfs(Node node, Node parent) {
+
+        
         if (memo.containsKey(node)) return memo.get(node);
 
         long[] dp = new long[K];
 
-        // Initialize: assume node is colored with c
+        // Initialize: assume node is colored with c i.e.assume leaf case
         for (int c = 0; c < K; c++) {
             dp[c] = 1;
         }
 
         // Combine children
         for (Node child : node.children) {
+            // I had not noticed this
             if (child == parent) continue;
 
             long[] childDP = dfs(child, node);

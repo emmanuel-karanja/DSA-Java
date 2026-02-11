@@ -36,16 +36,20 @@ class Node{
 public class KnightMoves {
 
     public static int getMoveCount(int x,int y){
-        // x or y could be negative, normalize the board.
+        // 1. x or y could be negative, normalize the board.
         final int absX=Math.abs(x);
         final int absY=Math.abs(y);
 
         int moves=0;
 
+        //2.Directions
+
         final int[][] DIRECTIONS={{2,1},{1,2},{-2,1},{-1,2},
                                   {-2,-1},{-1,-2},{2,-1},{1,-2}};
 
         Queue<Node> queue=new ArrayDeque<>();
+
+        // 3. Visited set 
         Set<String> visited=new HashSet<>();  //you are not immediately aware of the dimensions.
 
         queue.add(new Node(0,0,0));
@@ -68,7 +72,7 @@ public class KnightMoves {
                 int newX=currX+d[0];
                 int newY=currY+d[1];
 
-                //bounds check, we check against the -2 due to symmetry 
+                //4. Bounds check, we check against the -2 due to symmetry 
                 if(newX >= -2 && newY>=-2 && !visited.contains(newX+":"+newY)){
                    visited.add(newX+":"+newY);
                    queue.add(new Node(newX,newY,currSteps+1));

@@ -72,6 +72,7 @@ public class PrimsMinimumCostConnectedPoints {
         int totalCost = 0;
         int visitedCount = 0;
 
+        // The trick here is to ensur that iterate n-1 number of times
         while (visitedCount < n) {
             Edge cur = minHeap.poll();
             int u = cur.to;

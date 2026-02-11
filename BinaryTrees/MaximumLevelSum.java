@@ -61,6 +61,7 @@ public class MaximumLevelSum {
         if (root == null) return 0;
 
         Queue<TreeNode> queue = new ArrayDeque<>();
+        
         queue.offer(root);
 
         int maxSum = Integer.MIN_VALUE;

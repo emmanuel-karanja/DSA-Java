@@ -1,6 +1,8 @@
 package BinarySearch;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 /**You are given:
 
@@ -69,6 +71,7 @@ public class JobSchedulingOnMachines {
         // Sort jobs descending to assign bigger jobs first in feasibility check
         Integer[] sortedJobs = new Integer[n];
         for (int i = 0; i < n; i++) sortedJobs[i] = jobs[i];
+        //1. Sort jobs in descending order
         Arrays.sort(sortedJobs, (a, b) -> b - a);
 
         // Binary search bounds: [0, worst-case time]
@@ -79,7 +82,7 @@ public class JobSchedulingOnMachines {
         // Binary search to find minimum feasible max time
         while (right - left > eps) {
             double mid = left + (right - left) / 2;
-            if (isFeasible(sortedJobs, speeds, mid)) { // feasible → try smaller
+            if (canAssign(sortedJobs, speeds, mid)) { // feasible → try smaller
                 right = mid; 
             }
             else {// infeasible → try larger
@@ -91,26 +94,48 @@ public class JobSchedulingOnMachines {
 
     // Feasibility check: can all jobs be assigned without any machine exceeding maxTime
     // “Does there exist any machine that can take this job without exceeding maxTime?”
-    private static boolean isFeasible(Integer[] jobs, int[] speeds, double maxTime) {
-        double[] machineTime = new double[speeds.length]; // current load per machine
+   static class Machine {
+    int speed;
+    double load; // current assigned time
 
-        for (int job : jobs) {
-            boolean assigned = false;
-
-            // Try to assigned the current job to any of the machines.
-            for (int j = 0; j < speeds.length; j++) {
-                double curJobTime=job / (double) speeds[j];
-                // Can this machine j take this job?
-                if (machineTime[j] + curJobTime <= maxTime) {
-                    machineTime[j] += curJobTime;
-                    assigned = true;
-                    break; 
-                } // If not, we try the next machine.
-            }
-            if (!assigned) return false; // could not fit a certain job.\
-        }
-        return true;
+    Machine(int speed) {
+        this.speed = speed;
+        this.load = 0.0;
     }
+  }
+
+ private static boolean canAssign(Integer[] jobs, int[] speeds, double maxTime) {
+    // Sort jobs descending: largest jobs first
+    Arrays.sort(jobs);
+    for (int i = 0, j = jobs.length - 1; i < j; i++, j--) {
+        int tmp = jobs[i]; jobs[i] = jobs[j]; jobs[j] = tmp;
+    }
+
+    // Min-heap: machine with least current load at the top
+    PriorityQueue<Machine> pq = new PriorityQueue<>(Comparator.comparingDouble(m -> m.load));
+
+        // Initialize machines
+        for (int speed : speeds) {
+            pq.add(new Machine(speed));
+        }
+
+        // Assign jobs one by one
+        for (int job : jobs) {
+            Machine machine = pq.poll(); // least loaded machine
+            double jobTime = (double) job / machine.speed;
+
+            if (machine.load + jobTime > maxTime) {
+                // Even the least loaded machine can't take this job
+                return false;
+            }
+
+            machine.load += jobTime;   // assign job
+            pq.add(machine);           // put back into heap
+        }
+
+        return true; // all jobs assigned successfully
+    }
+
 
     public static void main(String[] args) {
         int[] jobs = {7, 3, 2};
