@@ -51,7 +51,6 @@ public class CheapestFlightsBellmanFord {
         for (int stops = 0; stops < K+1; stops++) {
             for (Edge e : edges) {
                 if (DP[e.u][stops] != INF) {
-                    // This is like unbounded knapsack in that you can revisit cities using different stops count
                     DP[e.v][stops + 1] = Math.min(DP[e.v][stops + 1],DP[e.u][stops] + e.w);
                 }
             }

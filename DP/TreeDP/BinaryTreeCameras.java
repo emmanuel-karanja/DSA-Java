@@ -105,9 +105,7 @@ class BinaryTreeCameras {
         int state2 = 1 + Math.min(left[0], Math.min(left[1], left[2]))
                        + Math.min(right[0], Math.min(right[1], right[2]));
 
-        int state1 = Math.min(state2, Math.min(
-                left[2] + Math.min(right[1], right[2]),
-                right[2] + Math.min(left[1], left[2])
+        int state1 = Math.min(state2, Math.min(left[2] + Math.min(right[1], right[2]), right[2] + Math.min(left[1], left[2])
         ));
 
         return new int[]{state0, state1, state2};

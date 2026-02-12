@@ -1,4 +1,4 @@
-package BinaryTrees;
+package BinaryTrees.LevelOrderTraversal;
 
 import java.util.*;
 

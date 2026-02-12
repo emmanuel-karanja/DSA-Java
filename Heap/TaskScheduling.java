@@ -64,7 +64,7 @@ public class TaskScheduling {
         }
 
         int time=0;
-        final int coolDownWindow=n+1;// we to wait an entire n duration to to get on, it's 0..1..2..3......n gaps
+        final int coolDownWindow=n+1;// 1. we to wait an entire n duration to to get on, it's 0..1..2..3......n gaps
         //of n,so if we did from 0 to n, we'd be getting n-1 gaps not n, so we do from 0 to n+1
 
         while(!maxHeap.isEmpty()){

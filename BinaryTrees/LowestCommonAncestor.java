@@ -19,6 +19,7 @@ class TreeNode{
 public class LowestCommonAncestor {
 
      public static TreeNode lca(TreeNode root, TreeNode p, TreeNode q) {
+        
         if (root == null || root == p || root == q) return root;
 
         TreeNode left = lca(root.left, p, q);

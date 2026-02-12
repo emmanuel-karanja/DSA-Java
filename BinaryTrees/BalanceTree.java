@@ -3,6 +3,8 @@ package BinaryTrees;
 import java.util.ArrayList;
 import java.util.List;
 
+import BinaryTrees.LevelOrderTraversal.TreeNode;
+
 /**Balance a binary search tree.
  * 
  
