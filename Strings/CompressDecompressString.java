@@ -1,84 +1,73 @@
 package Strings;
+
 public class CompressDecompressString {
-    /**I'll assume we want to avoid repeating characters that are adjacent to each other. e.g.aaaabbb will become 4a3b */
 
-    public static String compress(String s){
-        if(s==null || s.length()==0) return "";
+    /** 
+     * Compress a string into the format: char followed by count of consecutive repeats
+     * e.g., "aaaabbbcc" -> "a4b3c2"
+     */
+    public static String compress(String s) {
+        if (s == null || s.length() == 0) return "";
+        if (s.length() == 1) return s + "1"; // single char → count 1
 
-        if(s.length()==1) return s;
+        StringBuilder sb = new StringBuilder();
+        int count = 1;
 
-        int currentCount=1;
-    
-        StringBuilder sb=new StringBuilder();
-
-        for(int i=1;i<s.length();i++){
-            if(s.charAt(i)==s.charAt(i-1)){ //continue the current streak
-                 currentCount++;
-            }else{
-               //we start a new streak
-                sb.append(currentCount).append(s.charAt(i-1));
-                //reset count for next
-                currentCount=1;
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) == s.charAt(i - 1)) {
+                count++; // continue streak
+            } else {
+                // append char first, then count
+                sb.append(s.charAt(i - 1)).append(count);
+                count = 1; // reset count for new char
             }
         }
 
-        //append the last character
-        sb.append(currentCount).append(s.charAt(s.length() - 1));
+        // append last character + count
+        sb.append(s.charAt(s.length() - 1)).append(count);
 
         return sb.toString();
     }
 
+    /**
+     * Decompress a string in the format: char followed by count
+     * e.g., "a4b3c2" -> "aaaabbbcc"
+     */
     public static String decompress(String s) {
         StringBuilder sb = new StringBuilder();
         int i = 0;
 
         while (i < s.length()) {
-            char c = s.charAt(i);
+            // Get char first
+            char ch = s.charAt(i);
+            i++;
 
-            // Case 1: digit → parse full number
-            if (Character.isDigit(c)) {
-                int count = 0;
-
-                // build the full number (handles 12, 100, etc.), this is the key, taking account of  double
-                //or even tripple digits. I am harping on this because micro code flares here are things you'll find
-                //yourself using in other problems.
-                while (i < s.length() && Character.isDigit(s.charAt(i))) {
-                    int currentNum=s.charAt(i)-'0'; //convert a char into an int
-
-                    count = count * 10 + currentNum;
-                    i++;
-                }
-
-                // now s.charAt(i) must be the character to repeat
-                char ch = s.charAt(i);
-
-                for (int j = 0; j < count; j++) {
-                    sb.append(ch);
-                }
-
-                i++; // move past the character
-            }
-            // Case 2: non-digit → append directly
-            else {
-                sb.append(c);
+            // parse the number after the char
+            int count = 0;
+            while (i < s.length() && Character.isDigit(s.charAt(i))) {
+                count = count * 10 + (s.charAt(i) - '0');
                 i++;
+            }
+
+            // append char count times
+            for (int j = 0; j < count; j++) {
+                sb.append(ch);
             }
         }
 
         return sb.toString();
     }
 
-    public static void main(String[] args){
-        String s="aaaaaaaabbbbccaaaassss";
-        System.out.println(s +" compressed is: "+compress(s));
-        System.out.println("Compression ratio: "+s.length()/compress(s).length());
+    public static void main(String[] args) {
+        String s = "aaaaaaaabbbbccaaaassss";
 
-        String c=compress(s);
-        String dc=decompress(c);
+        String compressed = compress(s);
+        System.out.println("Original:   " + s);
+        System.out.println("Compressed: " + compressed);
+        System.out.println("Compression ratio: " + ((double)s.length() / compressed.length()));
 
-        System.out.println("Decompressed: "+dc);
-        System.out.println("Correct?: "+s.equals(dc));
-
+        String decompressed = decompress(compressed);
+        System.out.println("Decompressed: " + decompressed);
+        System.out.println("Correct? " + s.equals(decompressed));
     }
-
 }

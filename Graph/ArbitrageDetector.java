@@ -71,7 +71,7 @@ public class ArbitrageDetector {
         for (int i = 0; i < numCurrencies; i++) {
             for (int j = 0; j < numCurrencies; j++) {
                 if (i != j && rates[i][j] > 0) {  //valid and directed ie. i,j and j,i ain't the same
-                    edges.add(new Edge(i, j, -Math.log(rates[i][j]))); //we find the negative logs?
+                    edges.add(new Edge(i, j, -Math.log(rates[i][j])));  // To find negative cycles.
                 }
             }
         }

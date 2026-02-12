@@ -1,4 +1,4 @@
-package BinaryTrees;
+package BinaryTrees.LevelOrderTraversal;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -70,20 +70,20 @@ public class TopView {
         
             //visit the right and left
             if(node.left!=null){
-                queue.add(new QueueNode(node.left,hd-1));
+                queue.offer(new QueueNode(node.left,hd-1));
             }
 
             if(node.right!=null){
-                queue.add(new QueueNode(node.right, hd+1));
+                queue.offer(new QueueNode(node.right, hd+1));
             }
            
         }
 
         //extract the hds from the hdMap, sorted in ascending order
 
-       // List<Integer> sortedHds=hdMap.keySet().stream().sorted().collect(Collectors.toList());
-        List<Integer> sortedHds = new ArrayList<>(hdMap.keySet());
-        Collections.sort(sortedHds);
+       List<Integer> sortedHds=hdMap.keySet().stream().sorted().collect(Collectors.toList());
+       // List<Integer> sortedHds = new ArrayList<>(hdMap.keySet());
+       // Collections.sort(sortedHds);
 
 
         List<BinaryTreeNode> result=new ArrayList<>();

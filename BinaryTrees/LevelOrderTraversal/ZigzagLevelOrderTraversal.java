@@ -1,4 +1,4 @@
-package BinaryTrees;
+package BinaryTrees.LevelOrderTraversal;
 
 import java.util.*;
 
@@ -86,7 +86,7 @@ public class ZigzagLevelOrderTraversal {
             }
 
             result.add(new ArrayList<>(levelValues));
-            leftToRight = !leftToRight; // flip direction
+            leftToRight =! leftToRight; // flip direction
         }
 
         return result;
