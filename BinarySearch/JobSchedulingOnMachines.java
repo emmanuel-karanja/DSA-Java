@@ -107,8 +107,11 @@ public class JobSchedulingOnMachines {
  private static boolean canAssign(Integer[] jobs, int[] speeds, double maxTime) {
     // Sort jobs descending: largest jobs first
     Arrays.sort(jobs);
+    // Two pointers and swap -- > (a,b)->b-a doesn't work for primitives why? support for equals().
     for (int i = 0, j = jobs.length - 1; i < j; i++, j--) {
-        int tmp = jobs[i]; jobs[i] = jobs[j]; jobs[j] = tmp;
+        int tmp = jobs[i]; 
+        jobs[i] = jobs[j]; 
+        jobs[j] = tmp;
     }
 
     // Min-heap: machine with least current load at the top

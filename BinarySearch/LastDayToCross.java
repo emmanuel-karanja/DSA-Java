@@ -102,7 +102,7 @@ public class LastDayToCross {
         }
 
        
-        Queue<int[]> q = new LinkedList<>();
+        Queue<int[]> q = new ArrayDeque<>();
         boolean[][] visited = new boolean[row][col];
 
         // Start from all land cells in the top row

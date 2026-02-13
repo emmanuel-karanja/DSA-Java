@@ -54,11 +54,11 @@ public class UnionFind {
     }
 
     // UNION by rank
-    public void union(int x, int y) {
+    public boolean union(int x, int y) {
         int px = find(x);
         int py = find(y);
 
-        if (px == py) return;
+        if (px == py) return false;
 
         //add to one with lower rank
         if (rank.get(px) < rank.get(py)) {
@@ -71,6 +71,8 @@ public class UnionFind {
             int updatedPxRank=rank.get(px) + 1;
             rank.put(px, updatedPxRank);
         }
+
+        return true;
     }
 
     public boolean connected(int x,int y){
