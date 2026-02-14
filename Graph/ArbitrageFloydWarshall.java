@@ -1,5 +1,6 @@
+package Graph;
+
 /**
- * Arbitrage detection using Floyd-Warshall in a single class.
  * 
  * Problem Statement:
  * Given exchange rates between n currencies, detect if there exists an arbitrage opportunity.
@@ -29,8 +30,12 @@ public class ArbitrageFloydWarshall {
     private void initializeDP() {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (i == j) dp[i][j] = 0;
-                else dp[i][j] = -Math.log(rates[i][j]);
+                if (i == j) {
+                    dp[i][j] = 0;
+                }
+                else {
+                    dp[i][j] = -Math.log(rates[i][j]);
+                }
             }
         }
     }
@@ -74,7 +79,7 @@ public class ArbitrageFloydWarshall {
             {0.5, 0.25, 1}
         };
 
-        Arbitrage arb = new Arbitrage(rates);
+        ArbitrageFloydWarshall arb = new ArbitrageFloydWarshall(rates);
 
         if (arb.hasArbitrage()) {
             System.out.println("Arbitrage opportunity exists!");
