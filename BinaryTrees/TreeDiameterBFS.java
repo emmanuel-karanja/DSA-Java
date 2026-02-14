@@ -1,3 +1,5 @@
+package BinaryTrees;
+
 /**
  * Problem Statement:
  * Compute the diameter of a binary tree using BFS (level-order traversal).
@@ -46,9 +48,10 @@ public class TreeDiameterBFS {
 
     // BFS to find farthest node and its distance from start
     private static Pair bfs(TreeNode start) {
-        Queue<Pair> q = new LinkedList<>();
+
+        Queue<Pair> q = new ArrayDeque<>();
         Set<TreeNode> visited = new HashSet<>();
-        q.add(new Pair(start, 0));
+        q.offer(new Pair(start, 0));
         visited.add(start);
 
         Pair farthest = new Pair(start, 0);
@@ -64,11 +67,11 @@ public class TreeDiameterBFS {
 
             if (node.left != null && !visited.contains(node.left)) {
                 visited.add(node.left);
-                q.add(new Pair(node.left, dist + 1));
+                q.offer(new Pair(node.left, dist + 1));
             }
             if (node.right != null && !visited.contains(node.right)) {
                 visited.add(node.right);
-                q.add(new Pair(node.right, dist + 1));
+                q.offer(new Pair(node.right, dist + 1));
             }
         }
 

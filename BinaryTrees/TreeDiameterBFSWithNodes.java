@@ -27,11 +27,12 @@ public class TreeDiameterBFSWithNodes {
 
     // BFS to find farthest node and optionally keep parent map
     private static Pair bfs(TreeNode start, Map<TreeNode, TreeNode> parentMap) {
-        Queue<Pair> q = new LinkedList<>();
+        Queue<Pair> q = new ArrayDeque<>();
         Set<TreeNode> visited = new HashSet<>();
-        q.add(new Pair(start, 0));
+        q.offer(new Pair(start, 0));
         visited.add(start);
 
+        // Keep track of the farthest node
         Pair farthest = new Pair(start, 0);
 
         // Node to parent
@@ -48,12 +49,12 @@ public class TreeDiameterBFSWithNodes {
 
             if (node.left != null && !visited.contains(node.left)) {
                 visited.add(node.left);
-                q.add(new Pair(node.left, dist + 1));
+                q.offer(new Pair(node.left, dist + 1));
                 parentMap.put(node.left, node);
             }
             if (node.right != null && !visited.contains(node.right)) {
                 visited.add(node.right);
-                q.add(new Pair(node.right, dist + 1));
+                q.offer(new Pair(node.right, dist + 1));
                 parentMap.put(node.right, node);
             }
         }

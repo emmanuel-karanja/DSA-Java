@@ -1,3 +1,5 @@
+package BinaryTrees;
+
 /**
  * Problem Statement:
  * Compute the height of a binary tree in terms of edges using level-order traversal (BFS).
@@ -33,16 +35,16 @@ public class TreeHeightBFS {
     public static int height(TreeNode root) {
         if (root == null) return -1; // height of empty tree
 
-        Queue<TreeNode> q = new LinkedList<>();
-        q.add(root);
+        Queue<TreeNode> q = new ArrayDeque<>();
+        q.offer(root);
         int levels = 0;
 
         while (!q.isEmpty()) {
             int size = q.size();
             for (int i = 0; i < size; i++) {
                 TreeNode node = q.poll();
-                if (node.left != null) q.add(node.left);
-                if (node.right != null) q.add(node.right);
+                if (node.left != null) q.offer(node.left);
+                if (node.right != null) q.offer(node.right);
             }
             levels++; // finished processing one level
         }
