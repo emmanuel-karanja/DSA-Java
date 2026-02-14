@@ -60,6 +60,19 @@ public class FloydWarshall {
             }
         }
 
+         // Check for negative cycle
+        boolean negativeCycle = false;
+        for (int i = 0; i < V; i++) {
+            if (dist[i][i] < 0) {
+                negativeCycle = true;
+                break;
+            }
+        }
+
+        if (negativeCycle) {
+            System.out.println("Graph contains a negative weight cycle");
+        }
+        
         return dist;
     }
 
