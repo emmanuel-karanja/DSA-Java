@@ -203,7 +203,7 @@ class TreeColoring {
             if (child == parent) continue;
 
             long[] childDP = dfs(child, node);
-            long[] next = new long[K];
+            long[] next = new long[K];  //statws
 
             for (int c = 0; c < K; c++) {
                 long sum = 0;
