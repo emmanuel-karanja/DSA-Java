@@ -16,7 +16,7 @@ package Graph;
 
 import java.util.*;
 
-public class BestCurrencyExchange {
+public class MultiSourceBestCurrencyExchange {
 
     public void findBestRates(int n, double[][] rates) {
         // Step 1: Initialize log-rate matrix
@@ -42,7 +42,7 @@ public class BestCurrencyExchange {
         for (int k = 0; k < n; k++) {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
-                    if (logRate[i][k] != Double.NEGATIVE_INFINITY && logRate[k][j] == Double.NEGATIVE_INFINITY){
+                    if (logRate[i][k] != Double.NEGATIVE_INFINITY && logRate[k][j] != Double.NEGATIVE_INFINITY){
                         logRate[i][j] = Math.max(logRate[i][j], logRate[i][k] + logRate[k][j]);
                     }      
                 }
@@ -56,6 +56,7 @@ public class BestCurrencyExchange {
                 if (logRate[i][j] == Double.NEGATIVE_INFINITY) {
                     maxRate[i][j] = 0.0; // no path
                 } else {
+                    // Convert back to normal form
                     maxRate[i][j] = Math.exp(logRate[i][j]);
                 }
             }
@@ -76,7 +77,7 @@ public class BestCurrencyExchange {
     }
 
     public static void main(String[] args) {
-        BestCurrencyExchange ce = new BestCurrencyExchange();
+        MultiSourceBestCurrencyExchange ce = new MultiSourceBestCurrencyExchange();
         double[][] rates = {
             {0, 1, 1.2}, // USD -> GOLD = 1.2
             {1, 2, 0.5}, // GOLD -> SILVER = 0.5

@@ -15,6 +15,15 @@ package Graph;
  * belongs to 'targetGroupId' (check via DSU.find()) is the shortest path.
  * 
  * WHY BFS? Equal Edge weights. If you hear weighted then Dijkstra'or any of th others.
+ * 
+ * RANK:
+ * Rank in union find keeps the tree shallow, I learned that you can implement union find without rank. 
+ * Rank is a rough upper bound on the tree’s height. Always attach the shorter tree under the taller tree.
+ * Attach the shorter tree under the taller one so that the resulting height remains the height of the taller.
+ * 
+ * 
+
+
  */
 
 import java.util.*;
@@ -23,7 +32,7 @@ class UnionFind {
     private final Map<Long, Long> parent = new HashMap<>();
 
     public long find(long i) {
-        if (!parent.containsKey(i)) {
+        if (!parent.containsKey(i)) {  //an interesting case where we don't have the node yet.
             parent.put(i, i);
             return i;
         }
@@ -35,7 +44,7 @@ class UnionFind {
     public void union(long i, long j) {
         long rootI = find(i);
         long rootJ = find(j);
-        if (rootI != rootJ) {
+        if (rootI != rootJ) {  //this one way to put it,no need to checj for rank
             parent.put(rootI, rootJ);
         }
     }
@@ -57,7 +66,7 @@ public class AlliesInTheFog {
             return (dsu.find(startPlayer) == targetGroupId) ? 0 : -1;
         }
 
-        Queue<Long> queue = new LinkedList<>();
+        Queue<Long> queue = new ArrayDeque<>();
         Map<Long, Integer> distance = new HashMap<>();
 
         queue.add(startPlayer);

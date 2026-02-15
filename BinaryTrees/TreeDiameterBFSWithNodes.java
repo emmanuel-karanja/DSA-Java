@@ -70,7 +70,9 @@ public class TreeDiameterBFSWithNodes {
         // Step 1: BFS from root to find farthest node u
         Pair u = bfs(root, parentMap);
 
-        parentMap.clear();
+        // We want to record properly from u to v so we clear from root to u 
+        parentMap.clear(); 
+        
         // Step 2: BFS from u to find farthest node v
         Pair v = bfs(u.node, parentMap);
 
