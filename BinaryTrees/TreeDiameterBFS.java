@@ -34,9 +34,9 @@ class TreeNode {
     TreeNode(int val) { this.val = val; }
 }
 
-public class TreeDiameterBFS {
 
-    // Helper class to store node with distance
+public class TreeDiameterBFS{
+
     static class Pair {
         TreeNode node;
         int dist;
@@ -46,14 +46,21 @@ public class TreeDiameterBFS {
         }
     }
 
-    // BFS to find farthest node and its distance from start
-    private static Pair bfs(TreeNode start) {
+    // STEP 1: Build the "Back Links"
+    private static void populateParents(TreeNode node, TreeNode parent, Map<TreeNode, TreeNode> parentMap) {
+        if (node == null) return;
+        parentMap.put(node, parent);
+        populateParents(node.left, node, parentMap);
+        populateParents(node.right, node, parentMap);
+    }
 
+    // STEP 2: BFS that can move in 3 directions
+    private static Pair bfs(TreeNode start, Map<TreeNode, TreeNode> parentMap) {
         Queue<Pair> q = new ArrayDeque<>();
         Set<TreeNode> visited = new HashSet<>();
+
         q.offer(new Pair(start, 0));
         visited.add(start);
-
         Pair farthest = new Pair(start, 0);
 
         while (!q.isEmpty()) {
@@ -65,30 +72,39 @@ public class TreeDiameterBFS {
                 farthest = current;
             }
 
+            // Direction 1: Left
             if (node.left != null && !visited.contains(node.left)) {
                 visited.add(node.left);
                 q.offer(new Pair(node.left, dist + 1));
             }
+            // Direction 2: Right
             if (node.right != null && !visited.contains(node.right)) {
                 visited.add(node.right);
                 q.offer(new Pair(node.right, dist + 1));
             }
+            // Direction 3: UP (The Back Link)
+            TreeNode parent = parentMap.get(node);
+            if (parent != null && !visited.contains(parent)) {
+                visited.add(parent);
+                q.offer(new Pair(parent, dist + 1));
+            }
         }
-
         return farthest;
     }
 
-    // Calculate diameter using 2 BFS runs
     public static int diameter(TreeNode root) {
         if (root == null) return 0;
 
-        // Step 1: BFS from root to find farthest node u
-        Pair u = bfs(root);
+        Map<TreeNode, TreeNode> parentMap = new HashMap<>();
+        populateParents(root, null, parentMap);
 
-        // Step 2: BFS from u to find farthest node v
-        Pair v = bfs(u.node);
+        // First BFS: Start at root, find a leaf node (u)
+        Pair u = bfs(root, parentMap);
 
-        return v.dist; // diameter in edges
+        // Second BFS: Start at leaf (u), find the farthest node (v)
+        Pair v = bfs(u.node, parentMap);
+
+        return v.dist;
     }
 
     public static void main(String[] args) {

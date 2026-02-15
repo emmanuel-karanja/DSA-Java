@@ -6,6 +6,7 @@ package BinaryTrees;
  * 
  *  
  */
+
 import java.util.*;
 
 class TreeNode {
@@ -25,18 +26,30 @@ public class TreeDiameterBFSWithNodes {
         }
     }
 
-    // BFS to find farthest node and optionally keep parent map
-    private static Pair bfs(TreeNode start, Map<TreeNode, TreeNode> parentMap) {
+    /**
+     * Step 1: Pre-process the tree to create back-links (child -> parent).
+     * Without this, BFS is trapped at leaf nodes and cannot move "up".
+     */
+    private static void buildParentMap(TreeNode node, TreeNode p, Map<TreeNode, TreeNode> allParents) {
+        if (node == null) return;
+        allParents.put(node, p);
+        buildParentMap(node.left, node, allParents);
+        buildParentMap(node.right, node, allParents);
+    }
+
+    /**
+     * BFS that can move in 3 directions: Left, Right, and Parent (Up).
+     * tracking 'cameFrom' allows us to reconstruct the actual path later.
+     */
+    private static Pair bfs(TreeNode start, Map<TreeNode, TreeNode> allParents, Map<TreeNode, TreeNode> cameFrom) {
         Queue<Pair> q = new ArrayDeque<>();
         Set<TreeNode> visited = new HashSet<>();
+
         q.offer(new Pair(start, 0));
         visited.add(start);
+        cameFrom.put(start, null);
 
-        // Keep track of the farthest node
         Pair farthest = new Pair(start, 0);
-
-        // Node to parent
-        parentMap.put(start, null); // root has no parent
 
         while (!q.isEmpty()) {
             Pair current = q.poll();
@@ -47,53 +60,62 @@ public class TreeDiameterBFSWithNodes {
                 farthest = current;
             }
 
-            if (node.left != null && !visited.contains(node.left)) {
-                visited.add(node.left);
-                q.offer(new Pair(node.left, dist + 1));
-                parentMap.put(node.left, node);
-            }
-            if (node.right != null && !visited.contains(node.right)) {
-                visited.add(node.right);
-                q.offer(new Pair(node.right, dist + 1));
-                parentMap.put(node.right, node);
+            // Neighbors: Left, Right, and Parent
+            List<TreeNode> neighbors = new ArrayList<>();
+            if (node.left != null) neighbors.add(node.left);
+            if (node.right != null) neighbors.add(node.right);
+            if (allParents.get(node) != null) neighbors.add(allParents.get(node));
+
+            for (TreeNode neighbor : neighbors) {
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    cameFrom.put(neighbor, node); // Record for path reconstruction
+                    q.offer(new Pair(neighbor, dist + 1));
+                }
             }
         }
-
         return farthest;
     }
 
-    // Calculate diameter and return endpoints
     public static int diameter(TreeNode root, TreeNode[] endpoints) {
         if (root == null) return 0;
 
-        Map<TreeNode, TreeNode> parentMap = new HashMap<>();
-        // Step 1: BFS from root to find farthest node u
-        Pair u = bfs(root, parentMap);
+        // 1. Build global parent map (The "Back Links")
+        Map<TreeNode, TreeNode> allParents = new HashMap<>();
+        buildParentMap(root, null, allParents);
 
-        // We want to record properly from u to v so we clear from root to u 
-        parentMap.clear(); 
-        
-        // Step 2: BFS from u to find farthest node v
-        Pair v = bfs(u.node, parentMap);
+        // 2. BFS from root to find one endpoint of the diameter (u)
+        Map<TreeNode, TreeNode> cameFromU = new HashMap<>();
+        Pair u = bfs(root, allParents, cameFromU);
 
-        // Optional: return endpoints
+        // 3. BFS from u to find the other endpoint (v)
+        Map<TreeNode, TreeNode> cameFromV = new HashMap<>();
+        Pair v = bfs(u.node, allParents, cameFromV);
+
         endpoints[0] = u.node;
         endpoints[1] = v.node;
 
-        //Optional: Get path
-        List<TreeNode> path = new ArrayList<>();
+        // Optional: Reconstruct the path from u to v
+        List<Integer> path = new ArrayList<>();
         TreeNode curr = v.node;
         while (curr != null) {
-            path.add(curr);
-            curr = parentMap.get(curr); // move up toward the start node
+            path.add(curr.val);
+            curr = cameFromV.get(curr); 
         }
-        Collections.reverse(path); // path now goes from u -> v
-
+        System.out.println("Path: " + path);
 
         return v.dist; // diameter in edges
     }
 
     public static void main(String[] args) {
+        // Build Example Tree:
+        //       1
+        //      / \
+        //     2   3
+        //    / \
+        //   4   5
+        //  /
+        // 6
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
         root.right = new TreeNode(3);
@@ -104,7 +126,7 @@ public class TreeDiameterBFSWithNodes {
         TreeNode[] endpoints = new TreeNode[2];
         int dia = diameter(root, endpoints);
 
-        System.out.println("Diameter of tree = " + dia);
-        System.out.println("Endpoints of diameter: " + endpoints[0].val + " and " + endpoints[1].val);
+        System.out.println("Diameter = " + dia);
+        System.out.println("Endpoints: " + endpoints[0].val + " and " + endpoints[1].val);
     }
 }
