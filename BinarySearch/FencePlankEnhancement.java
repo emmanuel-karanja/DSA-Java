@@ -1,3 +1,5 @@
+package BinarySearch;
+
 /**
  * PROBLEM: Fence Plank Enhancement
  * * Given N planks of various heights and K operations.

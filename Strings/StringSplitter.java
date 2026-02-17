@@ -1,3 +1,4 @@
+package Strings;
 import java.util.regex.Pattern;
 /**split() = modern, regex-powered array-based splitting.
 StringTokenizer = old-school, lightweight, iterative splitting without regex. */

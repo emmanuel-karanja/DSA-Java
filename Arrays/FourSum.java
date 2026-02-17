@@ -20,6 +20,7 @@ public class FourSum {
             if (i > 0 && nums[i] == nums[i - 1]) continue; // skip duplicates
 
             for (int j = i + 1; j < n - 2; j++) {
+                // j>i+1
                 if (j > i + 1 && nums[j] == nums[j - 1]) continue; // skip duplicates
 
                 int left = j + 1;

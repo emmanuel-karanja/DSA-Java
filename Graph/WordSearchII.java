@@ -76,6 +76,7 @@ public class WordSearchII {
         for (int[] dir : directions) {
             
             int nr = r + dir[0], nc = c + dir[1];
+            
             if (nr >= 0 && nr < board.length && nc >= 0 && nc < board[0].length && board[nr][nc] != '#') {
                 dfs(board, nr, nc, nextNode, result);
             }

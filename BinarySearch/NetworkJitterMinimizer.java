@@ -1,3 +1,5 @@
+package BinarySearch;
+
 /**
  * PROBLEM STATEMENT:
  * Given a network of N nodes and M cables with specific latencies, find a path 

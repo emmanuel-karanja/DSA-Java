@@ -89,11 +89,11 @@ package DP.TreeDP;
  * STEP-BY-STEP DP BREAKDOWN (RUBRIC)
  * ----------------------------------------
  *
- * 1️⃣ Goal
+ * 1️ Goal
  * Count the number of valid colorings of the entire tree.
  * This is a COUNT DP (not min/max).
  *
- * 2️⃣ State
+ * 2️ State
  * dp[node][c] = number of valid colorings of the subtree rooted at `node`
  *               if `node` is colored with color `c`
  *
@@ -102,7 +102,7 @@ package DP.TreeDP;
  * - A binary (used / not used) state loses critical information.
  * - Color identity directly affects feasibility.
  *
- * 3️⃣ Choices / Decisions
+ * 3️ Choices / Decisions
  * For each node:
  *   - Choose one color `c` (0 .. K-1)
  * For each child:
@@ -203,7 +203,7 @@ class TreeColoring {
             if (child == parent) continue;
 
             long[] childDP = dfs(child, node);
-            long[] next = new long[K];  //statws
+            long[] next = new long[K];  // current node state
 
             for (int c = 0; c < K; c++) {
                 long sum = 0;
