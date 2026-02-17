@@ -23,6 +23,11 @@ This is an extension of Dijkstra's shortest path with an additional state: numbe
 - For each edge u->v with weight w:
     1. Relax normally: if dist[u][used] + w < dist[v][used], update dist[v][used].
     2. Relax by skipping: if used < K and dist[u][used] + 0 < dist[v][used+1], update dist[v][used+1].
+
+    The shortest edge is prioritised by the virtue of the minheap.
+
+    We don't keep track of visited nodes since we will come arund again. So with contraints Dijkstra doesn't
+    explicitly keep track of visited nodes.
 */
 
 import java.util.*;
@@ -56,8 +61,11 @@ public class ShortestPathWithSkips {
 
         while (!pq.isEmpty()) {
             State curr = pq.poll();
-            int u = curr.node, used = curr.skipsUsed, d = curr.dist;
+            int u = curr.node;
+            int used = curr.skipsUsed;
+            int d = curr.dist;
 
+            // visited check
             if (d > dist[u][used]) continue;
 
             for (Edge e : graph.get(u)) {
@@ -78,7 +86,9 @@ public class ShortestPathWithSkips {
         }
 
         int ans = Integer.MAX_VALUE;
-        for (int used = 0; used <= K; used++) ans = Math.min(ans, dist[n-1][used]);
+        for (int used = 0; used <= K; used++){
+            ans = Math.min(ans, dist[n-1][used]);
+        }
         return ans == Integer.MAX_VALUE ? -1 : ans;
     }
 
