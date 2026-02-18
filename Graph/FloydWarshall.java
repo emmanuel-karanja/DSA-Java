@@ -53,7 +53,7 @@ public class FloydWarshall {
         for (int k = 0; k < V; k++) {       // consider each intermediate vertex
             for (int i = 0; i < V; i++) {   // start vertex
                 for (int j = 0; j < V; j++) { // end vertex
-                    if (dist[i][k] < INF && dist[k][j] < INF) {  // INF is for when an edge doesn't exist between i and j.
+                    if (dist[i][k] != INF && dist[k][j] != INF) {  // INF is for when an edge doesn't exist between i and j.
                         dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
                     }
                 }

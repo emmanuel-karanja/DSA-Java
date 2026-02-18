@@ -2,7 +2,7 @@ package DP;
 
 /**
  * PROBLEM STATEMENT:
- * You have N video streams to upload. Each stream i has a start time S[i, an end time] E[i], and a "Priority" P[i]. 
+ * You have N video streams to upload. Each stream i has a start time S[i], an end time] E[i], and a "Priority" P[i]. 
  * Your server can only handle one stream at a time. You want to select a subset of streams that do not overlap in time 
  * such that the total sum of Priority P is maximized.
  * 
@@ -18,6 +18,9 @@ package DP;
  * the same sub-problem answer: "What's the best I can do from Time T onwards?"
  * * TIME COMPLEXITY: O(N log N) due to sorting and binary search.
  * SPACE COMPLEXITY: O(N) for the DP table.
+ * 
+ * NOTE: Non-overlapping doesn't mean they are adjacent.
+ * And the choice is simple:
  */
 
 import java.util.*;
