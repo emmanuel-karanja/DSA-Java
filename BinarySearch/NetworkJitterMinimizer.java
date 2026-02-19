@@ -5,7 +5,7 @@ package BinarySearch;
  * Given a network of N nodes and M cables with specific latencies, find a path 
  * from Node A to Node B such that the MAXIMUM latency of any single cable on 
  * the path is MINIMIZED.
- * * DETAILED REASONING (The Man Engineer's Parse):
+ * * DETAILED REASONING :
  * 1. THE SIGNAL: "Minimize the Maximum." This is the primary indicator for BSOA.
  * 2. MONOTONICITY: If we can reach B from A using cables with latency <= K, 
  * we can certainly reach it using cables <= K + 1. There is a clear "pass/fail" 
@@ -37,6 +37,7 @@ public class NetworkJitterMinimizer {
         int maxL = 0, minL = Integer.MAX_VALUE;
         for (int i = 0; i <= n; i++) adj.add(new ArrayList<>());
         
+
         for (int[] cable : cables) {
             adj.get(cable[0]).add(new Edge(cable[1], cable[2]));
             adj.get(cable[1]).add(new Edge(cable[0], cable[2]));
@@ -61,9 +62,9 @@ public class NetworkJitterMinimizer {
         return result;
     }
 
-    // Feasibility Gate: Basic BFS that ignores cables > limit
+    // Feasibility Test: Basic BFS that ignores cables > limit
     private boolean canReach(int n, List<List<Edge>> adj, int start, int end, int limit) {
-        Queue<Integer> queue = new LinkedList<>();
+        Queue<Integer> queue = new ArrayDeque<>();
         boolean[] visited = new boolean[n + 1];
 
         queue.add(start);
@@ -74,6 +75,7 @@ public class NetworkJitterMinimizer {
             if (curr == end) return true;
 
             for (Edge edge : adj.get(curr)) {
+                // Latency check
                 if (!visited[edge.to] && edge.latency <= limit) {
                     visited[edge.to] = true;
                     queue.add(edge.to);

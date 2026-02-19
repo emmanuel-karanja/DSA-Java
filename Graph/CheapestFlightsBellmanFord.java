@@ -50,7 +50,7 @@ public class CheapestFlightsBellmanFord {
         // You relax edges as many times as the maximum number of edges you are willing (or guaranteed) to allow in a valid solution.
         for (int stops = 0; stops < K+1; stops++) {
             for (Edge e : edges) {
-                if (DP[e.u][stops] != INF) {
+                if (DP[e.u][stops] != INF) {  // We can only relaxfrom a node we've already visited. INF tells us e.u is not yet touched
                     DP[e.v][stops + 1] = Math.min(DP[e.v][stops + 1],DP[e.u][stops] + e.w);
                 }
             }
