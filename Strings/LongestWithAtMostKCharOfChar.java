@@ -13,7 +13,8 @@ public class LongestWithAtMostKCharOfChar {
             if(s.charAt(right)==ch){
                 count++;
             }
-
+ 
+            // Shrink when we exceed count
             while(count >k){
                if(s.charAt(left)==ch){
                 count--;

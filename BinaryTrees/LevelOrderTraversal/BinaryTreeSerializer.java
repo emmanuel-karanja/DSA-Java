@@ -1,5 +1,6 @@
 package BinaryTrees.LevelOrderTraversal;
 import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.Queue;
 
 class TreeNode {
@@ -23,7 +24,7 @@ public class BinaryTreeSerializer {
 
         if (root == null) return "";
 
-        Queue<TreeNode> queue = new ArrayDeque<>();
+        Queue<TreeNode> queue = new LinkedList<>(); //accepts nulls, ArrayQueue doesn't.
         StringBuilder sb = new StringBuilder();
 
         queue.offer(root);
@@ -54,7 +55,7 @@ public class BinaryTreeSerializer {
         String[] tokens = data.split(",");
 
         TreeNode root = new TreeNode(Integer.parseInt(tokens[0]));
-        Queue<TreeNode> queue = new ArrayDeque<>();
+        Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
         int i = 1;
@@ -100,6 +101,7 @@ public class BinaryTreeSerializer {
         root.right = new TreeNode(3);
         root.right.left = new TreeNode(4);
 
+        System.out.println(root);
         String serialized = serialize(root);
         System.out.println("Serialized:");
         System.out.println(serialized);

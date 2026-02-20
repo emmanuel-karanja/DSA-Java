@@ -50,7 +50,9 @@ public class TopKArraySums {
     }
 
     public static List<Integer> topKSum(int[] A, int[] B, int K) {
+
         List<Integer> result = new ArrayList<>();
+        
         if (A.length == 0 || B.length == 0 || K <= 0) return result;
 
         PriorityQueue<Pair> maxHeap = new PriorityQueue<>(
@@ -64,8 +66,10 @@ public class TopKArraySums {
         maxHeap.offer(new Pair(A[i] + B[j], i, j));
         visited.add(i + "," + j);
 
-        while (!maxHeap.isEmpty() && result.size() < K) {
+        while (!maxHeap.isEmpty() && result.size() < K) {  // Ensure this
             Pair current = maxHeap.poll();
+
+            // Add result
             result.add(current.sum);
 
             // Push neighbor (i+1, j)

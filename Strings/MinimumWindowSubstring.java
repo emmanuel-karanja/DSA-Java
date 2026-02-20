@@ -51,8 +51,7 @@ public class MinimumWindowSubstring {
             windowMap.put(rightChar,windowMap.getOrDefault(windowMap, 0)+1);
 
             //check that we have required===formed
-            if(charMap.containsKey(rightChar) && 
-                charMap.get(rightChar).intValue()==windowMap.get(rightChar).intValue()){
+            if(charMap.containsKey(rightChar) && charMap.get(rightChar).intValue()==windowMap.get(rightChar).intValue()){
                 formed++;
             }
 

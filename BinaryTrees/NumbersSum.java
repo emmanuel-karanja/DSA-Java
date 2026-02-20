@@ -2,7 +2,7 @@ package BinaryTrees;
 /**You are given the root of a binary tree. Each node contains a number from 0 to 9.
  * And each path from root to left is a number e.g. 1->2->3-4 to form 1234 as the value.
  * 
- * Find the totalvalue(sumo of all the numbers) of the binary tree.
+ * Find the totalvalue(sum of all the numbers) of the binary tree.
  * 
  * INTUTION:
  * 
@@ -43,8 +43,7 @@ public class NumbersSum {
 
        return dfs(node.left,currentNumber)+dfs(node.right,currentNumber);
 
-       //to find max you'd need return  Math.max(dfs(left,currentNum),dfs(right,currentNum))
-    
+       //to find max you'd need return  Math.max(dfs(left,currentNum),dfs(right,currentNum)) 
 
     }
 

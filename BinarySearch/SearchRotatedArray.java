@@ -15,7 +15,7 @@ public class SearchRotatedArray {
 
     public static int getFromRotatedArray(int[] nums,int target){
         //edge case
-        if(nums==null || nums.length ==0) throw new IllegalArgumentException("Array is null or empty.");
+        if(nums==null || nums.length ==0) return -1;
 
         int left=0;
         int right=nums.length-1;
