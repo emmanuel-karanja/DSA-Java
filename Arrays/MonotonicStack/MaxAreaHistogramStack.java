@@ -12,9 +12,7 @@ import java.util.ArrayDeque;
 public class MaxAreaHistogramStack {
 
     public static int getMaxArea(int[] heights){
-        if(heights==null || heights.length==0){
-            throw new IllegalArgumentException("Heights are empty or null.");
-        }
+        if(heights==null || heights.length==0) return -1;
 
         final int n=heights.length;
 
@@ -26,14 +24,6 @@ public class MaxAreaHistogramStack {
         //we usually pad the end with a height of length 0, why?
         for(int i=0;i<=n;i++){
             int h=(i==n)?0:heights[i];   //set a sentinel height of 0
-
-            // The stack contains bars which are higher than the current height, we find the smaller or equal bar to the left
-            // since it represents the left edge of the current bounded rectangle( bounded by the current height)
-            // What this means is that we know for a given
-            // interval, the area of the histogram will be bounded by the shortest bar (which is the current)
-            // We find it's lower bound i.e. where we encounter a shorter or equal bar to the left. And since we'll have popped
-            // to that bar by 1, we need to let left be shortestIndex+1 (we had gone beyond we reign it back in) 
-            // We still calculate the areas of the bar between the current bar and the shorter or equal one to the left and find max
             
             while(!stack.isEmpty() && h < heights[stack.peek()]){
                 //calculate area
@@ -43,10 +33,9 @@ public class MaxAreaHistogramStack {
                 // ie. 
                 int left= stack.isEmpty()? -1 : stack.peek(); //note this
 
-                //For each bar, find how far it can extend to the left and right before hitting a smaller bar.
-                //Width = right index - left index - 1. Why the -1? Because the left and right indices are the bars 
-                //1 beyond the limit and hence we should be subtracting 1 from bothleft and right i.e. (right-1)-(left+1)+1
-                // = right-1-left-1+1= right-left-1
+                //For each bar, find how far it can extend to the left and right before hitting a smaller bar. 
+                // We are 1 bar past on either side
+                // so right-left+1= right-1-left-1+1= right-left-1
                 int width=right-left-1;
 
                 maxArea=Math.max(maxArea,width*height);

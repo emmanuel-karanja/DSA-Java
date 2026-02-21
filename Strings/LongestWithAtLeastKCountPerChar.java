@@ -27,14 +27,15 @@ package Strings;
  *    - Time: O(26 * N) ≈ O(N), Space: O(26) = O(1)
  */
 
-public class LongestWithAtLeastK {
+public class LongestWithAtLeastKCountPerChar {
     public int longestSubstring(String s, int k) {
         int maxLen = 0;
         int n = s.length();
 
         // Iterate through all possible numbers of unique characters (1 to 26)
+        // If we can get all of them, it means that th entire alphabet is represented.
         for (int targetUnique = 1; targetUnique <= 26; targetUnique++) {
-            int[] freq = new int[26];
+            int[] freq = new int[26];  // Each character corresponds to an index here, the value is the count
             int left = 0, right = 0;
             int uniqueInWindow = 0;
             int formed = 0;
@@ -57,7 +58,7 @@ public class LongestWithAtLeastK {
                 right++; // move right pointer
 
                 // -------------------------------
-                //  window if unique > targetUnique
+                //  window if uniqueInWindow > targetUnique
                 // -------------------------------
                 while (uniqueInWindow > targetUnique) {
                     int leftChar = s.charAt(left) - 'a';
@@ -75,7 +76,7 @@ public class LongestWithAtLeastK {
                 }
 
                 // -------------------------------
-                //validate window
+                // validate window
                 // -------------------------------
                 if (uniqueInWindow == targetUnique && uniqueInWindow == formed) {
                     maxLen = Math.max(maxLen, right - left);

@@ -18,7 +18,8 @@ public class FencePlankEnhancement {
         // Find the range for BSOA
         for (int h : heights) {
             low = Math.min(low, h);
-            // Theoretical max: shortest plank + all K operations
+            // Theoretical max: shortest plank + all K operations. Note this. Assume all the operations were
+            // applied on the longest plank.
             high = Math.max(high, h + k); 
         }
 
@@ -43,7 +44,7 @@ public class FencePlankEnhancement {
     private boolean canAchieve(int[] heights, int target, int k) {
         long operationsNeeded = 0; // Use long to prevent overflow
         for (int h : heights) {
-            if (h < target) {
+            if (h < target) {  // Crucial check
                 operationsNeeded += (target - h);
             }
         }

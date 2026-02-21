@@ -14,15 +14,11 @@ import java.util.List;
 public class FirstNegativeNumberInWindow {
 
     public static List<Integer> getFirstNegativeInWindow(int[] nums, int k){
-        if(nums==null || nums.length==0){
-            throw new IllegalArgumentException("Nums is empty or null.");
-        }
-
-        if(k>nums.length){
-            throw new IllegalArgumentException("K cannot be greater than size of array.");
-        }
-
         List<Integer> results=new ArrayList<>();
+        
+        if(nums==null || nums.length==0 ||  k> nums.length) return results;
+
+        
         ArrayDeque<Integer> queue=new ArrayDeque<>();
 
         final int n=nums.length;

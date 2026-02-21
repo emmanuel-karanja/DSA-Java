@@ -13,7 +13,7 @@ import java.util.List;
  * Find common cells marked as true in both;
  * 
  * KEY: we are checking whether the current cell’s height is greater than or equal to the previous cell’s height.
- * i.e.Can water from this cell to the other cell? 
+ * i.e.Can water from this cell flow to the other cell? 
 */
 
 class Point{
@@ -86,6 +86,9 @@ public class PacificAtlanticWaterFlow {
             int nc=c+d[1];
 
             //Can water flow from the this cell to the previous cell? i.e. currentHeight>=prevHeight
+            // We start at the edges and what we want to know is that water can flow from th inner layer
+            // cells to the currnt (edge cell--> the idea being we'llbe moving into the land one layer
+            ///of cells at a time)
             if (nr >= 0 && nr < rows && nc >= 0 && nc < cols
                     && heights[nr][nc] >= heights[r][c]) {
                 //visit
