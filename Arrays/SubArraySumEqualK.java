@@ -1,3 +1,5 @@
+package Arrays;
+
 /**
  * PROBLEM: Subarray Sum Equals K
  * STRATEGY: 

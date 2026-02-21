@@ -70,7 +70,7 @@ public class CircularRouterPlacement {
             int count = 1;
             int last = linear[start];
 
-            for (int i = start + 1; i < start + n; i++) {
+            for (int i = start + 1; i < start + n; i++) { // Note the limit
                 if (linear[i] - last >= minDist) {
                     count++;
                     last = linear[i];

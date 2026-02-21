@@ -1,4 +1,4 @@
-package DP.TreeDP;
+package TreeDP;
 
 /**
  * Problem: Maximum Sum of Non-Adjacent Nodes in a Tree

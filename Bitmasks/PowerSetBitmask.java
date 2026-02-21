@@ -1,3 +1,5 @@
+package Bitmasks;
+
 import java.util.*;
 
 /*

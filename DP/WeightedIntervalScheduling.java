@@ -20,7 +20,7 @@ package DP;
  * SPACE COMPLEXITY: O(N) for the DP table.
  * 
  * NOTE: Non-overlapping doesn't mean they are adjacent.
- * And the choice is simple:
+ * And the choice is simple: 
  */
 
 import java.util.*;

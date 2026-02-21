@@ -1,4 +1,4 @@
-package DP;
+
 
 /**
  * PROBLEM: Max Dot Product of Two Subsequences

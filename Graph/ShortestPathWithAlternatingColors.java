@@ -1,3 +1,5 @@
+package Graph;
+
 /**
  * PROBLEM: Shortest Path in a Node-Colored Graph.
  * Rule: Adjacent nodes must have different colors.

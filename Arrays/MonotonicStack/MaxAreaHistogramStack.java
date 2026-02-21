@@ -23,6 +23,7 @@ public class MaxAreaHistogramStack {
 
         //we usually pad the end with a height of length 0, why?
         for(int i=0;i<=n;i++){
+            // Take note
             int h=(i==n)?0:heights[i];   //set a sentinel height of 0
             
             while(!stack.isEmpty() && h < heights[stack.peek()]){
