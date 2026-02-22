@@ -1,4 +1,4 @@
-package DP.TreeDP;
+package TreeDP;
 
 /**
  * Tree Coloring DP (Counting Version)
@@ -199,7 +199,7 @@ class TreeColoring {
 
         // Combine children
         for (Node child : node.children) {
-            // I had not noticed this
+            // I had not noticed this but
             if (child == parent) continue;
 
             long[] childDP = dfs(child, node);

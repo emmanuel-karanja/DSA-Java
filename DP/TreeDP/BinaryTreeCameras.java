@@ -90,8 +90,8 @@ class BinaryTreeCameras {
 
     // Returns {state0, state1, state2} for node
     // state0 = node not covered i.. covered by both children i.e. left[1]+right[1]
-    // state1 = node covered without camera i.e. = min(coveredBySelf,coveredByChildren) 
-    // state2 = node has camera =1+ min(for all left)+min(for all right)
+    // state1 = node covered without camera i.e. = min(coveredBySelfCamera,coveredByChildren) 
+    // state2 = node has camera =1+ min(for all left children)+min(for all right children)
     private static int[] dfs(Node node) {
         if (node == null) {
             return new int[]{0, 0, INF}; // base state
@@ -105,15 +105,6 @@ class BinaryTreeCameras {
         //this is state2= 1+min(for all left)+min(for all right)
         int state2 = 1 + Math.min(left[0], Math.min(left[1], left[2]))
                        + Math.min(right[0], Math.min(right[1], right[2]));
-
-        //covered but no camera should be covered by children
-        // We include the current state2 since it's covered and we don't care where the camera is. i.e. covered mans is covered by parent,
-        // children or a camera it has
-
-        /**state1=min(coveredBySelf,min(coveredByChildren))
-        coveredBySelf=state2 
-        coveredByChildren=min(left[2]+min(right[1],right[2]), right[2]+min(left[1],left[2]))
- */
         int state1 = Math.min(state2, 
                              Math.min(
                              left[2] + Math.min(right[1], right[2]), 

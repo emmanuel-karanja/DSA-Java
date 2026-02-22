@@ -61,7 +61,9 @@ public class MedianOfTwoSortedArrays {
             int mid = left + (right - left) / 2;
             int partitionN = (m + n + 1) / 2 - mid;
 
-            // Take it for granted that partitonM can move from 0 to m and partitionN from 0 to n
+            // Take it for granted that partitonM can move from 0 to m and partitionN from 0 to n\\
+            // Edge cases is where we don't have a lft or a right. and for that it's when i==0 and i==m or n
+            // and we default to MIN and MAX values respectively.
             int maxLeftM = (mid == 0) ? Integer.MIN_VALUE : nums1[mid - 1];  //when arr1.length==0
             int minRightM = (mid == m) ? Integer.MAX_VALUE : nums1[mid];  //where right=m and left==0
 

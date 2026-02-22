@@ -25,7 +25,7 @@ import java.util.Arrays;
  * left+1, right-1 and we find the distance between via right-left+1
  * 
  * (right-1)-(left+1)+1
- * right-1-left-1+1
+ * right-1-left-1+1 and since it's inclusive we add another 1.
  * 
  */
 public class StockSpan {
@@ -40,7 +40,7 @@ public class StockSpan {
         int[] span=new int[prices.length];
         for(int i=0;i<prices.length;i++){
          
-            // Stack contains all the stock prices that have not encountered a high price until now.
+            // Stack contains all the stock prices that have not encountered a higher price until now.
              while(!stack.isEmpty() && prices[i] >= prices[stack.peek()]){
                  stack.pop(); 
              }

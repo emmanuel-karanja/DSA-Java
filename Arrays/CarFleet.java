@@ -33,39 +33,32 @@ class Car{
 
 public class CarFleet {
     
-    public static int getFleetCount(int[] distance, int[] speed, int target){
-        if(distance==null || distance.length==0){
-            throw new IllegalArgumentException("Distance can't be empty or null.");
+    public static int getFleetCount(int[] position, int[] speed, int target) {
+        int n = position.length;
+        Car[] cars = new Car[n];
+        for (int i = 0; i < n; i++) {
+            cars[i] = new Car(position[i], speed[i]);
         }
 
-        if(speed==null || speed.length==0){
-            throw new IllegalArgumentException("Distance can't be empty or null.");
-        }
+        // Greedy Step 1: Sort by position DESCENDING (closest to target first)
+        Arrays.sort(cars, (a, b) -> Integer.compare(b.position ,a.position));
 
-        if(speed.length !=distance.length){
-            throw new IllegalArgumentException("Speed and distance lengths must match.");
-        }
+        int fleetCount = 0;
+        double currentFleetTime = 0.0; // Use double for precision!
 
-        //combine
-        Car[] cars=new Car[speed.length];
-        for(int i=0;i<speed.length;i++){
-            cars[i]=new Car(distance[i],speed[i]);
-        }
+        for (Car car : cars) {
+            // Greedy Step 2: Calculate "Ideal" time
+            int time = (target - car.position) / car.speed;
 
-        //sort descending order
-        Arrays.sort(cars, (a, b) -> Integer.compare(b.position, a.position));
-
-        int fleetCount=0;
-        int currentFleetTime=0;
-        for(Car car: cars){
-            //get time
-            int time=(target-car.position)/car.speed;
-
-            //do we need a new fleet?
-            if(time > currentFleetTime){
+            // Greedy Step 3: The Bottleneck Decision
+            // If this car takes LONGER than the fleet ahead, it cannot catch up.
+            // It becomes the leader of a new, slower fleet.
+            if (time > currentFleetTime) {
                 fleetCount++;
-                currentFleetTime=time;
+                currentFleetTime = time;
             }
+            // If time <= currentFleetTime, this car caught up and merged. 
+            // We do nothing (implicit merge).
         }
 
         return fleetCount;
