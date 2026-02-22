@@ -1,3 +1,5 @@
+package BitmaskDP;
+
 /**
  * PROBLEM: Minimum Cost Assignment (Worker-Task)
  * * STATEMENT:
@@ -12,16 +14,16 @@
  *  to have the first i workers complete the tasks represented by the bits in mask.
  * 
  * The Guard:
- *    We only "Take" task j for worker i if:(mask & (1 << j)) == 0: Task j has not been
+    We only "Take" task j for worker i if:(mask & (1 << j)) == 0: Task j has not been
  *  assigned to any previous worker.
  * 
  *  The Transition:
  *   Take: If we assign task j to worker i,  the cost is costMatrix[i][j] + dp[i-1][mask ^ (1 << j)].
  * 
- * Skip: In this specific N-to-N assignment, a worker cannot "skip" having a task if we want to
- *  reach the goal, but we "skip" through the tasks j to find the best one to "take.
+ *    Skip: In this specific N-to-N assignment, a worker cannot "skip" having a task if we want to
+ *     reach the goal, but we "skip" through the tasks j to find the best one to "take.
  * 
- * "Base Case: dp[0][0] = 0.
+ * "Base State: dp[0][0] = 0.
  * 
  * Dimensions: dp[N + 1][1 << N].  
  * * GENERATIVE DP LOGIC:
@@ -57,7 +59,7 @@ public class WorkerTaskAssignment {
         // The number of set bits in 'mask' implicitly tells us which worker we are on.
         for (int mask = 0; mask < totalMasks; mask++) {
             // Count how many workers have been assigned tasks so far
-            int workerIdx = Integer.bitCount(mask);
+            int workerIdx = Integer.bitCount(mask);  // Nice!
             
             // If workerIdx < n, we are looking to assign the NEXT worker
             if (workerIdx < n) {
