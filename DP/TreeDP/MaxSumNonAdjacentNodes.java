@@ -31,11 +31,11 @@ package TreeDP;
 
 import java.util.*;
 
-class TreeNode {
-    int val;
-    List<TreeNode> children;
+class TNode {
+    public int val;
+    public List<TNode> children;
 
-    TreeNode(int val) {
+    TNode(int val) {
         this.val = val;
         this.children = new ArrayList<>();
     }
@@ -44,14 +44,14 @@ class TreeNode {
 public class MaxSumNonAdjacentNodes {
 
     // DFS returns int[2]: [0] -> max sum if node not picked, [1] -> max sum if node picked
-    private static int[] dfs(TreeNode node) {
+    private static int[] dfs(TNode node) {
         // take note of the base case
         if (node == null) return new int[]{0, 0};
 
         int pick = node.val;   // If we pick this node
         int notPick = 0;       // If we do not pick this node
 
-        for (TreeNode child : node.children) {
+        for (TNode child : node.children) {
             // post-order
             int[] childDP = dfs(child);
 
@@ -62,7 +62,7 @@ public class MaxSumNonAdjacentNodes {
         return new int[]{notPick, pick};
     }
 
-    public static int maxSum(TreeNode root) {
+    public static int maxSum(TNode root) {
         int[] dp = dfs(root);
         return Math.max(dp[0], dp[1]);
     }
@@ -74,11 +74,11 @@ public class MaxSumNonAdjacentNodes {
         //      1    2
         //     / \
         //    3   4
-        TreeNode root = new TreeNode(10);
-        TreeNode node1 = new TreeNode(1);
-        TreeNode node2 = new TreeNode(2);
-        TreeNode node3 = new TreeNode(3);
-        TreeNode node4 = new TreeNode(4);
+        TNode root = new TNode(10);
+        TNode node1 = new TNode(1);
+        TNode node2 = new TNode(2);
+        TNode node3 = new TNode(3);
+        TNode node4 = new TNode(4);
 
         root.children.add(node1);
         root.children.add(node2);

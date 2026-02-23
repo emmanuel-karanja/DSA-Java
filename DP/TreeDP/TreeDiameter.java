@@ -1,4 +1,4 @@
-package DP.TreeDP;
+package TreeDP;
 
 /**
  * PROBLEM: Tree Diameter (Longest Path in a Tree)

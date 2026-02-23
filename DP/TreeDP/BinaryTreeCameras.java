@@ -1,4 +1,4 @@
-package DP.TreeDP;
+package TreeDP;
 
 /**
  * Binary Tree Cameras Problem (Tree DP with State Compression)

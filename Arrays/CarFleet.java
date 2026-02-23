@@ -47,7 +47,7 @@ public class CarFleet {
         double currentFleetTime = 0.0; // Use double for precision!
 
         for (Car car : cars) {
-            // Greedy Step 2: Calculate "Ideal" time
+            // Greedy Step 2: Calculate "Ideal" time, no need for double unless we find a theshold i.e. time - currentFleetTime <=0.5
             int time = (target - car.position) / car.speed;
 
             // Greedy Step 3: The Bottleneck Decision

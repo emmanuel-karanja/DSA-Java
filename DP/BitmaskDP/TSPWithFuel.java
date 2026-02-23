@@ -1,3 +1,5 @@
+package BitmaskDP;
+
 /**
  * PROBLEM: TSP with Fuel Mode
  * * STATEMENT:
@@ -15,6 +17,28 @@
  * - ELSE: nextFuel = fuel - 1
  * - Only move if nextFuel >= 0.
  * 3. BASE CASE: dp[1 << 0][0][MAX_FUEL] = 0 (Start at City 0 with full fuel).
+ * 
+ * Logic & Design Doc
+    The State: dp[mask][u][fuel]
+
+    mask: Bitmask of visited cities.
+
+    u: The current city you are standing in.
+
+    fuel: Remaining moves allowed before you must return to Node 0.
+
+    The Goal: Min cost to reach (1 << n) - 1 (all cities visited) and return to Node 0.
+
+    The Transition (Generative):
+        1.Refill Rule: If you are at Node 0, your fuel resets to MAX_FUEL.
+
+        2.Take Case: Move to an unvisited city v.
+
+        3.Guard: fuel > 0 and bit v is not set in mask.
+
+        4.Result: nextMask = mask | (1 << v), nextFuel = fuel - 1.
+
+        5.Sentinel: Use Integer.MAX_VALUE / 2 to represent unreachable states and avoid overflow.
  */
 import java.util.Arrays;
 

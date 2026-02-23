@@ -1,4 +1,4 @@
-package DP.GraphDP;
+package GraphDP;
 
 import java.util.*;
 /**

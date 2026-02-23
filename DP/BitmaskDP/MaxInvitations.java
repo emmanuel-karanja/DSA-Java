@@ -4,6 +4,15 @@ import java.util.Arrays;
 
 /**
  * PROBLEM: Max Accepted Invitations (Matching)
+ * Scenario:
+You have M invitees and N tables.
+Each invitee has a list of tables they are willing to sit at.
+Each table can hold only one person.
+Goal:
+
+Find the maximum number of invitations accepted, i.e., the largest number of invitees that can be seated according 
+to their preferences, without double-booking any table.
+
  * * LOGIC:
  * 1. STATE: dp[mask] is the max invitations using a set of tables 'mask'.
  * 2. TRANSITION: For each invitee 'i', we update the DP table.
