@@ -56,7 +56,9 @@ public class BandwidthAllocation {
 
         int answer = Integer.MAX_VALUE;
         for (int mask = 0; mask < maxMask; mask++) {
-            if (dp[mask][N] >= 0) answer = Math.min(answer, Integer.bitCount(mask));
+            if (dp[mask][N] >= 0) {
+                answer = Math.min(answer, Integer.bitCount(mask));
+            }
         }
 
         return answer == Integer.MAX_VALUE ? -1 : answer;
@@ -70,6 +72,7 @@ public class BandwidthAllocation {
 
         // Case 1: Assign user u to current server,
         if (mask != 0 && remaining >= demandWithOverhead) {
+            // Take one more user
             dp[mask][u + 1] = Math.max(dp[mask][u + 1], remaining - demandWithOverhead);
         }
 

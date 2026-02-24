@@ -58,13 +58,15 @@ public class AutoComplete {
         node.isEndOfWord = true;
     }
 
-    // Get top-k autocomplete suggestions for a given prefix
+    // Get top-k autocomplete suggestions for a given prefix. 
     public List<String> getTopK(String prefix) {
         TrieNode node = root;
         for (char c : prefix.toCharArray()) {
             if (!node.children.containsKey(c)) return new ArrayList<>();
             node = node.children.get(c);
         }
+
+        
 
        // Min-heap of size k storing SentenceCount objects
         PriorityQueue<SentenceCount> pq = new PriorityQueue<>(
@@ -76,13 +78,16 @@ public class AutoComplete {
 
         for (Map.Entry<String, Integer> entry : node.freqMap.entrySet()) {
             pq.offer(new SentenceCount(entry.getKey(), entry.getValue()));
-            if (pq.size() > k) pq.poll(); // keep only top k
+
+            if (pq.size() > k){
+                pq.poll(); // keep only top k
+            } 
         }
 
         // Extract sentences from min-heap → reverse to get descending order
         List<String> result = new ArrayList<>();
         while (!pq.isEmpty()) {
-            result.add(pq.poll().sentence);
+            result.add(pq.poll().sentence);   // The one with the fewest count amongst the top k is at the top of the minHeap
         }
         Collections.reverse(result);
 
