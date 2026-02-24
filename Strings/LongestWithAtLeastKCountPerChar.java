@@ -76,8 +76,9 @@ public class LongestWithAtLeastKCountPerChar {
                 }
 
                 // -------------------------------
-                // validate window
-                // -------------------------------
+                // validate window: We have enough unique characters and we have sufficient count for each i.e. if we have
+                // n unique characters then each one of them also needs to have a count of at least k,
+        
                 if (uniqueInWindow == targetUnique && uniqueInWindow == formed) {
                     maxLen = Math.max(maxLen, right - left);
                 }
