@@ -26,18 +26,24 @@ public class ShortestPathWithAlternatingColors {
             int weight = edge[2];
             
             // Only add the edge if the nodes have different colors
+            // Alternative is to use color checking for neighbours, i.e. check the current color and refuse
+            // to visit that neighbour.
             if (nodeColors[u] != nodeColors[v]) {
                 adj[u].add(new int[]{v, weight});
                 adj[v].add(new int[]{u, weight}); // Assuming undirected
             }
         }
 
-        // 2. Standard Dijkstra
+        // Initialize the state
         int[] dist = new int[n];
         Arrays.fill(dist, Integer.MAX_VALUE);
-        dist[start] = 0;
 
-        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+
+     
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1])); 
+
+        // Set start state
+        dist[start] = 0;
         pq.add(new int[]{start, 0});
 
         while (!pq.isEmpty()) {

@@ -59,7 +59,7 @@ public class TopKArraySums {
                 (p1, p2) -> Integer.compare(p2.sum, p1.sum) // max-heap
         );
 
-        Set<String> visited = new HashSet<>();
+        Set<String> visited = new HashSet<>();  // Stores which cells we've already visited.
         int i = 0, j = 0;
 
         // initialize the maxHeap

@@ -15,7 +15,9 @@ import java.util.Set;
 
   and to move to those squares it'll still the same number of moves.
 
-  We use x >=-2 and y>=-2 because shortest path may temporarily go negative.
+  We use x >=-2 and y>=-2 because shortest path may temporarily go negative. To understand this, visualize
+  the knight at position (0,0), the longer arm is into -2 in y and the second possibility it's in -2
+  in the x direction.
 
   i.e. BFS because you expand on multiple directions simultaneously, until you find the first on that
   hits the target.

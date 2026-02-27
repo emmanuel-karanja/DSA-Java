@@ -36,12 +36,12 @@ public class EmployeeFreeTime {
     }
 
     private static List<Interval> mergeIntervals(List<Interval> intervals) {
+         List<Interval> merged = new ArrayList<>();
         if(intervals==null || intervals.size()==0){
-            throw new IllegalArgumentException("intervals null or empty.");
+            return merged;
         }
 
-
-        List<Interval> merged = new ArrayList<>();
+       
         Interval current = intervals.get(0);
 
         for (int i = 1; i < intervals.size(); i++) {

@@ -3,7 +3,18 @@ package Heap;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-//* n(logk) to find kthLargest, either use a MinHeap or you can find the n-kth element where n is the arr.length */
+/* n(logk) to find kthLargest, either use a MinHeap or you can find the n-kth element where n is the arr.length 
+
+Why is it minHeap for top K largest and maxHeap for top k smallest? -->Passive Retention" strategy. In a Min-Heap of size K, 
+the "big boys" are 
+safely buried in the lower levels of the tree, while the "weakest link" is constantly pushed to the root,
+ effectively volunteering as tribute for the next poll() operation.
+
+ This is the same reverse reason for maxHeap for top k smallest--> the big ones ar near the top and the smaller
+  ones are pushed to the bottom and hence less eligible for polling when pq.size() > k. 
+
+
+*/
 
 public class KthSmallest {
 

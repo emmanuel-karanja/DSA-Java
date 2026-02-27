@@ -48,12 +48,7 @@ public class MergeKSortedLists {
         if(left==right) return lists[left];
         //divide and conquor  i.e. we split it into two sublists along the middle
          
-        int mid=left + (right-left)/2; //this is preferred to int mid=(left+right)/2 (Java automatically floors integers, so
-        //need for Math.floor()), this is prefered due to integer overflow problems e.g. if left and right are pretty high and almost
-        //at integer limit, doing left+right could surpass the allowed integer size. Overflow leads to wrapping around i.e.
-        //around to the negative integer.  i.e. max value for integers is 
-
-        //So this is preferred way for doing the mid point for binary search related problems
+        int mid=left + (right-left)/2;   // avoiding overflow
 
         ListNode leftMerged=mergeRange(lists,left,mid);
         ListNode rightMerged=mergeRange(lists,mid+1,right);

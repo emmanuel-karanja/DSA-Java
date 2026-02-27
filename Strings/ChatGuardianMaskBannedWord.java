@@ -16,7 +16,7 @@ class TrieNode {
     boolean isEndOfWord = false;
 }
 
-class ChatGuardian {
+public class ChatGuardianMaskBannedWord {
     private final TrieNode root = new TrieNode();
 
     // 1. Build the dictionary

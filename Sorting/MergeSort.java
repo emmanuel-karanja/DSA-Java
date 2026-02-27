@@ -8,6 +8,8 @@ import java.util.Arrays;
  * Merge sort:
  * 
  * Use divide and conquor
+ * 
+ * time O(nlogn)
 */
 public class MergeSort {
 

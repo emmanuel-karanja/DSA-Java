@@ -61,7 +61,7 @@ public class FindAllAnagrams {
             windowCount[s.charAt(i) - aCode]++;
 
             // Remove left-side char
-            int leftCharPos = i - PLENGTH;   //exclusive
+            int leftCharPos = i - PLENGTH;   //exclusive think of when PLENGTH=i i.e. 0. 
             windowCount[s.charAt(leftCharPos) - aCode]--;
 
             // Compare

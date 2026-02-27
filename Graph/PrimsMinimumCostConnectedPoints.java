@@ -87,6 +87,7 @@ public class PrimsMinimumCostConnectedPoints {
             // Relax edges from u
             for (int v = 0; v < n; v++) {
                 if (!visited[v]) {
+                    // Simply the cost function it could be a lookup operation from a table.
                     int dist = manhattanDist(points, u, v);
                     if (dist < minDist[v]) {
                         minDist[v] = dist;

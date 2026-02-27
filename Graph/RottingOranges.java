@@ -4,9 +4,8 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 /**You are given a grid where a 2 represents a rotten orange and 1 represents a fresh orange and 0 an empty cell. 
- * You are asked to calculate
- * the minimum number of minutes if it's possible to rot all the oranges. A rotten orange can only rot an orange in the four directions
- * top,left,right, and bottom
+ * You are asked to calculatevthe minimum number of minutes if it's possible to rot all the oranges.
+ *  A rotten orange can only rot an orange in  four directions top,left,right, and bottom
  * 
  * INTUTION: BFS starting from the top cell. And then keep track of the times so far, and decrement fresh orange count.
  */

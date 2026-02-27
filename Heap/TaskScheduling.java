@@ -44,7 +44,7 @@ public class TaskScheduling {
         }
 
         if(n<0){
-            throw new IllegalArgumentException("Cool down time must be positive.");
+           return -1;
         }
         if(n==0){
             return tasks.length; //if the cool down time is 0, we execute each task immediately

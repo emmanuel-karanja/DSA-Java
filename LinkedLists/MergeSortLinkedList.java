@@ -3,6 +3,9 @@ package LinkedLists;
  * 1. Split it in left and right halves 
  * 2. Merge sort each
  * 3. mergeth two
+ * 
+ * Time O(nlogn)
+ * Space O(n)
  */
 class ListNode{
     public ListNode next;
@@ -17,6 +20,8 @@ public class MergeSortLinkedList {
 
 
     public static ListNode mergeSort(ListNode head){
+
+        // Crucial
         if(head==null || head.next==null){
             return head;
         }
@@ -33,7 +38,8 @@ public class MergeSortLinkedList {
 
     private static ListNode getMiddle(ListNode head){
 
-        ListNode fast=head.next; // ensures slow stops at node before right half
+        ListNode fast=head.next; // ensures slow stops at node before right half starts
+
         ListNode slow=head;
 
         while(fast!=null && fast.next!=null){

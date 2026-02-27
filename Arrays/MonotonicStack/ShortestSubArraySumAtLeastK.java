@@ -49,7 +49,7 @@ class ShortestSubarraySumAtLeastK {
             prefixSum[i + 1] = prefixSum[i] + nums[i];
         }
 
-        int minLength = n + 1;
+        int minLength = n + 1; // Initialize to the max array size
         Deque<Integer> deque = new ArrayDeque<>();
 
         // 2. Shrink from the left side/front
@@ -63,7 +63,9 @@ class ShortestSubarraySumAtLeastK {
 
             //3. Maintain monotonic increasing prefix sums
             // Basically remove any non-monotonically increasing prefix sums this is the exit condition. Remove 
-            // any prefixSums that are not going to help us.
+            // any prefixSums that are not going to help us. finding prefixSum[i] <= prefixSum[deque.peekLast()]
+            // where i > deque.peekLast() means between the two there is a negative that reduces the sum
+            // and breaks the monotonic property we want
             while (!deque.isEmpty() && prefixSum[i] <= prefixSum[deque.peekLast()]) {
                 deque.pollLast();
             }

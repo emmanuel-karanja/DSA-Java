@@ -57,7 +57,7 @@ public class ElectricCourier {
         // as the others. i.b. B is an ordinate and if we had 5 we'd need 0,1,2,3,4,5 to be able to use up all at 5
         // Ask is the value a boundary or a co-ordinate. If we mix boundaries and co-ordinates, boundaries are normalized
         // to BoundaryMax+1
-        // Where is time? it;s the valu at [x,y,b]
+        // Where is time? it;s the value at [x,y,b]
         int[][][] minTime = new int[N][M][B + 1];
     
         for (int[][] matrix : minTime) {
@@ -69,14 +69,14 @@ public class ElectricCourier {
         // Dijkstra PriorityQueue: Always process the state with the lowest accumulated time
         PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a.time));
 
-        // Initial State
+        // Base/Start State
         minTime[0][0][B] = 0;
         pq.offer(new Node(0, 0, B, 0));
 
         while (!pq.isEmpty()) {
             Node curr = pq.poll();
 
-            // Optimization: If we've already found a better way to this specific state, discard
+            // Stale State Optimization: If we've already found a better way to this specific state, discard
             if (curr.time > minTime[curr.x][curr.y][curr.battery]) continue;
 
             // Target Check

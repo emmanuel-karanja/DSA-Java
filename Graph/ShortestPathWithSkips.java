@@ -39,24 +39,31 @@ public class ShortestPathWithSkips {
         Edge(int to, int weight) { this.to = to; this.weight = weight; }
     }
 
-    static class State implements Comparable<State> {
+    static class State {
         int node, skipsUsed, dist;
         State(int node, int skipsUsed, int dist) {
-            this.node = node; this.skipsUsed = skipsUsed; this.dist = dist;
+            this.node = node; 
+            this.skipsUsed = skipsUsed; 
+            this.dist = dist;
         }
-        public int compareTo(State other) { return Integer.compare(this.dist, other.dist); }
     }
 
     public static int shortestPathWithSkips(int n, int[][] edges, int K) {
         List<List<Edge>> graph = new ArrayList<>();
+
         for (int i = 0; i < n; i++) graph.add(new ArrayList<>());
+
+
         for (int[] e : edges) graph.get(e[0]).add(new Edge(e[1], e[2]));
 
         int[][] dist = new int[n][K+1];
         for (int i = 0; i < n; i++) Arrays.fill(dist[i], Integer.MAX_VALUE);
-        dist[0][0] = 0;
 
-        PriorityQueue<State> pq = new PriorityQueue<>();
+       
+
+        PriorityQueue<State> pq = new PriorityQueue<>((a,b)->Integer.compare(a.dist,b.dist));
+
+        dist[0][0] = 0;
         pq.offer(new State(0, 0, 0));
 
         while (!pq.isEmpty()) {
