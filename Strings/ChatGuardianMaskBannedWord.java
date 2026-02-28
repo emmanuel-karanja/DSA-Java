@@ -58,12 +58,4 @@ public class ChatGuardianMaskBannedWord {
         }
         return new String(chars);
     }
-
-    private char normalize(char c) {
-    if (c == '0') return 'o';
-    if (c == '1' || c == '!') return 'i';
-    if (c == '4' || c == '@') return 'a';
-    // etc...
-    return c;
-}
 }
