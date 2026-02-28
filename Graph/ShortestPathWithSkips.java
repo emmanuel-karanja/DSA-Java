@@ -72,20 +72,20 @@ public class ShortestPathWithSkips {
             int used = curr.skipsUsed;
             int d = curr.dist;
 
-            // visited check
+            // Visited check
             if (d > dist[u][used]) continue;
 
             for (Edge e : graph.get(u)) {
                 int v = e.to, w = e.weight;
 
                 // Relax normally: u + w < v
-                if (dist[u][used] + w < dist[v][used]) {
+                if (dist[u][used]!=Integer.MAX_VALUE && dist[u][used] + w < dist[v][used]) {
                     dist[v][used] = dist[u][used] + w;
                     pq.offer(new State(v, used, dist[v][used]));
                 }
 
                 // Relax by skipping: u + 0 < v (if skips left)
-                if (used < K && dist[u][used] < dist[v][used + 1]) {
+                if (used < K && dist[u][used]!=Integer.MAX_VALUE && dist[u][used] < dist[v][used + 1]) {
                     dist[v][used + 1] = dist[u][used];
                     pq.offer(new State(v, used + 1, dist[v][used + 1]));
                 }

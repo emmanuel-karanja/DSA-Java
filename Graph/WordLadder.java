@@ -16,6 +16,12 @@ import java.util.Set;
   to generate the next word.
 
   The challenge here is how to generate the neighboring word
+
+  Time :O(N⋅L⋅26)=O(N⋅L) 
+
+   Why? due to rhe visited, each word is visited once, and it's a FIFO not a minHeap, 
+    so O(N) and for the inner loop it's O(L x 26) which  is O(L) combined it's
+    O(N.L.26)- O(N.L)
  **/
 
 class DistPair{

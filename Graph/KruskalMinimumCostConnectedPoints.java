@@ -93,9 +93,6 @@ public class KruskalMinimumCostConnectedPoints {
         int n = points.length;
         List<Edge> edges = new ArrayList<>();
 
-        // Build all edges (complete graph)
-        // The graph is undirected: edge (i, j) is the same as (j, i). Hence we start from j=i+1 otherwise,
-        // we'd generate each edge 
         // 1. Construct the edgs using Manhattan distance to cost them.
         for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) { //2. Prevent cycles from position i in the array we are only interested in the i+1 onwards to n-1
@@ -103,8 +100,7 @@ public class KruskalMinimumCostConnectedPoints {
             }
         }
 
-        // Sort edges by ascending order of cost. Why ascending order? We want to prioritize the ones with the shortest
-        // distances first.
+      
         //3. Prioritize low cost edges
         edges.sort(Comparator.comparingInt(e -> e.cost)); // If you sort in descending order, you get the maximum cost
 
@@ -113,8 +109,7 @@ public class KruskalMinimumCostConnectedPoints {
         int edgesUsed = 0;
 
         for (Edge e : edges) {
-            if (uf.union(e.u, e.v)) { //4. Ensure no cycles. Include only edges that are not a part of the currnt
-                //connectd component
+            if (uf.union(e.u, e.v)) { //4. Ensure no cycles. Include only edges that are not a part of the current
                 totalCost += e.cost;
                 edgesUsed++;
                 if (edgesUsed == n - 1) { //5. Ensure that we visit n-1 number of edges 

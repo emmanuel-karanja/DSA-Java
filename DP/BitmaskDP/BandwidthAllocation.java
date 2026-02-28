@@ -70,13 +70,14 @@ public class BandwidthAllocation {
 
         long demandWithOverhead = users[u] + X;
 
-        // Case 1: Assign user u to current server,
+        // Case 1: Assign user u to current server, check if wecan fit the prev load+overheard into the remaining
+        // capacity of the server at mask. So, total assigned users is u+1 if we can. But server is at mask.
         if (mask != 0 && remaining >= demandWithOverhead) {
             // Take one more user
             dp[mask][u + 1] = Math.max(dp[mask][u + 1], remaining - demandWithOverhead);
         }
 
-        // Case 2: Start a new server
+        // Case 2: Start a new server. We need to assign to the next server 
         for (int j = 0; j < servers.length; j++) {
             if ((mask & (1 << j)) == 0 && servers[j] >= demandWithOverhead) {
                 int nextMask = mask | (1 << j);
