@@ -112,7 +112,6 @@ class NaryTree {
         NaryTree tree = new NaryTree(1); // root = 1
 
         Node node2 = tree.addChild(tree.root, 2);
-        Node node3 = tree.addChild(tree.root, 3);
         Node node4 = tree.addChild(tree.root, 4);
 
         tree.addChild(node2, 5);

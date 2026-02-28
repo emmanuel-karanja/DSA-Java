@@ -46,7 +46,6 @@ class Box{
 public class BoxStacking {
 
     public static int maxStackHeight(Box[] boxes) {
-        int n = boxes.length;
 
         // Generate all rotations of boxes
         List<Box> allBoxes = new ArrayList<>();
