@@ -66,7 +66,6 @@ public class JobSchedulingOnMachines {
     // Main function to compute minimum maximum completion time (makespan)
     public static double minimizeMakespan(int[] jobs, int[] speeds) {
         int n = jobs.length;
-        int m = speeds.length;
 
         // Sort jobs descending to assign bigger jobs first in feasibility check
         Integer[] sortedJobs = new Integer[n];

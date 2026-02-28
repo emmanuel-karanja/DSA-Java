@@ -25,7 +25,6 @@ public class CircularRouterPlacement {
     public int maxMinDistance(int[] slots, int k) {
         // Step 1: Sort slots for greedy placement
         Arrays.sort(slots);
-        int n = slots.length;
         int totalCircumference = 360; // You can adjust this if needed
 
         // Step 2: Binary Search Over Answer (BSOA)
