@@ -10,7 +10,16 @@ Goal:
 - Partition points into K clusters
 - Maximize the **minimum distance between points in different clusters** (maximum spacing)
 
+Reasoning:
+
+ Each point begins as its own cluster, i.e. we have N clusters and to get K cluster,
+ we union N-K number of times to have K clusters.
+
+ And since want to maximise the minimum distance, we ensure that the edges
+ are sorted in the ascending order i.e. so that the by the time we have K clusters,
+ that distance then is the max of the min.
 Approach:
+
 1. Treat points as nodes and distances as weighted edges.
 2. Construct all edges between pairs of points with their distances.
 3. Sort edges in ascending order of distance.
@@ -61,6 +70,10 @@ public class MSTMaxSpacingClustering {
             }
             return true;
         }
+
+        public boolean connected(int x, int y){
+            return find(x)==find(y);
+        }
     }
 
     // Function to compute maximum spacing for K clusters
@@ -82,8 +95,8 @@ public class MSTMaxSpacingClustering {
 
         // Merge clusters until we have exactly K clusters
         for (Edge e : edges) {
-            if (uf.find(e.u) != uf.find(e.v)) {
-                if (clusters <= K) {
+            if (!uf.connected(e.u, e.v)) {
+                if (clusters == K) {
                     // Stop when we have K clusters
                     return e.dist; // next edge distance = maximum spacing
                 }

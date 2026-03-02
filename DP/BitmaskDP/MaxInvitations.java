@@ -48,7 +48,7 @@ public class MaxInvitations {
         // Initialize with -1 to represent unreachable or uncalculated states
         for (int[] row : dp) Arrays.fill(row, -1);
         
-        // Base Case: 0 invitees, 0 tables occupied, 0 invitations
+        // Base State: 0 invitees, 0 tables occupied, 0 invitations
         dp[0][0] = 0;
 
         // Generative Flow: Iterate through each invitee 'i'
@@ -64,9 +64,7 @@ public class MaxInvitations {
                 // --- CHOICE 2: TAKE ---
                 // Try to seat invitee 'i' at every possible table 'j'.
                 for (int j = 0; j < n; j++) {
-                    // Check if: 
-                    // 1. Invitee i is willing to sit at table j (grid[i][j] == 1)
-                    // 2. Table j is currently empty (j-th bit in mask is 0)
+                    
                     if (grid[i][j] == 1 && (mask & (1 << j)) == 0) {
                         int nextMask = mask | (1 << j);
                         dp[i + 1][nextMask] = Math.max(dp[i + 1][nextMask], dp[i][mask] + 1);

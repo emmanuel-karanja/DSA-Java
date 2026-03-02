@@ -64,7 +64,7 @@ public class StraightHand {
                     int nextCard = key + i;
                     int nextCount = cardToCountMap.getOrDefault(nextCard, 0);
                     // If there aren't enough cards to continue the group, return false
-                    //the nextCArd count can be equal and to the keyFreq and that's fine or more meaning we can
+                    //the nextCard count can be equal and to the keyFreq and that's fine or more meaning we can
                     //start a new grouping from the next card but not less.
                     if (nextCount < keyFreq) return false;
                     // Decrement the count of the used cards, 

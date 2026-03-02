@@ -61,7 +61,11 @@ public class NewGasStationsPlacement {
 
         for (int i = 1; i < positions.length; i++) {
             int gap = positions[i] - positions[i - 1];
-            totalNeeded += (int) Math.floor(gap / maxDist);
+            /**If you insert x stations in a gap, you'll split it into x+1 segments. To ensure that each segment is
+             * at least d in lngth we'll need (x+1)*d<=gap to be true. Therefore x+1>=gap/d so x>=(gap/d)-1 i.e (x+1)d >=gap
+             * 
+             */
+            totalNeeded += (int) Math.ceil(gap / maxDist)-1;
         }
 
         return totalNeeded <= k;

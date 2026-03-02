@@ -9,6 +9,13 @@ package Graph;
  * Task: Determine the **last day you can cross** from the top row to the bottom row,
  *       moving only through land (1s) and in 4 directions (up, down, left, right).
  * 
+ * REASONING:
+ * 
+ * Start with all water and add land from the last(top) row. Basically, given a grid
+ * of water, from the last day cell(from the flooding order array)
+ * 
+ * At the current cell, connect (union) it to the neighbouring land cells.
+ * 
  * WHY REVERSE UNION-FIND:
  * - Forward simulation (flood day by day) would require BFS/DFS each day → slow.
  * - Reverse trick:
@@ -61,10 +68,10 @@ public class LastDayToCrossReverseUnionFind {
     public int latestDayToCross(int row, int col, int[][] cells) {
         int total = row * col;
         UnionFind uf = new UnionFind(total + 2); // extra 2 for virtual top & bottom
-        boolean[][] land = new boolean[row][col];
+        boolean[][] land = new boolean[row][col];  // Start with all water
 
-        int top = total;       // virtual top node why? The first unused index after all the true grid cells.
-        int bottom = total+1;  // virtual bottom node
+        int top = total;       // Virtual top node why? The first unused index after all the true grid cells.
+        int bottom = total+1;  // Virtual bottom node
 
         // Reverse simulation: add land from last day backward
         for (int day = cells.length - 1; day >= 0; day--) {

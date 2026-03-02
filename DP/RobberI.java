@@ -1,4 +1,4 @@
-package DP;
+
 /**Houses are arranged in a row in a street. At house[i] we are representing the amount of loot you can
  * rob from house i, you cannot rob two consecutive houses. What's the maximum amount of loot you can rob?
  */

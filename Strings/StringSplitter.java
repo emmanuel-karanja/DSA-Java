@@ -4,7 +4,6 @@ import java.util.regex.Pattern;
 StringTokenizer = old-school, lightweight, iterative splitting without regex. */
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class StringSplitter {
 

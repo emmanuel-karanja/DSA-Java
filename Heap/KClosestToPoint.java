@@ -1,6 +1,4 @@
 package Heap;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.PriorityQueue;
 
 /**Find the K-Closest points to a point

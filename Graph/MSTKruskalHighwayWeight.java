@@ -49,6 +49,35 @@ import java.util.Arrays;
  * - The first time 'start' and 'end' are connected while adding edges greedily from largest to smallest
  *   automatically gives the **maximum bottleneck path**.
  */
+
+    class UnionFind {
+        int[] parent, rank;
+        UnionFind(int n) {
+            parent = new int[n];
+            rank = new int[n];
+            for (int i = 0; i < n; i++) parent[i] = i;
+        }
+        int find(int x) {
+            if (parent[x] != x) parent[x] = find(parent[x]);
+            return parent[x];
+        }
+        boolean union(int x, int y) {
+            int px = find(x), py = find(y);
+            if (px == py) return false;
+            if (rank[px] < rank[py]) parent[px] = py;
+            else if (rank[px] > rank[py]) parent[py] = px;
+            else {
+                parent[py] = px;
+                rank[px]++;
+            }
+            return true;
+        }
+
+        public boolean connected(int x, int y){
+            return find(x)==find(y);
+        }
+    }
+    
 public class MSTKruskalHighwayWeight {
     public int maxWeightPath(int n, int[][] edges, int start, int end) {
     // 1. Sort edges descending by weight limit
@@ -64,7 +93,7 @@ public class MSTKruskalHighwayWeight {
             uf.union(u, v);
 
             // 2. The moment start and end are connected, we found the path
-            if (uf.find(start) == uf.find(end)) {
+            if (uf.connected(start,end)) {
                 return weight;
             }
         }

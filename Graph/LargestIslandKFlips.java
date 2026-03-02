@@ -3,150 +3,230 @@ package Graph;
 import java.util.*;
 
 /**
- * PROBLEM: Making a Large Island with up to K Flips
- * DOMAIN: Graph / 2D Grid
- * STRATEGY:
- * 1. Label each connected component (island) with a unique ID.
- * 2. Store island sizes in a map.
- * 3. Collect all 0 positions (water cells).
- * 4. Enumerate all subsets of 0s of size <= K.
- * 5. For each subset, temporarily flip the zeros, merge connected islands using Union-Find.
- * 6. Compute total area of connected components.
- * 7. Track maximum area across all subsets.
+ * ============================================================
+ * PROBLEM STATEMENT: Making a Large Island with up to K Flips
+ * ============================================================
  *
- * TIME COMPLEXITY:
- *  - O((#zeros choose K) * N^2) → feasible only for small K
- * SPACE COMPLEXITY:
- *  - O(N^2) for island IDs and union-find
+ * You are given an n x n binary grid where:
+ *   - 1 represents land
+ *   - 0 represents water
+ *
+ * An island is a group of 1s connected 4-directionally.
+ *
+ * You may flip at most K water cells (0 → 1).
+ * After performing up to K flips, return the maximum possible
+ * area of an island.
+ *
+ * ------------------------------------------------------------
+ * IMPORTANT NOTES (INTERVIEW REALITY CHECK):
+ * ------------------------------------------------------------
+ * - When K = 1, there is a well-known O(n^2) solution.
+ * - When K > 1 (general case), an optimal solution is NOT
+ *   polynomial unless K is small.
+ * - This implementation assumes K is SMALL (e.g., ≤ 5–7),
+ *   which is a standard and acceptable interview constraint.
+ *
+ * ============================================================
+ * CORE IDEA / REASONING
+ * ============================================================
+ *
+ * Instead of enumerating all subsets of K water cells (which is
+ * exponential), we reframe the problem:
+ *
+ *   Flipping K water cells means expanding an island through
+ *   at most K layers of water.
+ *
+ * So the problem becomes:
+ *
+ *   For each island:
+ *     - Perform a BFS expansion into water
+ *     - Allow at most K water cells to be crossed
+ *     - Collect all distinct islands reached
+ *
+ * The total area is:
+ *
+ *   sum(size of all connected islands) + number of flips used
+ *
+ * This works because:
+ * - BFS naturally explores connected regions
+ * - The number of flips is monotonic (never decreases)
+ * - We never double-count island areas
+ *
+ * ============================================================
+ * TIME & SPACE COMPLEXITY
+ * ============================================================
+ *
+ * Let n = grid size
+ *
+ * - Island labeling:     O(n^2)
+ * - BFS per island:      O(n^2 * K)
+ * - Total:               O(n^2 * K)
+ *
+ * Space:
+ * - Visited states:      O(n^2 * K)
+ *
+ * This is efficient and acceptable for SMALL K.
+ *
+ * ============================================================
  */
 public class LargestIslandKFlips {
 
+    private static final int[][] DIRS = {{1,0},{-1,0},{0,1},{0,-1}};
     private int n;
 
-    public int largestIslandKFlips(int[][] grid, int K) {
-        this.n = grid.length;
-        Map<Integer, Integer> islandSizes = new HashMap<>();
-        int islandId = 2; // Start from 2 since 0/1 used in grid
+    /**
+     * Main entry method.
+     * Labels islands first, then attempts BFS expansion
+     * from each island using up to K flips.
+     */
+    public int largestIsland(int[][] grid, int K) {
+        n = grid.length;
 
-        // Step 1: Label islands and compute sizes
+        // Map: islandId -> islandSize
+        Map<Integer, Integer> islandSize = new HashMap<>();
+
+        // Island IDs start from 2 (0 and 1 already used)
+        int islandId = 2;
+
+        // --------------------------------------------------
+        // STEP 1: Label all islands with unique IDs
+        // --------------------------------------------------
         for (int r = 0; r < n; r++) {
             for (int c = 0; c < n; c++) {
                 if (grid[r][c] == 1) {
-                    int size = dfs(grid, r, c, islandId);
-                    islandSizes.put(islandId, size);
+                    int size = dfsLabel(grid, r, c, islandId);
+                    islandSize.put(islandId, size);
                     islandId++;
                 }
             }
         }
 
-        // Step 2: Collect all zero positions
-        List<int[]> zeros = new ArrayList<>();
-        for (int r = 0; r < n; r++)
-            for (int c = 0; c < n; c++)
-                if (grid[r][c] == 0)
-                    zeros.add(new int[]{r, c});
-
-        // Step 3: Enumerate all subsets of zeros up to size K
         int maxArea = 0;
-        int Z = zeros.size();
-        int[] zeroIndices = new int[Z];
-        for (int i = 0; i < Z; i++) zeroIndices[i] = i;
 
-        // Enumerate subsets using bitmask for small K
-        for (int mask = 1; mask < (1 << Z); mask++) {
-            if (Integer.bitCount(mask) > K) continue;
-
-            // Prepare union-find
-            UnionFind uf = new UnionFind(n * n);
-            // Initialize islands
-            for (int r = 0; r < n; r++)
-                for (int c = 0; c < n; c++)
-                    if (grid[r][c] > 1)
-                        uf.setSize(r * n + c, islandSizes.get(grid[r][c]));
-
-            // Temporarily flip zeros in this subset
-            for (int i = 0; i < Z; i++) {
-                if ((mask & (1 << i)) != 0) {
-                    int r = zeros.get(i)[0];
-                    int c = zeros.get(i)[1];
-                    int id = r * n + c;
-                    uf.setSize(id, 1); // new single-cell island
-
-                    // Merge with neighbors if they are islands
-                    int[][] dirs = {{-1,0},{1,0},{0,-1},{0,1}};
-                    for (int[] d : dirs) {
-                        int nr = r + d[0], nc = c + d[1];
-                        if (nr >= 0 && nr < n && nc >= 0 && nc < n && (grid[nr][nc] > 1 || ((mask & (1 << zeros.indexOf(new int[]{nr,nc}))) != 0))) {
-                            uf.union(id, nr * n + nc);
-                        }
-                    }
-                }
-            }
-
-            // Compute max area in this configuration
-            maxArea = Math.max(maxArea, uf.maxSize());
+        // --------------------------------------------------
+        // STEP 2: Try expanding each island using BFS
+        // --------------------------------------------------
+        for (int id : islandSize.keySet()) {
+            maxArea = Math.max(
+                maxArea,
+                bfsExpand(grid, id, islandSize, K)
+            );
         }
-
-        // Edge case: if grid is full of 1s already
-        if (maxArea == 0) maxArea = n * n;
 
         return maxArea;
     }
 
-    private int dfs(int[][] grid, int r, int c, int id) {
-        if (r < 0 || r >= n || c < 0 || c >= n || grid[r][c] != 1) return 0;
+    /**
+     * BFS expansion from a given island.
+     *
+     * State = (row, col, flipsUsed)
+     *
+     * We allow crossing water cells (0s) up to K times.
+     * Every time we touch a new island, we add its size once.
+     */
+    private int bfsExpand(int[][] grid,
+                          int startIslandId,
+                          Map<Integer,Integer> islandSize,
+                          int K) {
+
+        // BFS queue holds: row, col, flipsUsed
+        Queue<int[]> q = new ArrayDeque<>();
+
+        // visited[r][c][k] means:
+        // have we visited cell (r,c) using exactly k flips?
+        boolean[][][] visited = new boolean[n][n][K + 1];
+
+        // To avoid double-counting island areas
+        Set<Integer> connectedIslands = new HashSet<>();
+
+        // Start with the original island's area
+        int area = islandSize.get(startIslandId);
+
+        // --------------------------------------------------
+        // Multi-source BFS:
+        // enqueue ALL cells belonging to this island. From each frontier cell,we'll attempt to move k steps
+        // 
+        // --------------------------------------------------
+        for (int r = 0; r < n; r++) {
+            for (int c = 0; c < n; c++) {
+                if (grid[r][c] == startIslandId) {
+                    q.offer(new int[]{r, c, 0});
+                    visited[r][c][0] = true;
+                }
+            }
+        }
+
+        // --------------------------------------------------
+        // BFS expansion
+        // --------------------------------------------------
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int r = cur[0], c = cur[1], used = cur[2];
+
+            for (int[] d : DIRS) {
+                int nr = r + d[0];
+                int nc = c + d[1];
+
+                // Bounds check
+                if (nr < 0 || nr >= n || nc < 0 || nc >= n) continue;
+
+                // If next cell is water, we consume a flip
+                int nextUsed = used + (grid[nr][nc] == 0 ? 1 : 0);
+
+                // Exceeded flip limit or already visited, allows us to move from each frontier K steps 
+                if (nextUsed > K || visited[nr][nc][nextUsed]) continue;
+
+                visited[nr][nc][nextUsed] = true;
+
+                // If we reached a NEW island, add its size once
+                if (grid[nr][nc] > 1 && !connectedIslands.contains(grid[nr][nc])) {
+                    connectedIslands.add(grid[nr][nc]);
+                    area += islandSize.get(grid[nr][nc]);
+                }
+
+                q.offer(new int[]{nr, nc, nextUsed});
+            }
+        }
+
+        // All flips contribute 1 cell each
+        return area + K;
+    }
+
+    /**
+     * DFS used only for labeling islands and computing size.
+     */
+    private int dfsLabel(int[][] grid, int r, int c, int id) {
+        if (r < 0 || r >= n || c < 0 || c >= n || grid[r][c] != 1) {
+            return 0;
+        }
+
         grid[r][c] = id;
-        return 1 + dfs(grid, r-1, c, id) +
-                   dfs(grid, r+1, c, id) +
-                   dfs(grid, r, c-1, id) +
-                   dfs(grid, r, c+1, id);
+        int size = 1;
+
+        for (int[] d : DIRS) {
+            size += dfsLabel(grid, r + d[0], c + d[1], id);
+        }
+
+        return size;
     }
 
-    // Union-Find with component size tracking
-    static class UnionFind {
-        int[] parent, size;
-        int n;
-
-        UnionFind(int n) {
-            this.n = n;
-            parent = new int[n];
-            size = new int[n];
-            for (int i = 0; i < n; i++) {
-                parent[i] = i;
-            }
-        }
-
-        int find(int x) {
-            if (parent[x] != x) {
-                parent[x] = find(parent[x]);
-            }
-            return parent[x];
-        }
-
-        void union(int x, int y) {
-            int px = find(x), py = find(y);
-            if (px == py) return;
-            parent[py] = px;
-            size[px] += size[py];
-        }
-
-        void setSize(int x, int s) {
-            size[x] = s;
-        }
-
-        int maxSize() {
-            int max = 0;
-            for (int s : size){
-              max = Math.max(max, s);
-            } 
-            return max;
-        }
-    }
-
+    /**
+     * Driver code
+     */
     public static void main(String[] args) {
         LargestIslandKFlips sol = new LargestIslandKFlips();
-        int[][] grid = {{1,0,0},{0,1,0},{0,0,1}};
+
+        int[][] grid = {
+            {1,0,0},
+            {0,1,0},
+            {0,0,1}
+        };
+
         int K = 2;
-        System.out.println("Max Area with K flips: " + sol.largestIslandKFlips(grid, K)); // Example output
+
+        System.out.println(
+            "Maximum island area with K flips: " +
+            sol.largestIsland(grid, K)
+        );
     }
 }

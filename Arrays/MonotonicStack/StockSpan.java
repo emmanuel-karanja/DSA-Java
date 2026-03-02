@@ -32,7 +32,7 @@ public class StockSpan {
 
     public static int[] getStockSpan(int[] prices){
         if(prices==null || prices.length==0){
-            throw new IllegalArgumentException("Prices is null or empty;");
+             return new int[]{};
         }
 
         ArrayDeque<Integer> stack=new ArrayDeque<>();

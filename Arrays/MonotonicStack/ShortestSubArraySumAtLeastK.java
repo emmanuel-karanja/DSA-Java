@@ -52,7 +52,7 @@ class ShortestSubarraySumAtLeastK {
         int minLength = n + 1; // Initialize to the max array size
         Deque<Integer> deque = new ArrayDeque<>();
 
-        // 2. Shrink from the left side/front
+        // 2. Shrink from the left side/front, and check the limits
         for (int i = 0; i <= n; i++) {
             // Shrink from the front: valid subarray found, notice the condition here prefixSum[i] - prefixSum[j] >=k
             // This is the key point

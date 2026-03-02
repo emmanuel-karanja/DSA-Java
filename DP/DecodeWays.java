@@ -1,4 +1,4 @@
-package DP;
+
 /**A message containing letters A-Z is encoded into numbers using the mapping
  *  A->1, B->2,C->3 ... Z->26. 
  * 
