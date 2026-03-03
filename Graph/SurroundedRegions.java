@@ -3,6 +3,9 @@ package Graph;
  * from 'O' to 'X'. Border 'O' or border connected 'O' cannot be captured.
  * 
  * INTUITION:
+ * 
+ * 1. Starting from the edges preform a DFS on each cell marked 'O' with a special sentinel char e.g. '#'
+ * 2. Iterate over the grid and convert spcial sentinel in '0' and capture any '0' by turning them to 'X'
  * DFS.
  * Mark border 'O'. Do a dfs from the borderds and mark all 'O' encountered into 'S' or some temporary
  * marker, this will allow you to find all border and border connected Os.
@@ -33,6 +36,9 @@ public class SurroundedRegions {
 
         //board is now marked
 
+        System.out.println("Board after dfs from edges:");
+        printBoard(board);
+
         //iterate and reconvert
         for(int r=0;r<rows;r++){
             for(int c=0;c<cols;c++){
@@ -47,7 +53,7 @@ public class SurroundedRegions {
     }
 
     private static void dfs(char[][] board, int r,int c, int rows,int cols, char marker){
-        if(r>=0 && r<rows && c>=0 && c<cols && board[r][c]=='O'){
+        if(r < 0 || r>=rows || c<0 || c>=cols || board[r][c]!='O') return;
             //do a dfsd
             board[r][c]=marker;
 
@@ -55,15 +61,15 @@ public class SurroundedRegions {
             dfs(board,r,c+1,rows,cols,marker);
             dfs(board,r-1,c, rows,cols,marker);
             dfs(board,r,c-1,rows,cols,marker);
-        }
+        
     }
 
     public static void main(String[] args) {
 
         char[][] board = {
-            {'X','X','X','X'},
+            {'X','X','X','0'},
             {'X','O','O','X'},
-            {'X','X','O','X'},
+            {'0','X','O','X'},
             {'X','O','X','X'}
         };
 

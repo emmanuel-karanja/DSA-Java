@@ -19,12 +19,12 @@ package Graph;
 import java.util.PriorityQueue;
 
 
-  class QueueNode{
+  class State{
     public int x;
     public int y;
     public int elevation;
 
-    public QueueNode(int elevation, int x, int y){
+    public State(int elevation, int x, int y){
         this.elevation=elevation;
         this.x=x;
         this.y=y;
@@ -34,34 +34,37 @@ import java.util.PriorityQueue;
 public class SwimInRisingWater {
 
 
-    public static int swim(int [][] grid){
+    public int swim(int [][] grid){
 
-        int n = grid.length;
-        int m=grid[0].length;
+       if(grid == null || grid.length==0) return -1;
+
+        int m = grid.length;
+        int n=grid[0].length;
 
         int[][] directions={{1,0},{0,1},{-1,0},{0,-1}};
         //use the minHeap for this to find find the minimum elevation
-        PriorityQueue<QueueNode> minHeap=new PriorityQueue<>( (a, b) -> Integer.compare(a.elevation, b.elevation));
+        PriorityQueue<State> minHeap=new PriorityQueue<>( (a, b) -> Integer.compare(a.elevation, b.elevation));
 
         //keep track of visited nodes, by default boolean is false
-        boolean [][] visited =new boolean[n][m];
+        boolean [][] visited =new boolean[m][n];
 
         visited[0][0]=true;
 
-        minHeap.add(new QueueNode(grid[0][0],0,0));
+        minHeap.offer(new State(grid[0][0],0,0));
 
         //BFS
-        int time=0;
+        int time=Integer.MIN_VALUE;
 
         while(!minHeap.isEmpty()){
-                QueueNode qNode=minHeap.poll();
+                State curr=minHeap.poll();
 
-                int elevation=qNode.elevation;  //we don't even need to store the elevation since we can get it from the grid
+                int elevation=curr.elevation;  //we don't even need to store the elevation since we can get it from the grid
                 //and we are not doing any thing to it.
-                int x=qNode.x;
-                int y=qNode.y;
+                int x=curr.x;
+                int y=curr.y;
 
                 time=Math.max(time,elevation);
+
 
                 //if we reach the end return the time
                 if(x==n-1 && y==m-1){
@@ -75,15 +78,13 @@ public class SwimInRisingWater {
                     int ny=y+d[1];
 
                     //check if the new cell is within bounds
-                    if(nx>=0 && nx < n && ny>=0 && ny < m && !visited[nx][ny]){
+                    if(nx < 0 || nx >= m || ny<0 || ny >= n || visited[nx][ny]) continue;
 
-                        //mark as visited
-                        visited[nx][ny]=true;
-
+                    //mark as visited
+                    visited[nx][ny]=true;
                         //we just get its elevation from the grid
-                        minHeap.add(new QueueNode(grid[nx][ny],nx,ny));
-                    }
-
+                     minHeap.add(new State(grid[nx][ny],nx,ny));
+            
                 }
 
         }
@@ -97,7 +98,7 @@ public class SwimInRisingWater {
                     {0, 2},
                     {1, 3}
             };
-        System.out.println("Min time (example 1): " + swim(grid1));
+        System.out.println("Min time (example 1): " + new SwimInRisingWater().swim(grid1));
         int[][] grid2 = {
                     {0, 1, 2, 3, 4},
                     {24, 23, 22, 21, 5},
@@ -105,13 +106,13 @@ public class SwimInRisingWater {
                     {11, 17, 18, 19, 20},
                     {10, 9, 8, 7, 6}
             };
-            System.out.println("Min time (example 2): " + swim(grid2));
+            System.out.println("Min time (example 2): " + new SwimInRisingWater().swim(grid2));
 
         int[][] grid3 = {
                     {5, 4, 6},
                     {7, 3, 2},
                     {8, 9, 1}
             };
-            System.out.println("Min time (example 3): " + swim(grid3));
+            System.out.println("Min time (example 3): " + new SwimInRisingWater().swim(grid3));
     }
 }

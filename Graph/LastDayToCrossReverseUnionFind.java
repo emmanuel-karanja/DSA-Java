@@ -26,6 +26,8 @@ package Graph;
  * 
  * Bijection-->Converts 2D co-ordinates to 1D co-ordinates(r*COLS+ c) is done since Union-Find works
  *            in 1D i.e.single node id
+ * 
+ * Time O(alpha(n)) or Inverse Ackermann amortized time due to Union-Find
  */
 
 public class LastDayToCrossReverseUnionFind {
@@ -75,7 +77,9 @@ public class LastDayToCrossReverseUnionFind {
 
         // Reverse simulation: add land from last day backward
         for (int day = cells.length - 1; day >= 0; day--) {
-            // For this be on the lookout for the 1<=r<=rows and 1<=c<=cols otherwise you'd not need to do that.
+            // For this be on the lookout for the 1<=r<=rows and 1<=c<=cols in the constraints 
+            // otherwise you'd not need to do that. Or even ask if the co-ordinates are 0 based or 1 based.
+            // 
             int r = cells[day][0] - 1;
             int c = cells[day][1] - 1;
 
@@ -85,14 +89,14 @@ public class LastDayToCrossReverseUnionFind {
             // Connect with neighboring land cells
             for (int[] d : DIRS) {
                 int nr = r + d[0], nc = c + d[1];
-                if (nr >= 0 && nr < row && nc >= 0 && nc < col && land[nr][nc]) {
-                    uf.union(idx, nr * col + nc);
-                }
+                if (nr < 0 || nr >=row || nc < 0 || nc >= col || !land[nr][nc]) continue;
+                
+                uf.union(idx, nr * col + nc);
             }
 
             // Connect top/bottom row cells to virtual nodes
             if (r == 0) 
-                 uf.union(idx, top);
+                uf.union(idx, top);
             if (r == row - 1) 
                 uf.union(idx, bottom);
 
