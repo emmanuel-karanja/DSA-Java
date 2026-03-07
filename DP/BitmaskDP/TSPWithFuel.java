@@ -73,9 +73,8 @@ public class TSPWithFuel {
 
                         if (nextFuel >= 0) {
                             int newCost = dp[mask][u][f] + dist[u][v];
-                            if (newCost < dp[nextMask][v][nextFuel]) {
-                                dp[nextMask][v][nextFuel] = newCost;
-                            }
+            
+                            dp[nextMask][v][nextFuel]=Math.min(dp[nextMask][v][nextFuel],newCost);
                         }
                     }
                 }

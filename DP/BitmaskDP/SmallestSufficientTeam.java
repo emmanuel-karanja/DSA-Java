@@ -30,32 +30,25 @@ import java.util.*;
  * 2. For each person, compute a bitmask representing the skills they have.
  *
  * 3. DP state definition:
- *    - dp[mask] = smallest team (list of people indices) that covers all skills
- *      represented by bits set in 'mask'.
- *    - Base case: dp[0] = empty list (no skills required → empty team)
+ *    - dpSize[mask] = size of the smallest team that covers skills in 'mask'
+ *    - Base case: dpSize[0] = 0 (no skills → empty team)
  *
  * 4. Transition:
- *    - For each person i with skill mask personMask:
- *        For each existing DP entry (mask, team):
- *            newMask = mask | personMask  // skills covered if we include this person
- *            If newMask is not in dp or including person i gives a smaller team:
- *                dp[newMask] = team + [i]
+ *    - For each person i:
+ *        Freeze the previous DP state
+ *        For each existing mask:
+ *            newMask = mask | personSkillMask
+ *            If using person i improves the team size:
+ *                update dpSize[newMask]
+ *                record parent pointers for reconstruction
  *
  * 5. Result:
- *    - dp[fullMask], where fullMask = (1 << m) - 1 (all skills), gives
- *      the indices of the smallest sufficient team.
+ *    - dp[fullMask], where fullMask = (1 << m) - 1
  *
- * Complexity:
- * -----------
- * - Number of DP states: 2^m (all subsets of skills)
- * - For each person, we update DP for all existing states → O(n * 2^m)
- * - Feasible for m ≤ 16-20
- *
- * Key Insights:
- * -------------
- * - Using bitmask allows representing all combinations of skills efficiently.
- * - DP ensures we **always keep the smallest team** for each skill combination.
- * - This approach naturally handles overlapping skills and multiple people efficiently.
+ * Key Invariant:
+ * --------------
+ * - DP(mask) for person i must only depend on states that existed
+ *   *before* considering person i.
  *
  */
 public class SmallestSufficientTeam {
@@ -63,52 +56,68 @@ public class SmallestSufficientTeam {
     public static int[] smallestSufficientTeam(String[] reqSkills, List<List<String>> people) {
         int m = reqSkills.length;
         int n = people.size();
-        
-        Map<String, Integer> skillToId = new HashMap<>();
-        for (int i = 0; i < m; i++) skillToId.put(reqSkills[i], i);
 
-        // dp[mask] stores the minimum size of the team for that mask
+        // Map each required skill to a bit position
+        Map<String, Integer> skillToId = new HashMap<>();
+        for (int i = 0; i < m; i++) {
+            skillToId.put(reqSkills[i], i);
+        }
+
+        int FULL_MASK = (1 << m) - 1;
+
+        // dpSize[mask] = minimum number of people needed to cover 'mask'
         int[] dpSize = new int[1 << m];
         Arrays.fill(dpSize, Integer.MAX_VALUE / 2);
         dpSize[0] = 0;
 
-        // To reconstruct the team:
-        // parentMask[mask] = the mask we came from
-        // parentPerson[mask] = the person index added to get to this mask
+        // Parent pointers for reconstruction
         int[] parentMask = new int[1 << m];
         int[] parentPerson = new int[1 << m];
 
+        // Iterate through each person
+        // The main question is per iteration: Can we add this person to the set? 
+        // We check if we can actually minimize the dp[mask | personMask] value if w add them?
         for (int i = 0; i < n; i++) {
             int personSkillMask = 0;
-            for (String s : people.get(i)) {
-                if (skillToId.containsKey(s)) {
-                    personSkillMask |= (1 << skillToId.get(s));
+            for (String skill : people.get(i)) {
+                if (skillToId.containsKey(skill)) {
+                    personSkillMask |= (1 << skillToId.get(skill));
                 }
             }
-            if (personSkillMask == 0) continue; // Skip if person has no useful skills
 
-            // Iterate through all masks to see if this person improves them
-            for (int mask = 0; mask < (1 << m); mask++) {
+            // Skip people who contribute no required skills
+            if (personSkillMask == 0) continue;
+
+            // Freeze previous DP state to avoid reusing the same person multiple times
+            int[] prevDp = dpSize.clone();
+
+            for (int mask = 0; mask <= FULL_MASK; mask++) {
                 int nextMask = mask | personSkillMask;
-                if (dpSize[nextMask] > dpSize[mask] + 1) {
-                    dpSize[nextMask] = dpSize[mask] + 1;
-                    parentMask[nextMask] = mask;
-                    parentPerson[nextMask] = i;
+                int newSize = prevDp[mask] + 1;
+
+                // Update only if this person gives a smaller team for nextMask
+                if (newSize < dpSize[nextMask]) {
+                    dpSize[nextMask] = newSize;    // equivalent to Math.min(dpSize[nextMask], newSize)
+                    parentMask[nextMask] = mask;   // track how we got here
+                    parentPerson[nextMask] = i;    // track which person contributed
                 }
             }
         }
 
-        // Reconstruct the result list from the parent pointers
+        // Reconstruct the team using parent pointers
         List<Integer> result = new ArrayList<>();
-        int curr = (1 << m) - 1;
-        while (curr > 0) {
-            result.add(parentPerson[curr]);
-            curr = parentMask[curr];
+        int currMask = FULL_MASK;
+        while (currMask != 0) {
+            result.add(parentPerson[currMask]);
+            currMask = parentMask[currMask];
         }
 
         return result.stream().mapToInt(i -> i).toArray();
     }
 
+    // ------------------------------------------------------------
+    // Driver
+    // ------------------------------------------------------------
     public static void main(String[] args) {
         String[] reqSkills = {"java", "python", "aws"};
         List<List<String>> people = List.of(
@@ -120,6 +129,6 @@ public class SmallestSufficientTeam {
 
         int[] team = smallestSufficientTeam(reqSkills, people);
         System.out.println("Smallest sufficient team indices: " + Arrays.toString(team));
-        // Output might be [0,1,2] or [1,3] depending on DP update order
+        // Valid outputs include [0,1,2] or [1,3], depending on DP order
     }
 }

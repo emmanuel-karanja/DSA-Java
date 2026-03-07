@@ -58,20 +58,20 @@ public class WorkerTaskAssignment {
         // Generative approach: Iterate through all masks
         // The number of set bits in 'mask' implicitly tells us which worker we are on.
         for (int mask = 0; mask < totalMasks; mask++) {
-            // Count how many workers have been assigned tasks so far
-            int workerIdx = Integer.bitCount(mask);  // Nice!
-            
-            // If workerIdx < n, we are looking to assign the NEXT worker
-            if (workerIdx < n) {
-                for (int taskJ = 0; taskJ < n; taskJ++) {
-                    // "Take" Choice: If taskJ is NOT yet in the mask
-                    if ((mask & (1 << taskJ)) == 0) {
-                        int nextMask = mask | (1 << taskJ);
-                        
-                        // Combine: min(current_best_for_next_state, current_cost + previous_state)
-                        dp[nextMask] = Math.min(dp[nextMask], dp[mask] + cost[workerIdx][taskJ]);
-                    }
-                }
+            int workerIdx = Integer.bitCount(mask);
+
+            // Negative condition → skip
+            if (workerIdx >= n) continue;
+
+            for (int taskJ = 0; taskJ < n; taskJ++) {
+                // Negative condition → skip
+                if ((mask & (1 << taskJ)) != 0) continue;
+
+                int nextMask = mask | (1 << taskJ);
+                dp[nextMask] = Math.min(
+                        dp[nextMask],
+                        dp[mask] + cost[workerIdx][taskJ]
+                );
             }
         }
 

@@ -26,15 +26,20 @@ public class PartitionKSubsets {
     public boolean canPartitionKSubsets(int[] nums, int k) {
         int n = nums.length;
         int totalSum = 0;
-        for (int num : nums) totalSum += num;
+
+        for (int num : nums) {
+            totalSum += num;
+        }
 
         // Preliminary check: If total sum doesn't divide evenly by k, it's impossible.
         if (totalSum % k != 0) return false;
+
         int target = totalSum / k;
 
         // dp[mask] = the sum of the current subset being filled.
         // We use 2^n states to represent every possible combination of chosen elements.
         int[] dp = new int[1 << n];
+        
         Arrays.fill(dp, -1);
         
         // Base state: 0 elements used, 0 current sum.

@@ -65,6 +65,9 @@ public class TSPBitmaskDP {
         dp[1][0] = 0; // Start at city 0 
 
         // Iterate over all masks
+        /** Given a city i that has been visited (and so can be a starting point) is it possinle to visible a city j
+         * that's not yet visited from city i? And if so what's the cost?
+         */
         for (int mask = 1; mask <= fullMask; mask++) {
             for (int i = 0; i < n; i++) {
                 if ((mask & (1 << i)) == 0 || dp[mask][i] == Integer.MAX_VALUE) continue; // If i is not yet visited

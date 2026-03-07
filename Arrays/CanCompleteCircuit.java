@@ -9,12 +9,8 @@ package Arrays;
 public class CanCompleteCircuit {
 
     public static int getStartingStation(int[] gas,int[] cost){
-        if(gas==null || gas.length==0 || cost==null || cost.length==0){
-            throw new IllegalArgumentException("Gas or Costs array is either empty or null.");
-        }
-
-        if(gas.length!=cost.length){
-            throw new IllegalArgumentException("Cost and Gas arrays must be of the same length.");
+        if(gas==null || gas.length==0 || cost==null || cost.length==0 || gas.length!=cost.length){
+            return -1;
         }
 
         int currentTank=0;

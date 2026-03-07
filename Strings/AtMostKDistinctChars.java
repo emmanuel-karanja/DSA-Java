@@ -3,7 +3,7 @@ package Strings;
 import java.util.HashMap;
 import java.util.Map;
 
-/**Given a string S and an integer k , find the lenggth of the longest substring that contains at most  k distinct chars.
+/**Given a string S and an integer k , find the length of the longest substring that contains at most  k distinct chars.
  * 
  * INTUTION:
  * 
@@ -12,7 +12,7 @@ import java.util.Map;
  * 
  * 
  * if the map.size() > k , try to shrink the window. i.e. get leftchar decrement count in
- *  mapif count is 0 after decrement remove char,a dvnace left.
+ *  mapif count is 0 after decrement remove char.
  */
 public class AtMostKDistinctChars {
     public static int getLengthKDistinct(String s, int k){

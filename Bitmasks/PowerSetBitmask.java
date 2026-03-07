@@ -66,6 +66,10 @@ public class PowerSetBitmask {
             for (int i = 0; i < n; i++) {
                 // Check if i-th bit is set
                 if ((mask & (1 << i)) != 0) {
+
+                    Integer remaining=(~mask) & (totalMasks-1);
+
+                    System.out.println("Remaining: "+Integer.toBinaryString(remaining));
                     subset.add(arr[i]);
                 }
             }

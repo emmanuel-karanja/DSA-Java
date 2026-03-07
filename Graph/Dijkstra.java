@@ -64,11 +64,11 @@ class GraphNode {
     
 }
 
-class QueueNode {
+class State {
     public GraphNode graphNode;
     public int distance; // distance from start
 
-    public QueueNode(GraphNode node, int distance) {
+    public State(GraphNode node, int distance) {
         this.graphNode = node;
         this.distance = distance;
     }
@@ -86,13 +86,13 @@ public class Dijkstra {
         }
 
         // PriorityQueue orders by current shortest distance
-        PriorityQueue<QueueNode> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a.distance));
+        PriorityQueue<State> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a.distance));
         
         distances.put(startNode.id, 0);
-        minHeap.add(new QueueNode(startNode, 0));
+        minHeap.add(new State(startNode, 0));
 
         while (!minHeap.isEmpty()) {
-            QueueNode curr = minHeap.poll();
+            State curr = minHeap.poll();
             GraphNode node=curr.graphNode;
 
             if (visited.contains(node)) continue; // already finalized
@@ -109,7 +109,7 @@ public class Dijkstra {
                     //the relaxation condition.
                     // Only nodes to improve the current min distance are pushed into the heap
                     distances.put(neighbor.id, newDist);
-                    minHeap.add(new QueueNode(neighbor, newDist));
+                    minHeap.add(new State(neighbor, newDist));
                 }
             }
         }

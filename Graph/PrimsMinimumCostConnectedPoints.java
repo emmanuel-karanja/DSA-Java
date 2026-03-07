@@ -26,15 +26,6 @@ import java.util.PriorityQueue;
  * 
  *Time: O(E log V)
  */
-class QueueNode {
-    public int node;
-    public int cost;
-
-    public QueueNode(int node, int cost) {
-        this.node = node;
-        this.cost = cost;
-    }
-}
 
 class Edge {
     int to;

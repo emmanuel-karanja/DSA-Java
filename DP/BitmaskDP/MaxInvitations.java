@@ -64,8 +64,10 @@ public class MaxInvitations {
                 // --- CHOICE 2: TAKE ---
                 // Try to seat invitee 'i' at every possible table 'j'.
                 for (int j = 0; j < n; j++) {
-                    
-                    if (grid[i][j] == 1 && (mask & (1 << j)) == 0) {
+                    // mandatory check
+                    if((mask & (1<<j))!=0) continue;
+
+                    if (grid[i][j] == 1) {  // This is the condition matrix
                         int nextMask = mask | (1 << j);
                         dp[i + 1][nextMask] = Math.max(dp[i + 1][nextMask], dp[i][mask] + 1);
                     }

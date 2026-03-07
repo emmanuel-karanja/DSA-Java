@@ -124,8 +124,9 @@ public class LastDayToCross {
                 int nr = r + d[0];
                 int nc = cc + d[1];
 
-                if (nr >= 0 && nr < row && nc >= 0 && nc < col 
-                    && !visited[nr][nc] && grid[nr][nc] == 0) {
+                if (nr <0 || nr >= row ||nc < 0 || nc >= col) continue;
+
+                if(!visited[nr][nc] && grid[nr][nc] == 0) {
                     visited[nr][nc] = true;
                     q.offer(new int[]{nr,nc});
                 }

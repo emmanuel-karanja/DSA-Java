@@ -41,26 +41,32 @@ public class MinElevatorTrips {
     
     public static int minElevatorTrips(int[] weights, int W) {
         int n = weights.length;
-        int N = 1 << n; // total states (2^n)
-        int[] dp = new int[N];
+        int totalMask = 1 << n; // total states (2^n)
+        int[] dp = new int[totalMask];
         Arrays.fill(dp, Integer.MAX_VALUE);
         dp[0] = 0; // no people -> 0 trips
 
         // Precompute weight of all subsets
-        int[] subsetWeight = new int[N];
-        for (int mask = 0; mask < N; mask++) {
+        int[] subsetWeight = new int[totalMask];
+        for (int mask = 0; mask < totalMask; mask++) {
             int sum = 0;
             for (int i = 0; i < n; i++) {
-                if ((mask & (1 << i)) != 0) sum += weights[i];
+                if ((mask & (1 << i)) != 0) {
+                    sum += weights[i];
+                }
             }
             subsetWeight[mask] = sum;
         }
 
-        for (int mask = 0; mask < N; mask++) {
+        for (int mask = 0; mask < totalMask; mask++) {
             if (dp[mask] == Integer.MAX_VALUE) continue;
             
-            // subset of remaining people
-            int remaining = (~mask) & (N - 1);
+            // subset of remaining people i.e. people not carried. Carried people are represented by mask.
+            /**totalMask = 1 << n = 10000
+               totalMask - 1      = 01111   // exactly n bits of 1s */
+            int remaining = (~mask) & (totalMask - 1);   //This is how you calculate the remaining when dealing with 
+            // For sub, we are not selecting one person by one, we are selecting groups of people from the remaining
+            // Whose combined weight <= W
             for (int sub = remaining; sub > 0; sub = (sub - 1) & remaining) {
                 if (subsetWeight[sub] <= W) {
                     int newMask = mask | sub;
@@ -69,11 +75,11 @@ public class MinElevatorTrips {
             }
         }
 
-        return dp[N - 1]; // all people carried
+        return dp[totalMask- 1]; // all people carried
     }
 
     public static void main(String[] args) {
-        int[] weights = {2, 3, 5};
+        int[] weights = {2, 3, 5,2,4};
         int W = 5;
         System.out.println("Minimum trips: " + minElevatorTrips(weights, W));
         // Output: Minimum trips: 2

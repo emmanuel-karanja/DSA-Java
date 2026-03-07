@@ -29,6 +29,7 @@ import java.util.*;
  *   - All users < u are fully assigned
  *   - Overhead X is applied exactly once per (user, server) usage
  */
+
 public class BandwidthAllocation {
 
     public static int minServers(int[] users, int[] servers, int X) {
@@ -50,7 +51,23 @@ public class BandwidthAllocation {
         for (int mask = 0; mask < maxMask; mask++) {
             for (int u = 0; u < N; u++) { // 0-based user index
                 if (dp[mask][u] < 0) continue; 
-                applyTransitions(dp, mask, u, dp[mask][u], U, servers, X);
+
+                long remaining = dp[mask][u];
+                long demandWithOverhead = U[u] + X;
+
+                // Case 1: assign to current server if possible
+                if (mask != 0 && remaining >= demandWithOverhead) {
+                    dp[mask][u + 1] = Math.max(dp[mask][u + 1], remaining - demandWithOverhead);
+                }
+
+                // Case 2: start a new server. Find the next available server that can accomodate the user
+                // Doing it like this okay since we have a small value of M.
+                for (int j = 0; j < M; j++) {
+                    if ((mask & (1 << j)) == 0 && servers[j] >= demandWithOverhead) {
+                        int nextMask = mask | (1 << j);
+                        dp[nextMask][u + 1] = Math.max(dp[nextMask][u + 1], servers[j] - demandWithOverhead);
+                    }
+                }
             }
         }
 
@@ -64,30 +81,7 @@ public class BandwidthAllocation {
         return answer == Integer.MAX_VALUE ? -1 : answer;
     }
 
-    private static void applyTransitions(long[][] dp, int mask, int u, long remaining,
-                                         Integer[] users, int[] servers, int X) {
-        if (u == users.length) return;
-
-        long demandWithOverhead = users[u] + X;
-
-        // Case 1: Assign user u to current server, check if wecan fit the prev load+overheard into the remaining
-        // capacity of the server at mask. So, total assigned users is u+1 if we can. But server is at mask.
-        if (mask != 0 && remaining >= demandWithOverhead) {
-            // Take one more user
-            dp[mask][u + 1] = Math.max(dp[mask][u + 1], remaining - demandWithOverhead);
-        }
-
-        // Case 2: Start a new server. We need to assign to the next server 
-        for (int j = 0; j < servers.length; j++) {
-            if ((mask & (1 << j)) == 0 && servers[j] >= demandWithOverhead) {
-                int nextMask = mask | (1 << j);
-                dp[nextMask][u + 1] = Math.max(dp[nextMask][u + 1], servers[j] - demandWithOverhead);
-            }
-        }
-    }
-
     public static void main(String[] args) {
-
         int[] users1 = {100, 100, 100};
         int[] servers1 = {150, 150, 150};
         int X1 = 20;
