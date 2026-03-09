@@ -32,7 +32,8 @@ public class BinaryTreeSerializer {
             TreeNode node = queue.poll();
 
             if (node != null) {
-                sb.append(node.value).append(",");
+                sb.append(node.value).append(",");  // The ',' is extrmely useful for parsing.
+                 // Without it we can't know if it's 1,2  or 12 
                 queue.offer(node.left);
                 queue.offer(node.right);
             } else {

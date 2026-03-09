@@ -71,7 +71,8 @@ public class ZigzagLevelOrderTraversal {
             int levelSize = queue.size();
             Deque<Integer> levelValues = new ArrayDeque<>();
 
-            // Process exactly one level
+            // Process exactly one level. You are basically polling from the front the items at this level.
+            // Hence the iteration from 0 to levelSize-1. Those are guaranteed to be at the front of the queue.
             for (int i = 0; i < levelSize; i++) {
                 TreeNode node = queue.poll();
 
@@ -85,6 +86,7 @@ public class ZigzagLevelOrderTraversal {
                 if (node.right != null) queue.offer(node.right);
             }
 
+            // I didn't know you could do this .e. create an Arraylist from a Deque
             result.add(new ArrayList<>(levelValues));
             leftToRight =! leftToRight; // flip direction
         }

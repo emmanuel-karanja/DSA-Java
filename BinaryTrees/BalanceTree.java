@@ -14,6 +14,13 @@ import java.util.List;
  *  - selecting the middle element as root.
  * 
  * **Inorder traversal already generates a sorted array. But if you started with an array, you'd sort it first.
+ * 
+ * Time complexity:
+ *    In-order traversal->O(n) why? You visit each node once.
+ *    Plain array mapping --> O(n)
+ *    Building -->O(n)
+ * 
+ * and Height=O(logn)
  */
 
 class TreeNode{

@@ -62,7 +62,8 @@ public class StraightHand {
                 // Try forming a group of W consecutive cards starting at 'key'
                 for (int i = 0; i < W; i++) {
                     int nextCard = key + i;
-                    int nextCount = cardToCountMap.getOrDefault(nextCard, 0);
+                    int nextCount = cardToCountMap.getOrDefault(nextCard, 0); // getOrDefault because the key 
+                    // could be missing.
                     // If there aren't enough cards to continue the group, return false
                     //the nextCard count can be equal and to the keyFreq and that's fine or more meaning we can
                     //start a new grouping from the next card but not less.
