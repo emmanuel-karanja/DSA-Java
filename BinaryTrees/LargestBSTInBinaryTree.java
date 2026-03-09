@@ -63,6 +63,9 @@ package BinaryTrees;
  * SPACE COMPLEXITY
  *      O(h) recursion stack
  * ============================================================
+ * 
+ * Note: In any situation where you need to evaluate the children first before the node, 
+ * you will be looking at post-order traversal. e.g. verifying the children first.
  */
 
 public class LargestBSTInBinaryTree {
