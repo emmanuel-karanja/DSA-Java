@@ -6,6 +6,20 @@ package Arrays;
  * We use the property: Sum(i, j) = PrefixSum(j) - PrefixSum(i-1).
  * If Sum(i, j) = k, then PrefixSum(j) - k = PrefixSum(i-1).
  * By storing prefix sums in a HashMap, we can find the "complement" in O(1).
+ * 
+ * REASONING
+ * 
+ * We are asking is there a prefix sum ps(j) we've encountered before such that the difference between that
+ * prefix sum and the current prefix sum is exactly K? i.e. ps(i)-ps(j)=k
+ * 
+ * or rather -ps(j)=-ps(i)+k
+ * or ps(j)=ps(i)-k
+ * 
+ * *We made ps(j) the subject since it's what we are looking for.
+ * And since ps(i) and ps(j) are prefix sums, they are guaranteed to be a contiguous range between them.
+ * And since we may have negative numbers, there may be more than one way to get ps(j).
+ * 
+ * The hashmap is there to help us remember ps(j) s.
  */
 import java.util.*;
 

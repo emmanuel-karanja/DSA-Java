@@ -55,7 +55,7 @@ public class LongestWithAtLeastKCountPerChar {
                 if (freq[rightChar] == k) {  // check if it has made it
                     formed++; // now this char satisfies at least k
                 }
-                right++; // move right pointer
+             
 
                 // -------------------------------
                 //  window if uniqueInWindow > targetUnique
@@ -80,8 +80,9 @@ public class LongestWithAtLeastKCountPerChar {
                 // n unique characters then each one of them also needs to have a count of at least k,
         
                 if (uniqueInWindow == targetUnique && uniqueInWindow == formed) {
-                    maxLen = Math.max(maxLen, right - left);
+                    maxLen = Math.max(maxLen, right - left+1);
                 }
+                   right++; // move right pointer
             }
         }
 

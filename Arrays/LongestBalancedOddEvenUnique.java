@@ -103,7 +103,7 @@ public class LongestBalancedOddEvenUnique {
         Set<Integer> seen = new HashSet<>();
 
         int left = 0;
-        int balance = 0;   // OddsCount-EvensCount
+        int balance = 0;   // OddsCount-EvensCount to make sure they are equal, you ensure it's zero.
         int maxLength = 0;
 
         for (int right = 0; right < nums.length; right++) {

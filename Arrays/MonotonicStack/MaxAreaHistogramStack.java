@@ -26,6 +26,8 @@ public class MaxAreaHistogramStack {
             // Take note
             int h=(i==n)?0:heights[i];   //set a sentinel height of 0
             
+            // Keep pushing bars while the heights are increasing, if we find one that's not, we know
+            // that the current h is bounding the area.
             while(!stack.isEmpty() && h < heights[stack.peek()]){
                 //calculate area
                 int height=heights[stack.pop()]; //height at the current top

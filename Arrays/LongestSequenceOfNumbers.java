@@ -21,9 +21,8 @@ import java.util.Arrays;
 public class LongestSequenceOfNumbers {
 
     public static List<Integer> getLongestSequence(int[] nums){
-        if(nums==null || nums.length==0){
-            throw new IllegalArgumentException("Nums is either empty or null.");
-        }
+        List<Integer> result=new ArrayList<>();
+        if(nums==null || nums.length==0) return result;
 
         Set<Integer> numSet=new HashSet<>();
         for(int num: nums){
@@ -33,7 +32,7 @@ public class LongestSequenceOfNumbers {
         ///iterate over the set and do streaks
         
         int maxStreak=0;
-        List<Integer> result=new ArrayList<>();
+        
         for(int num: numSet){
             //check the previous number
             if(!numSet.contains(num-1)){

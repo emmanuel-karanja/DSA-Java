@@ -56,9 +56,7 @@ public class PathSumII {
             dfs(node.right, remainingSum - node.val, path, result);
         }
 
-        // Backtrack: remove current node before returning, we don't re-add the value of the removed node since
-        // the remainingSum is passed by value. so the remainingSum initial value is unchanged.
-        // if had been a global variable, we'd need to re-add.
+        // Backtrack
         path.remove(path.size() - 1);  
     }
 
