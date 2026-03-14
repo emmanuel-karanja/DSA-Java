@@ -40,7 +40,9 @@ public class LargestIsland {
         // Step 2: Try flipping each 0
         for (int r = 0; r < n; r++) {
             for (int c = 0; c < n; c++) {
+                // Find the th 4 neighbours of each 0 and merge their areas
                 if (grid[r][c] == 0) {
+                    // We are getting the set of neighbours that are actually islands.
                     Set<Integer> neighborIslands = new HashSet<>();
                     // Check 4 directions and get all the neighbours, we modifid the grid insite to reflect the island_id.
                     if (r > 0) neighborIslands.add(grid[r - 1][c]);

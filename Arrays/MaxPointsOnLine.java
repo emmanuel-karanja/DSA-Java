@@ -78,6 +78,7 @@ public class MaxPointsOnLine {
                     continue;
                 }
 
+                 // Note how to normalize dy and dx
                 int gcd = gcd(dx, dy);
                 dx /= gcd;
                 dy /= gcd;

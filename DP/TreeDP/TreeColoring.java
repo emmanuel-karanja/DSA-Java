@@ -193,6 +193,7 @@ class TreeColoring {
         long[] dp = new long[K];
 
         // Initialize: assume node is colored with c i.e.assume leaf case
+        // 
         for (int c = 0; c < K; c++) {
             dp[c] = 1;   // Multiplicative identity
         }

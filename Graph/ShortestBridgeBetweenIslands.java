@@ -32,10 +32,7 @@ public class ShortestBridgeBetweenIslands {
   }
 
   public static int getShortestBridge(int[][] matrix){
-    if(matrix==null || matrix.length==0){
-        throw new IllegalArgumentException("Grid is empty or null.");
-    }
-
+    if(matrix==null || matrix.length==0) return -1;
     //do a dfs to find the island
     boolean found=false;
 
@@ -46,6 +43,7 @@ public class ShortestBridgeBetweenIslands {
         if(found) break;
        for(int c=0;c<matrix[0].length;c++){
             if(matrix[r][c]==1){
+                // Notice when we load the queue.
                dfs(matrix, r, c, queue);
                found=true;
                break;

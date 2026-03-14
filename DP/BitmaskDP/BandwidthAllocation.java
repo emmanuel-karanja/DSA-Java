@@ -38,12 +38,16 @@ public class BandwidthAllocation {
 
         // Sort users descending to reduce symmetry
         Integer[] U = new Integer[N];
-        for (int i = 0; i < N; i++) U[i] = users[i];
+        for (int i = 0; i < N; i++){
+           U[i] = users[i];
+        }
         Arrays.sort(U, Collections.reverseOrder());
 
         int maxMask = 1 << M;
         long[][] dp = new long[maxMask][N + 1];
-        for (int i = 0; i < maxMask; i++) Arrays.fill(dp[i], -1);
+        for (int i = 0; i < maxMask; i++) {
+            Arrays.fill(dp[i], -1);
+        }
 
         // Base state
         dp[0][0] = 0;
@@ -52,12 +56,11 @@ public class BandwidthAllocation {
             for (int u = 0; u < N; u++) { // 0-based user index
                 if (dp[mask][u] < 0) continue; 
 
-                long remaining = dp[mask][u];
                 long demandWithOverhead = U[u] + X;
 
                 // Case 1: assign to current server if possible
-                if (mask != 0 && remaining >= demandWithOverhead) {
-                    dp[mask][u + 1] = Math.max(dp[mask][u + 1], remaining - demandWithOverhead);
+                if (mask != 0 && dp[mask][u]>= demandWithOverhead) {
+                    dp[mask][u + 1] = Math.max(dp[mask][u + 1], dp[mask][u] - demandWithOverhead);
                 }
 
                 // Case 2: start a new server. Find the next available server that can accomodate the user
@@ -74,7 +77,8 @@ public class BandwidthAllocation {
         int answer = Integer.MAX_VALUE;
         for (int mask = 0; mask < maxMask; mask++) {
             if (dp[mask][N] >= 0) {
-                answer = Math.min(answer, Integer.bitCount(mask));
+                int serverCount=Integer.bitCount(mask);
+                answer = Math.min(answer, serverCount);
             }
         }
 
