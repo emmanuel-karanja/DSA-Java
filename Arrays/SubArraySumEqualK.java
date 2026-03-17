@@ -33,6 +33,7 @@ public class SubArraySumEqualK {
         map.put(0, 1);
         
         for (int num : nums) {
+            // Calculate prefix sum
             currentPrefixSum += num;
             
             // If (currentPrefixSum - k) exists in map, it means there is a 

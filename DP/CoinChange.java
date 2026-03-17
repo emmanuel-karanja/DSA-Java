@@ -30,7 +30,7 @@
  *   dp[0] = 0  // zero coins needed to make amount 0
  *
  * Greedy Check:
- *   ❌ Cannot use greedy (largest coin first fails in some cases).
+ *    Cannot use greedy (largest coin first fails in some cases).
  */
 public class CoinChange {
 

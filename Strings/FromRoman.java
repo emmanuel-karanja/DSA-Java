@@ -34,9 +34,7 @@ public class FromRoman {
     }
 
     public static int convert(String roman){
-        if(roman==null || roman.isEmpty()){
-            throw new IllegalArgumentException("Roman numeral is null or empty.");
-        }
+        if(roman==null || roman.isEmpty()) return -1;
 
         int total=0;
         int prevValue=0;
@@ -47,9 +45,7 @@ public class FromRoman {
 
             int value=ROMAN_MAP.getOrDefault(c,-1); //to make code cleaner
 
-            if(value ==-1){
-                throw new IllegalArgumentException("Invalid roman numeral: "+c+" at position: "+i);
-            }
+            if(value ==-1) return -1;
 
             if(value < prevValue){  //Follow the subtractive rule e.g. if we had XIV, it's  10 and 1 and 5.
             // starting from the right prev value is 0  a firs

@@ -26,39 +26,34 @@
  */
 public class DotProductSubsequences {
 
+    
+
     public int maxDotProduct(int[] nums1, int[] nums2) {
-        int n = nums1.length;
-        int m = nums2.length;
+        int n = nums1.length, m = nums2.length;
+        int NEG_INF = Integer.MIN_VALUE / 2; // if we will some addition, we don'twant to risk massive overflow
+        // with something+NEG_INF
 
-        // No need for 0 state modeling.
-        int[][] dp = new int[n][m];
+        int[][] dp = new int[n + 1][m + 1];
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                int product = nums1[i] * nums2[j];
-
-                // Case 1: include this pair alone
-                dp[i][j] = product;
-
-                // Case 2: include this pair + best previous subsequence
-                if (i > 0 && j > 0) {
-                    // Compare to 0, since the product could be negative at dp[i-1][j-1]
-                    dp[i][j] += Math.max(0, dp[i - 1][j - 1]);
-                }
-
-                // Case 3: skip nums1[i]
-                if (i > 0) {
-                    dp[i][j] = Math.max(dp[i][j], dp[i - 1][j]);
-                }
-
-                // Case 4: skip nums2[j]
-                if (j > 0) {
-                    dp[i][j] = Math.max(dp[i][j], dp[i][j - 1]);
-                }
+        // Since we are maximizing we use negative infinfity
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= m; j++) {
+                dp[i][j] = NEG_INF;
             }
         }
 
-        return dp[n - 1][m - 1];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                int product = nums1[i - 1] * nums2[j - 1];
+
+                dp[i][j] = Math.max(
+                    Math.max(product, product + Math.max(0, dp[i - 1][j - 1])),
+                    Math.max(dp[i - 1][j], dp[i][j - 1])
+                );
+            }
+        }
+
+        return dp[n][m];
     }
 
     // DRIVER FUNCTION WITH TEST CASES

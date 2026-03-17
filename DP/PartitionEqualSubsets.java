@@ -72,7 +72,7 @@ public class PartitionEqualSubsets {
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= target; j++) {
                 dp[i][j] = dp[i - 1][j]; // do not take nums[i-1]
-                if (j >= nums[i - 1]) {
+                if (j >= nums[i - 1]) { // 
                     dp[i][j] = dp[i][j] || dp[i - 1][j - nums[i - 1]]; // take nums[i-1]
                 }
             }

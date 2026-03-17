@@ -51,7 +51,10 @@ public class LowLatencyNetwork {
 
     public static int minimalMaxLatency(int N, int[][] edges, int A, int B, int K) {
         List<Edge>[] graph = new ArrayList[N];
-        for (int i = 0; i < N; i++) graph[i] = new ArrayList<>();
+
+        for (int i = 0; i < N; i++) {
+            graph[i] = new ArrayList<>();
+        }
 
         int maxLatency = 0;
 
@@ -90,8 +93,10 @@ public class LowLatencyNetwork {
 
         while (!q.isEmpty()) {
             int node = q.poll();
+            // Poll test
             if (node == B) return true;
             for (Edge e : graph[node]) {
+                 // Pruning test
                 if (!visited[e.to] && e.bandwidth >= K && e.latency <= maxLatency) {
                     visited[e.to] = true;
                     q.add(e.to);
