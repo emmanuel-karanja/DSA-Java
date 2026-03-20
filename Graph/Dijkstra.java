@@ -47,96 +47,44 @@ Without this check:
 You could process a node multiple times
 And potentially violate the assumption that we finalized its shortest distance
  */
-class GraphNode {
-    public int id; // node id
-    public Map<GraphNode, Integer> neighbors; // neighbor -> edge weight
 
-    public GraphNode(int id) {
-        this.id = id;
-        this.neighbors = new HashMap<>();
-    }
-
-    // convenience to add an edge
-    public void addNeighbor(GraphNode neighbor, int weight) {
-        //Weight is assigned to an edge not to the vertex itself.
-        neighbors.put(neighbor, weight);
-    }
-    
-}
-
-class State {
-    public GraphNode graphNode;
-    public int distance; // distance from start
-
-    public State(GraphNode node, int distance) {
-        this.graphNode = node;
-        this.distance = distance;
+class Node {
+    int target, weight;
+    Node(int target, int weight) {
+        this.target = target;
+        this.weight = weight;
     }
 }
 
 public class Dijkstra {
+    public int[] findShortestPaths(int n, List<List<Node>> adj, int source) {
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[source] = 0;
 
-    public static Map<Integer, Integer> getDistances(GraphNode startNode, Set<GraphNode> allNodes) {
-        Map<Integer, Integer> distances = new HashMap<>();
-        Set<GraphNode> visited = new HashSet<>();
+        // Min-Heap based on distance: int[]{node_id, distance}
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+        pq.offer(new int[]{source, 0});
 
-        // Initialize all distances to infinity
-        for (GraphNode node : allNodes) {
-            distances.put(node.id, Integer.MAX_VALUE);
-        }
+        while (!pq.isEmpty()) {
+            int[] current = pq.poll();
+            int u = current[0];
+            int d = current[1];
 
-        // PriorityQueue orders by current shortest distance
-        PriorityQueue<State> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a.distance));
-        
-        distances.put(startNode.id, 0);
-        minHeap.add(new State(startNode, 0));
+            // Optimization: If we found a better path already, skip this stale entry
+            if (d > dist[u]) continue;
 
-        while (!minHeap.isEmpty()) {
-            State curr = minHeap.poll();
-            GraphNode node=curr.graphNode;
+            for (Node neighbor : adj.get(u)) {
+                int v = neighbor.target;
+                int weight = neighbor.weight;
 
-            if (visited.contains(node)) continue; // already finalized
-            //visit, once the shortest node so far is popped from the heap,we never reconsdier it. This is the greedy commitment.
-            visited.add(node);
-
-            // Relax edges
-            for (Map.Entry<GraphNode, Integer> entry : node.neighbors.entrySet()) {
-                GraphNode neighbor = entry.getKey();
-                int weight = entry.getValue();
-
-                int newDist = curr.distance + weight;
-                if (newDist < distances.get(neighbor.id)) { //You only explore those nodes that pass
-                    //the relaxation condition.
-                    // Only nodes to improve the current min distance are pushed into the heap
-                    distances.put(neighbor.id, newDist);
-                    minHeap.add(new State(neighbor, newDist));
+                // Relaxation Step
+                if (dist[u] + weight < dist[v]) {
+                    dist[v] = dist[u] + weight;
+                    pq.offer(new int[]{v, dist[v]});
                 }
             }
         }
-
-        return distances;
-    }
-
-    public static void main(String[] args) {
-        // Example usage
-        GraphNode n0 = new GraphNode(0);
-        GraphNode n1 = new GraphNode(1);
-        GraphNode n2 = new GraphNode(2);
-        GraphNode n3 = new GraphNode(3);
-
-        n0.addNeighbor(n1, 2);
-        n0.addNeighbor(n2, 4);
-        n1.addNeighbor(n2, 1);
-        n1.addNeighbor(n3, 7);
-        n2.addNeighbor(n3, 3);
-
-        Set<GraphNode> allNodes = Set.of(n0, n1, n2, n3);
-
-        Map<Integer, Integer> distances = getDistances(n0, allNodes);
-
-        System.out.println("Shortest distances from node 0:");
-        for (Map.Entry<Integer, Integer> entry : distances.entrySet()) {
-            System.out.println("Node " + entry.getKey() + ": " + entry.getValue());
-        }
+        return dist;
     }
 }
