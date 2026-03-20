@@ -40,6 +40,8 @@ We want:
 - Use a Fenwick Tree to count how many prefix[i] ≤ target for each j
 - Update the tree with the current prefix[j+1]
 
+What's contained in the fenwick tree at i is the count.
+
 Time Complexity: O(n log n)
 Space Complexity: O(n)
 */

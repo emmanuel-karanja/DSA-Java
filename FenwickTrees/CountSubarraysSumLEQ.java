@@ -40,6 +40,13 @@ We want:
 - Use a Fenwick Tree to count how many prefix[i] ≤ target for each j
 - Update the tree with the current prefix[j+1]
 
+bit[i] stores the count of prefix sums in the original array whose compressed indices fall within 
+[i - (i & -i) + 1, i], exactly like a standard BIT.
+
+We only use the Fenwick Tree so we can query the number of prefix sums ≤ X in O(log n).
+Everything else — prefix sums, coordinate compression, totalInserted — is just bookkeeping 
+to make this query correct and efficient.
+
 Time Complexity: O(n log n)
 Space Complexity: O(n)
 */
@@ -48,17 +55,17 @@ public class CountSubarraysSumLEQ {
 
     // Fenwick Tree (1-based indexing)
     static class Fenwick {
-        int[] tree;
+        int[] bit;
         int n;
 
         Fenwick(int n) {
             this.n = n;
-            tree = new int[n + 2]; // extra space
+            bit = new int[n + 2]; // extra space
         }
 
         void update(int i, int delta) {
             while (i <= n) {
-                tree[i] += delta;
+                bit[i] += delta;
                 i += i & -i;
             }
         }
@@ -66,7 +73,7 @@ public class CountSubarraysSumLEQ {
         int query(int i) {
             int sum = 0;
             while (i > 0) {
-                sum += tree[i];
+                sum += bit[i];
                 i -= i & -i;
             }
             return sum;

@@ -1,7 +1,5 @@
 package Arrays.DifferenceArray;
 
-import java.util.*;
-
 /*
 PROBLEM: Car Pooling (LeetCode 1094)
 

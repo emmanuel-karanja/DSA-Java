@@ -1,4 +1,6 @@
-package DifferenceArray;
+package Arrays.DifferenceArray;
+
+
 
 import java.util.*;
 
@@ -36,7 +38,8 @@ SPACE: O(n)
 public class RangeAddition {
 
     public static int[] getModifiedArray(int length, int[][] updates) {
-        int[] diff = new int[length];
+        // Size n+2 to handle the R+1 boundary safely
+        int[] diff = new int[length+2];
 
         // Step 1: Apply updates
         for (int[] u : updates) {
@@ -45,10 +48,9 @@ public class RangeAddition {
             int val = u[2];
 
             diff[start] += val;
-
-            if (end + 1 < length) {
-                diff[end + 1] -= val;
-            }
+            
+           diff[end + 1] -= val;
+            
         }
 
         // Step 2: Prefix sum
@@ -56,6 +58,7 @@ public class RangeAddition {
         result[0] = diff[0];
 
         for (int i = 1; i < length; i++) {
+            //Variations for max occupancy is Math.max(curr,max)
             result[i] = result[i - 1] + diff[i];
         }
 

@@ -1,3 +1,4 @@
+package Arrays.DifferenceArray;
 
 
 import java.util.*;
@@ -49,7 +50,8 @@ SPACE: O(n)
 public class CorporateFlightBookings {
 
     public static int[] corpFlightBookings(int[][] bookings, int n) {
-        int[] diff = new int[n];
+        // Size n+2 to handle the Range+1 boundary safely
+        int[] diff = new int[n+2];
 
         // Step 1: Apply range updates
         for (int[] b : bookings) {
@@ -58,17 +60,19 @@ public class CorporateFlightBookings {
             int seats = b[2];
 
             diff[l] += seats;
-            if (r + 1 < n) {
-                diff[r + 1] -= seats;
-            }
+            
+            diff[r + 1] -= seats;
+        
         }
 
         // Step 2: Prefix sum to build result
-        int[] result = new int[n];
-        result[0] = diff[0];
 
-        for (int i = 1; i < n; i++) {
-            result[i] = result[i - 1] + diff[i];
+        int[] result = new int[n];
+        int curr = 0;
+        for (int i = 1; i <= n; i++) {
+            curr += diff[i];
+             // For max bookings you can do maxBookings=Math.max(curr, maxBookings)
+            result[i - 1] = curr;
         }
 
         return result;
