@@ -5,6 +5,8 @@ package BinarySearch;
  * =====================================================
  * Split Array into K Subarrays Minimizing Maximum Sum
  * =====================================================
+ * 
+ * This is the exact same problem as the ServerLoadBalancer problem.
  *
  * Given nums[] and integer k,
  * split the array into k contiguous subarrays

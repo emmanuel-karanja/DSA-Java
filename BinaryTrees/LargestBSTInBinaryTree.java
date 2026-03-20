@@ -10,6 +10,16 @@ package BinaryTrees;
  *
  * BST Property:
  *      left subtree values < node value < right subtree values
+ *    
+ * INTUTION:
+ *  Do a post-order traversal and check the binary tree property
+ *    Binary Tree Property:
+ * 
+ *  1. That the left and right children are binary trees
+ *  2. leftmax<node.val<right.min
+ *  
+ * Track the max size encountred so far.
+ *  siz=left.size+right.size+1 (size of the left and right child plus 1 for the current node)
  *
  * Example:
  *
@@ -111,6 +121,7 @@ public class LargestBSTInBinaryTree {
         NodeInfo left = dfsHelper(node.left);
         NodeInfo right = dfsHelper(node.right);
 
+        // Binary tree property.
         if (left.isBST && right.isBST && node.val > left.max && node.val < right.min) {
 
             int size = left.size + right.size + 1;

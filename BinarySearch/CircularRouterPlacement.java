@@ -66,20 +66,20 @@ public class CircularRouterPlacement {
         // Step 3: Try placing k routers starting from each original slot
         // Treat every i as a possible starting point.
         for (int start = 0; start < n; start++) {
-            int count = 1;
+            int placedRouters = 1;
             int last = linear[start];
 
             // This inner loop answers the question, is it possible to place all the routers
             // starting from index 'start'? and with minDist between the position? if true we stop
             for (int i = start + 1; i < start + n; i++) { // Note the limit
                 if (linear[i] - last >= minDist) {
-                    count++;
+                    placedRouters++;
                     last = linear[i];
-                    if (count == k) break; // placed all routers
+                    if (placedRouters == k) break; // placed all routers
                 }
             }
 
-            if (count >= k) return true; // feasible
+            if (placedRouters >= k) return true; // feasible
         }
 
         return false; // not feasible

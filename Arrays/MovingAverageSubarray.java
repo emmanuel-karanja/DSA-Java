@@ -111,9 +111,11 @@ public class MovingAverageSubarray {
         for (int i = 0; i < n; i++) {
             sum += nums[i];
 
+            
             if (i >= k)
                 sum -= nums[i - k];
 
+            // We have a valid window
             if (i >= k - 1)
                 windowSums[i - k + 1] = sum;
         }

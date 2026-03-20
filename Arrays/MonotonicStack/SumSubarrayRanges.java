@@ -68,48 +68,39 @@ import java.util.Deque;
 
 public class SumSubarrayRanges {
 
-    public static long sumOfSubarrayRanges(int[] arr) {
+   public static long sumOfSubarrayRanges(int[] arr) {
         int n = arr.length;
         long total = 0;
-
 
         Deque<Integer> minStack = new ArrayDeque<>();
         Deque<Integer> maxStack = new ArrayDeque<>();
 
+        // We go up to n to process the final elements remaining in the stacks
         for (int i = 0; i <= n; i++) {
-            // The sentinel ensures that all elements get processed.
-            int currMin = (i == n) ? Integer.MIN_VALUE : arr[i];
-            int currMax = (i == n) ? Integer.MAX_VALUE : arr[i];
-
-             // Process maxStack (decreasing)
-            while (!maxStack.isEmpty() && currMax > arr[maxStack.peek()]) {
+            
+            // 1. Process MAX contribution (Sum += max * count)
+            // Use >= to handle duplicates by "tie-breaking" to the left
+            while (!maxStack.isEmpty() && (i == n || arr[i] >= arr[maxStack.peek()])) {
                 int mid = maxStack.pop();
                 int left = maxStack.isEmpty() ? -1 : maxStack.peek();
                 int right = i;
-                long count = (long)(mid - left) * (right - mid);
-                //Total = Sum(max contributions) − Sum(min contributions) 
-                // Contribution = nums[mid] * count
-                total += count * arr[mid];
+                total += (long) arr[mid] * (mid - left) * (right - mid);
             }
             maxStack.push(i);
 
-            // Process minStack (increasing)
-            while (!minStack.isEmpty() && currMin < arr[minStack.peek()]) {
-                int mid = minStack.pop();  
+            // 2. Process MIN contribution (Sum -= min * count)
+            // Use <= to handle duplicates consistently
+            while (!minStack.isEmpty() && (i == n || arr[i] <= arr[minStack.peek()])) {
+                int mid = minStack.pop();
                 int left = minStack.isEmpty() ? -1 : minStack.peek();
                 int right = i;
-                long count = (long)(mid - left) * (right - mid);
-                //Total = Sum(max contributions) − Sum(min contributions)
-                // Contribution= nums[mid] * count
-               total -= count * arr[mid];
+                total -= (long) arr[mid] * (mid - left) * (right - mid);
             }
             minStack.push(i);
-           
         }
 
-        return (int) total;
+        return total; // Return long to avoid overflow
     }
-
     // Driver main
     public static void main(String[] args) {
         int[] arr1 = {1, 2, 3};

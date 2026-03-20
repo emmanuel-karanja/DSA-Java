@@ -128,7 +128,7 @@ public class MaxAverageSubarray {
         double prev = 0;
         double minPrev = 0;
 
-        // Treat the entire array as a subarray case
+        // Treat the first part of the array as a start subarray
         for (int i = 0; i < k; i++)
             sum += nums[i] - mid;
 

@@ -1,5 +1,5 @@
 package BinarySearch;
-/**YYou are given:
+/**You are given:
      - An array boards[]
      - k painters
 
