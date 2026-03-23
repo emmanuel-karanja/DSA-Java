@@ -17,9 +17,7 @@ public class DistinctIslandsCount {
 
     public static int getDistinctIslands(int[][] grid){
         //dimensions
-        if(grid==null || grid.length==0){
-            throw new IllegalArgumentException("Grid is empty");
-        }
+        if(grid==null || grid.length==0) return -1;
 
         final int rows=grid.length;
         final int cols=grid[0].length;

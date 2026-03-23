@@ -1,4 +1,4 @@
-package Arrays;
+package Arrays.SubArraySum;
 /**
  * Problem:
  * Given a 2D matrix `matrix`, efficiently calculate the sum of elements 

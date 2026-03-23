@@ -26,8 +26,8 @@ import java.util.*;
  * --------------------------------------------------------------------
  *
  * For each element arr[i], we want to know:
- *
- *      "How many elements smaller than arr[i] appear to its right?"
+ 
+ *     "How many elements smaller than arr[i] appear to its right?"
  *
  * Because each such element forms an inversion with arr[i].
  *
@@ -97,7 +97,32 @@ import java.util.*;
  *
  * 5. Insert the current element into the Fenwick Tree.
  *
- *
+ *WHAT IS RANKING?
+ Why do we even need ranking?
+
+Fenwick Trees work on indices like:
+
+[1, 2, 3, ..., n]
+
+But your array might be:
+
+[1000, -50, 999999]
+
+We can’t directly index that.
+
+So we map values → ranks:
+
+sorted = [-50, 1000, 999999]
+
+-50     → 1
+1000    → 2
+999999  → 3
+
+This preserves ordering, not position.
+
+WHAT DOES THE VALUE IN THE FENWICK TREE MEAN?
+
+The Fenwick Tree contains counts of elements we've seen (i.e., elements to the RIGHT).
  * --------------------------------------------------------------------
  * TIME COMPLEXITY
  * --------------------------------------------------------------------
@@ -156,8 +181,9 @@ public class CountInversionsFenwick {
 
         Map<Integer,Integer> rank = new HashMap<>();
 
+        // Compression, to giv
         for(int i=0;i<n;i++)
-            rank.put(sorted[i], i+1);
+            rank.put(sorted[i], i+1);  // i+1 since fenwick tree is 1 based
 
         FenwickTree ft = new FenwickTree(n);
 

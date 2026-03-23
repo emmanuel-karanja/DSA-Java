@@ -82,7 +82,7 @@ public class LongestWithAtLeastKCountPerChar {
                 if (uniqueInWindow == targetUnique && uniqueInWindow == formed) {
                     maxLen = Math.max(maxLen, right - left+1);
                 }
-                   right++; // move right pointer
+                right++; // move right pointer
             }
         }
 

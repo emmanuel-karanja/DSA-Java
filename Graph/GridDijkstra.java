@@ -12,7 +12,9 @@ public class GridDijkstra {
         
         // Distance array: store min cost to reach each cell
         int[][] dist = new int[rows][cols];
-        for (int[] row : dist) Arrays.fill(row, Integer.MAX_VALUE);
+        for (int[] row : dist) {
+            Arrays.fill(row, Integer.MAX_VALUE);
+        }
         dist[0][0] = grid[0][0]; // starting cell cost
         
         // Priority queue: {row, col, currentDistance}

@@ -27,14 +27,19 @@ public class TopologicalSortBFS {
         Map<Character, Integer> inDegree = new HashMap<>();
         Map<Character, Set<Character>> graph = new HashMap<>();
 
+        //Initialize
+        // Initialize nodes
+        for (char[] edge : edges) {
+            inDegree.putIfAbsent(edge[0], 0);
+            inDegree.putIfAbsent(edge[1], 0);
+        }
+
         // Build graph and indegree
         for(char[] edge : edges){
             char a = edge[0];
             char b = edge[1];
 
             graph.computeIfAbsent(a, k -> new HashSet<>()).add(b);
-
-            inDegree.put(a, inDegree.getOrDefault(a, 0)); // ensure a exists
             inDegree.put(b, inDegree.getOrDefault(b, 0) + 1);
         }
 

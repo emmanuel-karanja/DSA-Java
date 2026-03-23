@@ -65,9 +65,10 @@ public class WordSearchII {
         if (!node.children.containsKey(ch)) return; // prune path
 
         TrieNode nextNode = node.children.get(ch);  //descend that path
-        if (nextNode.word != null) {
+        if (nextNode.word != null) {  // Check if it's end of word
             result.add(nextNode.word);  // found a word
-            nextNode.word = null;       // avoid duplicates
+            nextNode.word = null;       // avoid duplicates or alternatively check if the word is in the set of wordd
+            //already found
         }
 
         board[r][c] = '#'; // mark visited

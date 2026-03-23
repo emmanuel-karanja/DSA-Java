@@ -38,7 +38,8 @@ public class WeightedIntervalScheduling {
         int n = streams.length;
         if (n == 0) return 0;
 
-        // 1. Sort by end time - This creates our "Timeline"
+        // 1. Sort by end time - This creates our "Timeline", why we want to find the previous
+        // non-overlapping interval quickly and we can't merge the intervals.
         Arrays.sort(streams, Comparator.comparingInt(s -> s.end));
 
         // 2. dp[i] = max priority using a subset of the first 'i' streams

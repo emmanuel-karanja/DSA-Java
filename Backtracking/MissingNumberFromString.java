@@ -1,15 +1,18 @@
-package Strings;
+package Backtracking;
+
+/**This solution is backtracking with state pruning, I don't know how I never noticed it before. */
 
 public class MissingNumberFromString {
 
     public static int findMissing(String s, int n) {
         boolean[] used = new boolean[n + 1];
         int maxDigits = String.valueOf(n).length(); // max digits for n
-        return dfs(s, 0, used, n, maxDigits);
+        
+        return backtrack(s, 0, used, n, maxDigits);
     }
 
-    private static int dfs(String s, int index, boolean[] used, int n, int maxDigits) {
-        // Base case
+    private static int backtrack(String s, int index, boolean[] used, int n, int maxDigits) {
+        // Base case with pruning
         if (index == s.length()) {
             int missing = -1;
             int count = 0;
@@ -22,22 +25,22 @@ public class MissingNumberFromString {
             return count == 1 ? missing : -1;
         }
 
-        // Try parsing numbers of length 1 to maxDigits, len ranges from 1 to maxLength
-        // First you an entire iteration with len==1 and then another with len==3 etc
         for (int len = 1; len <= maxDigits && index + len <= s.length(); len++) {
+            // Genenerate a candidate
             int num = Integer.parseInt(s.substring(index, index + len));
             // Exclude numbers we've seen or that are greater than n
             if (num == 0 || num > n || used[num]) continue;
 
             // mark as used
-            used[num] = true;
+            used[num] = true;   
+
             // find the next number
-            int res = dfs(s, index + len, used, n, maxDigits);
+            int res = backtrack(s, index + len, used, n, maxDigits);
 
             // check if we are at the end
             if (res != -1) return res;
 
-            used[num] = false;
+            used[num] = false;  // backtrack
         }
 
         return -1;

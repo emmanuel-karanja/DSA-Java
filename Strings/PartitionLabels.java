@@ -26,9 +26,7 @@ import java.util.Map;
 public class PartitionLabels {
 
     public static int[] getPartitionCount(String s){
-        if(s==null || s.length()==0){
-            throw new IllegalArgumentException("String is null or empty.");
-        }
+        if(s==null || s.length()==0) return null;
 
         Map<Character,Integer> charLastIndexMap=new HashMap<>();
 

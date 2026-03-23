@@ -52,13 +52,13 @@ public class CountInversions {
             invCount += mergeSortAndCount(arr, temp, mid + 1, right);
 
             // Count inversions while merging
-            invCount += mergeAndCount(arr, temp, left, mid, right);
+            invCount += mergeTwoAndCount(arr, temp, left, mid, right);
         }
         return invCount;
     }
 
     // Merge two sorted halves and count cross inversions
-    private static long mergeAndCount(int[] arr, int[] temp, int left, int mid, int right) {
+    private static long mergeTwoAndCount(int[] arr, int[] temp, int left, int mid, int right) {
         int i = left;     // Initial index of left subarray
         int j = mid + 1;  // Initial index of right subarray
         int k = left;     // Initial index of merged array

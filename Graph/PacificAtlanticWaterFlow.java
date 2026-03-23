@@ -27,10 +27,9 @@ class Point{
 public class PacificAtlanticWaterFlow {
 
     public static List<Point> canFlowToBothOceans(int[][] board){
-
-        if(board==null || board.length==0){
-            throw new IllegalArgumentException("Grid cannot be empty or null.");
-        }
+         //iterate and reconvert
+        List<Point> commonCells=new ArrayList<>();
+        if(board==null || board.length==0) return commonCells;
 
         final int rows=board.length;
         final int cols=board[0].length;
@@ -59,8 +58,7 @@ public class PacificAtlanticWaterFlow {
 
         //board is now marked
 
-        //iterate and reconvert
-        List<Point> commonCells=new ArrayList<>();
+       
         for(int r=0;r<rows;r++){
             for(int c=0;c<cols;c++){
                 //cell

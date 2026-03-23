@@ -18,7 +18,7 @@ WHY NAIVE FAILS:
 - Range update takes O(n)
 - Range query takes O(n)
 
-With q operations → O(n * q) ❌ too slow
+With q operations → O(n * q)  is too slow
 
 ---
 

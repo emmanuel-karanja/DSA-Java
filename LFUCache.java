@@ -100,7 +100,7 @@ public class LFUCache {
     private void evictLFU() {
         // still under lock
         LinkedHashSet<Integer> keys = freqToKeys.get(minFreq); // always get min frequency bucket
-        int evictKey = keys.iterator().next();                 // oldest key in bucket → LRU tie-breaker
+        int evictKey = keys.iterator().next();                 // oldest key in bucket (at the front) → LRU tie-breaker
         keys.remove(evictKey);                                 // O(1)
         if (keys.isEmpty()) {
             freqToKeys.remove(minFreq);        // cleanup empty bucket

@@ -1,4 +1,4 @@
-package Arrays;
+package Arrays.SubArraySum;
 
 import java.util.*;
 

@@ -1,3 +1,5 @@
+package Arrays.SubArraySum;
+
 public class SubarraySumAtLeastKPositive {
     public static int countSubarraysAtLeastK(int[] nums, int K) {
         int n = nums.length;

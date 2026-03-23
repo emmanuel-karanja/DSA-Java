@@ -32,103 +32,64 @@ import java.util.Map;
  *   dist[0][2] = 7 (via 1), which is the shortest path
  */
 
-
+class Edge {
+    int u, v, w;
+    public Edge(int u, int v, int w) {
+        this.u = u;
+        this.v = v;
+        this.w = w;
+    }
+}
 
 public class FloydWarshall {
 
-    private static final int INF = Integer.MAX_VALUE; // large value representing infinity
+    public static int[][] floydWarshall(Edge[] edges) {
+        if (edges == null || edges.length == 0) return null;
 
-    public static int[][] floydWarshall(int[][] graph) {
-        int V = graph.length;
-        // Initialize distance matrix with input graph weights
-        int[][] dist = new int[V][V];
+        //  Correct way to compute number of nodes
+        int n = 0;
+        for (Edge e : edges) {
+            n = Math.max(n, Math.max(e.u, e.v));
+        }
+        n += 1;
 
-        for (int i = 0; i < V; i++) {
-            for (int j = 0; j < V; j++) {
-                dist[i][j] = graph[i][j];
-            }
+        int[][] dist = new int[n][n];
+        final int INF = Integer.MAX_VALUE / 2;
+
+        // Initialize matrix
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(dist[i], INF);
+            dist[i][i] = 0;
         }
 
-        // Floyd–Warshall main loop ,relax it v-1 times
-        for (int k = 0; k < V; k++) {       // consider each intermediate vertex
-            for (int i = 0; i < V; i++) {   // start vertex
-                for (int j = 0; j < V; j++) { // end vertex
-                    if (dist[i][k] != INF && dist[k][j] != INF) {  // INF is for when an edge doesn't exist between i and j.
-                        dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
-                    }
+        //  Fill edges
+        for (Edge e : edges) {
+            dist[e.u][e.v] = Math.min(dist[e.u][e.v], e.w);
+        }
+
+        //  Floyd-Warshall core
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                if (dist[i][k] == INF) continue; // small optimization
+                for (int j = 0; j < n; j++) {
+                    if (dist[k][j] == INF) continue;
+
+                    dist[i][j] = Math.min(
+                        dist[i][j],
+                        dist[i][k] + dist[k][j]
+                    );
                 }
             }
         }
 
-         // Check for negative cycle
-        boolean negativeCycle = false;
-        for (int i = 0; i < V; i++) {
+        // Detect negative cycle
+        for (int i = 0; i < n; i++) {
             if (dist[i][i] < 0) {
-                negativeCycle = true;
+                System.out.println("Negative cycle detected");
                 break;
             }
         }
 
-        if (negativeCycle) {
-            System.out.println("Graph contains a negative weight cycle");
-        }
-        
         return dist;
-    }
-
-    public static void main(String[] args) {
-        int INF = Integer.MAX_VALUE;
-
-        // Graph represented as adjacency matrix
-        // 0 = vertex 0, 1 = vertex 1, 2 = vertex 2
-        int[][] graph = {
-            {0, 3, 10},
-            {INF, 0, 4},
-            {INF, INF, 0}
-        };
-
-        int[][] dist = floydWarshall(graph);
-
-        // Print shortest distance matrix
-        System.out.println("Shortest distance matrix:");
-        for (int i = 0; i < dist.length; i++) {
-            for (int j = 0; j < dist.length; j++) {
-                if (dist[i][j] >= INF) {
-                    System.out.print("INF ");
-                } else {
-                    System.out.print(dist[i][j] + " ");
-                }
-            }
-            System.out.println();
-        }
-
-        // Detect negative cycle (optional)
-        for (int i = 0; i < dist.length; i++) {
-            if (dist[i][i] < 0) {
-                System.out.println("Negative cycle detected!");
-            }
-        }
-    }
-
-    // A helper function to convert an adj list to an adj matrix
-    public static int[][] adjListToMatrix(Map<Integer, List<int[]>> adjList, int n) {
-        int[][] matrix = new int[n][n];
-
-        // Initialize matrix with INF
-        for (int i = 0; i < n; i++) {
-            Arrays.fill(matrix[i], INF);
-            matrix[i][i] = 0; // distance to self is 0
-        }
-
-        // Fill the matrix using adjacency list
-        for (int u : adjList.keySet()) {
-            for (int[] edge : adjList.get(u)) {
-                int v = edge[0];      // destination node
-                int weight = edge[1]; // edge weight
-                matrix[u][v] = weight;
-            }
-        }
-
-        return matrix;
     }
 }

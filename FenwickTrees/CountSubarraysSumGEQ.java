@@ -92,6 +92,7 @@ public class CountSubarraysSumGEQ {
         }
 
         List<Long> allValues = new ArrayList<>(set);
+        
         Collections.sort(allValues);
 
         Map<Long, Integer> indexMap = new HashMap<>();
@@ -108,7 +109,7 @@ public class CountSubarraysSumGEQ {
         for (long p : prefix) {
             long target = p - S;
             int targetIdx = indexMap.get(target);
-            count += fenwick.query(targetIdx);  // initially set to zero
+            count += fenwick.query(targetIdx);  
 
             int currIdx = indexMap.get(p);
             fenwick.update(currIdx, 1);

@@ -49,7 +49,7 @@ public class RangeAddition {
 
             diff[start] += val;
             
-           diff[end + 1] -= val;
+            diff[end + 1] -= val;
             
         }
 

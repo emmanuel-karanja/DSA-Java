@@ -129,11 +129,11 @@ package TreeDP;
  * - This is a BASE STATE, not just a base case
  * - Leaves must explicitly contribute to DP combinations
  *
- * 6️⃣ Evaluation Order Rule
+ * 6️ Evaluation Order Rule
  * - Post-order traversal (children first)
  * - A node’s dp depends only on its children’s dp
  *
- * 7️⃣ Solution
+ * 7️ Solution
  * - Root has no parent, so it may use ANY color
  * - Answer = sum over all colors c of dp[root][c]
  *

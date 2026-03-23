@@ -52,7 +52,7 @@ public class MaximalSquare {
                         dp[i][j] = 1 + Math.min(
                                 dp[i - 1][j],
                                 Math.min(dp[i][j - 1], 
-                                         dp[i - 1][j - 1])
+                                dp[i - 1][j - 1])
                         );
                     }
                     maxSide = Math.max(maxSide, dp[i][j]);
