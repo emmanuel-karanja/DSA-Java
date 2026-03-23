@@ -42,6 +42,13 @@ We want:
 
 What's contained in the fenwick tree at i is the count.
 
+WHAT IS HAPPENING HERE?
+
+1. IndexMap-->a lookup table to index a given ps[i] and ps[i]-K since we can have many occurencs
+   contributed to by different i and j ranges within the array.
+2. Fenwick tree value at index i is "the count of ocurrences of prefix sum(index by i in the index map) that
+   is equal to ps". This is why we ensure we update the value indexed by i in the prefix tree by 1.
+
 Time Complexity: O(n log n)
 Space Complexity: O(n)
 */
@@ -107,10 +114,14 @@ public class CountSubarraysSumGEQ {
         int count = 0;
 
         for (long p : prefix) {
+            // Does ps[i] >= ps[j]-K exist and what's its index?
             long target = p - S;
             int targetIdx = indexMap.get(target);
+
+            // How many occurrences of it?
             count += fenwick.query(targetIdx);  
 
+            // Update fot the current ps[i]
             int currIdx = indexMap.get(p);
             fenwick.update(currIdx, 1);
         }

@@ -26,21 +26,23 @@ public class MissingNumberFromString {
         }
 
         for (int len = 1; len <= maxDigits && index + len <= s.length(); len++) {
-            // Genenerate a candidate
+            // Generate a candidate
             int num = Integer.parseInt(s.substring(index, index + len));
+
+            System.out.println("len:"+len+", num:"+num);
             // Exclude numbers we've seen or that are greater than n
             if (num == 0 || num > n || used[num]) continue;
 
-            // mark as used
+            // Mark as used
             used[num] = true;   
 
-            // find the next number
+            // Find the next number
             int res = backtrack(s, index + len, used, n, maxDigits);
 
-            // check if we are at the end
+            // Check if we are at the end
             if (res != -1) return res;
 
-            used[num] = false;  // backtrack
+            used[num] = false;  // Backtrack
         }
 
         return -1;

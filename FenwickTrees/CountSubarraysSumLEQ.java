@@ -47,8 +47,16 @@ We only use the Fenwick Tree so we can query the number of prefix sums ≤ X in 
 Everything else — prefix sums, coordinate compression, totalInserted — is just bookkeeping 
 to make this query correct and efficient.
 
+WHAT IS HAPPENING HERE?
+
+1. IndexMap-->a lookup table to index a given ps[i] and ps[i]-K since we can have many occurencs
+   contributed to by different i and j ranges within the array.
+2. Fenwick tree value at index i is "the count of ocurrences of prefix sum(index by i in the index map) that
+   is equal to ps". This is why we ensure we update the value indexed by i in the prefix tree by 1.
 Time Complexity: O(n log n)
 Space Complexity: O(n)
+
+
 */
 
 public class CountSubarraysSumLEQ {
