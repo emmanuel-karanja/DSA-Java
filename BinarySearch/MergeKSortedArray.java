@@ -28,6 +28,7 @@ public class MergeKSortedArray {
             }
         }
 
+        // Deal with the leftovers from each of the arrays.
         while (i < a1.length) {
             merged[k++] = a1[i++];
         }

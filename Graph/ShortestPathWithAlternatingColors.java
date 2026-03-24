@@ -51,8 +51,8 @@ public class ShortestPathWithAlternatingColors {
             int u = curr[0];
             int d = curr[1];
 
-            if (u == end) return d;
-            if (d > dist[u]) continue;
+            if (u == end) return d;   // Poll condition
+            if (d > dist[u]) continue;  // Stale state skipping
 
             for (int[] neighbor : adj[u]) {
                 int v = neighbor[0];

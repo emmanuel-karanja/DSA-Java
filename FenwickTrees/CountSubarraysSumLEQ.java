@@ -53,6 +53,7 @@ WHAT IS HAPPENING HERE?
    contributed to by different i and j ranges within the array.
 2. Fenwick tree value at index i is "the count of ocurrences of prefix sum(index by i in the index map) that
    is equal to ps". This is why we ensure we update the value indexed by i in the prefix tree by 1.
+   
 Time Complexity: O(n log n)
 Space Complexity: O(n)
 

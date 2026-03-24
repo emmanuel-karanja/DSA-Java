@@ -91,7 +91,8 @@ public class BipartiteGraph {
 
         //2.Iterate from each node doing a BFS. Graph may be disconnected, so we must check every component
         for (int start = 0; start < n; start++) {
-            if (color[start] != -1) continue;
+
+            if (color[start] != -1) continue;   // Check if the node has been visited
 
             // Start BFS from this node
             Queue<Integer> queue = new ArrayDeque<>();

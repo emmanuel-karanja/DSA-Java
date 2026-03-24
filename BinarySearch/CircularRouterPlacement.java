@@ -71,6 +71,8 @@ public class CircularRouterPlacement {
 
             // This inner loop answers the question, is it possible to place all the routers
             // starting from index 'start'? and with minDist between the position? if true we stop
+             // Wht start+1, th first router has already been placed at start, so the next one must
+             // come after start, start is always in the original array bounds
             for (int i = start + 1; i < start + n; i++) { // Note the limit
                 if (linear[i] - last >= minDist) {
                     placedRouters++;

@@ -27,7 +27,7 @@ class MCRResult{
         this.startIndex=startIndex;
     }
 }
-public class MaxCharacterReplacement {
+public class LongestMaxCharacterReplacementAtLeastK {
     
     public static MCRResult  getMaxCharReplacement(String s, int k){
 
@@ -51,7 +51,6 @@ public class MaxCharacterReplacement {
 
             maxFreq=Math.max(maxFreq,freqMap.get(rightChar));  //we'll keep track of the most common character
             //even if we don't know which one it's.
-            
 
             // shrink window until valid, i.e. don't compute windowsize before
             while ((right - left + 1) - maxFreq > k) {   // 

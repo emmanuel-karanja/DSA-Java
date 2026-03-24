@@ -32,7 +32,7 @@ class TreeNode{
     }
 }
 
-public class MaxPathSum {
+public class MostProfitablePathSum {
     
     public static int maxPathSum=Integer.MIN_VALUE; //to care for negative values
 
@@ -46,9 +46,9 @@ public class MaxPathSum {
         int leftGain=Math.max(dfs(node.left),0); //do this to account for negative sums
         int rightGain=Math.max(dfs(node.right),0); //
 
-        int currentPathSum=node.value+leftGain+rightGain;
+        int currentTotalPathGain=node.value+leftGain+rightGain;
 
-        maxPathSum=Math.max(currentPathSum,maxPathSum);
+        maxPathSum=Math.max(currentTotalPathGain,maxPathSum);
 
         return node.value+Math.max(leftGain,rightGain);
     }
@@ -88,7 +88,7 @@ public class MaxPathSum {
         // Root node
         TreeNode root = new TreeNode(node2, node10R, 10);
 
-        int maxSum = MaxPathSum.getPathSum(root);
+        int maxSum = MostProfitablePathSum.getPathSum(root);
         System.out.println("Maximum Path Sum: " + maxSum);
     }
 }

@@ -19,7 +19,7 @@ class TreeNode {
     }
 }
 
-public class MaxPathSumWithNodes {
+public class MaxProfitablePathSumWithNodes {
 
     private static int maxPathSum = Integer.MIN_VALUE;
     private static List<TreeNode> bestPath = new ArrayList<>();
