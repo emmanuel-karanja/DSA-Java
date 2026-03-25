@@ -104,7 +104,7 @@ import java.util.Arrays;
  *
  * Both solve the same problem, but Kuhn scales better.
  */
-public class MaxInvitationsKuhn {
+public class KuhnMaxInvitations {
 
     public int solve(int[][] grid) {
         int m = grid.length;    // number of invitees
@@ -151,7 +151,7 @@ public class MaxInvitationsKuhn {
     }
 
     public static void main(String[] args) {
-        MaxInvitationsKuhn solver = new MaxInvitationsKuhn();
+        KuhnMaxInvitations solver = new KuhnMaxInvitations();
 
         int[][] grid = {
             {1, 1, 0},
