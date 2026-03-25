@@ -14,6 +14,26 @@ import java.util.*;
  * - Each semester, you can take at most k courses
  * Goal:
  * - Minimum number of semesters required to complete all courses
+ * 
+ * 
+ * REASONING
+ * 
+ * We will construct a  bitmask that tells us in shorthand what the prerequisites for a given course
+ * are i.e. next-->[prerequisites] .We need it to help us in selecting the next available course.
+ * 
+ * At each step want to know:
+ *  
+ *   1. What courses are available to select from? These have two characteristics for each course we can add to
+ *      available set.
+ *        - They are not yet complete. Obviously.
+ *        - Their prerequisites are already satisfied. A course is eligibl for doing if we have done all
+ *          prerequisites of it.
+ *   *At this step, to check that a course has its prequisites compltely covered we mask & courseToPreMap[i]
+ *    and compare that it's equal to courseToPreMap[i], meaning that all the bits set in courseToPreMap[i]
+ *    are set.
+ *   2. From the available set, we ensure that we've not selected more than K courses for a given semester.
+ *        - Select a course from the remaining group.
+ *     
  *
  * Approach (Bitmask + DP + Topology):
  * ----------------------------------
@@ -49,12 +69,12 @@ public class ParallelCoursesII {
     public static int minNumberOfSemesters(int n, int[][] relations, int k) {
         int fullMask = (1 << n) - 1;
 
-        // prerequisites bitmask for each course
-        int[] pre = new int[n];
+        // 1. Precompute prerequisites bitmask for each course
+        int[] courseToPreMap = new int[n];
         for (int[] rel : relations) {
-            int prev = rel[0] - 1;
+            int prev = rel[0] - 1;  // 0 based index conversion
             int next = rel[1] - 1;
-            pre[next] |= (1 << prev);
+            courseToPreMap[next] |= (1 << prev);
         }
 
         int[] dp = new int[1 << n];
@@ -62,19 +82,23 @@ public class ParallelCoursesII {
         dp[0] = 0;
 
         for (int mask = 0; mask <= fullMask; mask++) {
-            if (dp[mask] == Integer.MAX_VALUE) continue;
+            if (dp[mask] == Integer.MAX_VALUE) continue;  // We have not assigned any courses here at all.
 
-            // compute available courses for this mask
+            // Compute courses not in mask that also have all prerequisites satisfied:
             int available = 0;
             for (int i = 0; i < n; i++) {
-                if ((mask & (1 << i)) == 0 && (mask & pre[i]) == pre[i]) {
+                // mask & pre[i] which prerequisites of course i are already done.
+                // (mask & courseToPreMap[i])=courseToPreMap means “All courses that are prerequisites for course i have been completed.”
+                if ((mask & (1 << i)) == 0 && (mask & courseToPreMap[i]) == courseToPreMap[i]) {
+                    // Basically add course i to available courses
                     available |= (1 << i);
                 }
             }
 
-            // generate all subsets of available courses of size <= k
+            // Pick a course from the available courses
+             // (sub-1) & mask is "what remains after selecting sub"
             for (int sub = available; sub > 0; sub = (sub - 1) & available) {
-                if (Integer.bitCount(sub) <= k) {
+                if (Integer.bitCount(sub) <= k) { // Count of courses in the mask
                     int newMask = mask | sub;
                     dp[newMask] = Math.min(dp[newMask], dp[mask] + 1);
                 }

@@ -23,9 +23,9 @@ to their preferences, without double-booking any table.
  * Find the max invitations accepted.
  * 
  * 1. The Generative State
- *      Independent Variable: The invitee index i.
- *      The Mask: Which tables are already occupied.
- *      State: dp[i][mask] = Max invitations for first i invitees given table occupancy mask.
+ *    Independent Variable: The invitee index i.
+ *    The Mask: Which tables are already occupied.
+ *    State: dp[i][mask] = Max invitations for first i invitees given table occupancy mask.
  * 
  * 2. The Transitions
  *   The "Skip" Case: Invitee i does not get a table.
@@ -65,7 +65,7 @@ public class MaxInvitations {
                 // Try to seat invitee 'i' at every possible table 'j'.
                 for (int j = 0; j < n; j++) {
                     // mandatory check
-                    if((mask & (1<<j))!=0) continue;
+                    if((mask & (1<<j)) !=0) continue;
 
                     if (grid[i][j] == 1) {  // This is the condition matrix
                         int nextMask = mask | (1 << j);

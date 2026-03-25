@@ -16,23 +16,31 @@ public class SmallestSufficientTeam2D {
         int n = people.size();
         int FULL_MASK = (1 << m) - 1;
 
-        // Map skill -> index
+        // Map skill -> index, co-ordination compression
         Map<String, Integer> skillToId = new HashMap<>();
-        for (int i = 0; i < m; i++) skillToId.put(reqSkills[i], i);
+        for (int i = 0; i < m; i++) {
+            skillToId.put(reqSkills[i], i);
+        }
 
         // Precompute person masks
         int[] personMask = new int[n];
         for (int i = 0; i < n; i++) {
+            // Start with a clean slate
             int mask = 0;
             for (String skill : people.get(i)) {
-                if (skillToId.containsKey(skill)) mask |= (1 << skillToId.get(skill));
+                // Check if the skill is available
+                if (skillToId.containsKey(skill)) {
+                    mask |= (1 << skillToId.get(skill));
+                }
             }
             personMask[i] = mask;
         }
 
         // DP table
         int[][] dp = new int[1 << m][n + 1];
-        for (int mask = 0; mask <= FULL_MASK; mask++) Arrays.fill(dp[mask], Integer.MAX_VALUE / 2);
+        for (int mask = 0; mask <= FULL_MASK; mask++) {
+            Arrays.fill(dp[mask], Integer.MAX_VALUE / 2);
+        } 
         dp[0][0] = 0;
 
         // Parent pointers for reconstruction
@@ -43,18 +51,25 @@ public class SmallestSufficientTeam2D {
         for (int i = 0; i < n; i++) {
             int pMask = personMask[i];  // Get person i's skillset mask
             for (int mask = 0; mask <= FULL_MASK; mask++) {
-                if (dp[mask][i] < Integer.MAX_VALUE / 2) {
-                    // Option 1: skip person i
+                if (dp[mask][i] < Integer.MAX_VALUE / 2) {  //
+                    // Option 1: skip person i, We do it like this since will update backlinks as well
                     if (dp[mask][i] < dp[mask][i + 1]) { 
                         dp[mask][i + 1] = dp[mask][i];
+
+                        // Backlinks update
                         parentMask[mask][i + 1] = mask;
                         parentPerson[mask][i + 1] = -1;
                     }
 
-                    // Option 2: take person i
+                    // Option 2: take person i, the trick here is that we take all the people and their skills in mask
+                    // And add the current person there only if they upgrade the mask
                     int nextMask = mask | pMask;
+
+                    // This is in lieu of Math.min
                     if (dp[mask][i] + 1 < dp[nextMask][i + 1]) {
                         dp[nextMask][i + 1] = dp[mask][i] + 1;
+
+                        //Update backlinks
                         parentMask[nextMask][i + 1] = mask;
                         parentPerson[nextMask][i + 1] = i;
                     }
@@ -69,7 +84,7 @@ public class SmallestSufficientTeam2D {
         while (mask > 0 && i > 0) {
             if (parentPerson[mask][i] != -1) {
                 result.add(parentPerson[mask][i]);
-                mask = parentMask[mask][i];
+                mask = parentMask[mask][i];  // Look at the one before it, i.e. the parent of this
             }
             i--;
         }

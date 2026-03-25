@@ -48,6 +48,8 @@ public class MinElevatorTrips {
 
         // Precompute weight of all subsets
         int[] subsetWeight = new int[totalMask];
+
+        // I like this approach, precalculate the subset masks to keep the transition loop simple.
         for (int mask = 0; mask < totalMask; mask++) {
             int sum = 0;
             for (int i = 0; i < n; i++) {
@@ -60,14 +62,12 @@ public class MinElevatorTrips {
 
         for (int mask = 0; mask < totalMask; mask++) {
             if (dp[mask] == Integer.MAX_VALUE) continue;
-            
-            // subset of remaining people i.e. people not carried. Carried people are represented by mask.
-            /**totalMask = 1 << n = 10000
-               totalMask - 1      = 01111   // exactly n bits of 1s */
-            int remaining = (~mask) & (totalMask - 1);   //This is how you calculate the remaining when dealing with 
-            // For sub, we are not selecting one person by one, we are selecting groups of people from the remaining
-            // Whose combined weight <= W
-            for (int sub = remaining; sub > 0; sub = (sub - 1) & remaining) {
+           
+            // Calculate available
+            int available = (~mask) & (totalMask - 1);  
+
+            for (int sub = available; sub > 0; sub = (sub - 1) & available) {
+                // This is one way to do it. If we want count
                 if (subsetWeight[sub] <= W) {
                     int newMask = mask | sub;
                     dp[newMask] = Math.min(dp[newMask], dp[mask] + 1);
