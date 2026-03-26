@@ -22,7 +22,7 @@ package Sorting;
  *
  * 4. Complexity: O(n log n) time and O(n) space.
  */
-public class CountSubarraysMergeSort {
+public class CountSubarraysLessThanOrEqualToKMergeSort {
 
     public static int countSubarrays(int[] nums, int k) {
         int n = nums.length;

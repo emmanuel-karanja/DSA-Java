@@ -1,4 +1,4 @@
-package BitmaskDP;
+
 
 /**
  * PROBLEM: Partition to K Equal Sum Subsets
