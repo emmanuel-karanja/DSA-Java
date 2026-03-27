@@ -72,7 +72,9 @@ public class ShortestSubarrayLEQK {
             int bestJ = ft.query(targetIdx);
 
             if (bestJ != -1) {
-                minLength = Math.min(minLength, i - bestJ);
+                // i-bestJ and NOT i=bestJ+1? Because prefix sum to ps[i] is from 0 ..i-1
+                // so (i-1)-bestJ+1= i-bestJ
+                minLength = Math.min(minLength, i - bestJ); 
             }
 
             // Update Fenwick tree with index 'i' at the rank of prefix sum 'p'

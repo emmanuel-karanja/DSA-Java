@@ -75,11 +75,11 @@ public class ReversePairsFenwick {
         for (int j = 0; j < n; j++) {
             long val = nums[j];
             // What we want
-            long targetIdx = 2L * val;
+            long target = 2L * val;
 
             // How many elements seen so far are > 2 * nums[j]?
             // Total seen (j) - elements <= 2 * nums[j]
-            int countLEQ = ft.query(rankMap.get(targetIdx));
+            int countLEQ = ft.query(rankMap.get(target));
             count += (j - countLEQ);
 
             // Add current nums[j] to the Fenwick Tree
