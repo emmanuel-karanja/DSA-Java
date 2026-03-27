@@ -4,101 +4,126 @@ import java.util.*;
 
 /**
  * PROBLEM: Maximum Subarray Sum ≤ K
+ * * Given an integer array 'nums' and an integer 'K', find the maximum sum of any 
+ * contiguous subarray such that the sum does not exceed K.
  *
- * Given an integer array nums and an integer K, find the maximum sum of any subarray
- * such that the sum is ≤ K.
+ * ALGEBRAIC REASONING:
+ * 1. Subarray Sum Definition: 
+ * Sum(i, j) = prefix[i] - prefix[j]  (where i is current index, j is a previous index)
+ * 
+ * 
+ * 2. Constraint: 
+ * prefix[i] - prefix[j] ≤ K
+ * 
+ * Rearranging for the "known" current prefix[i]:
+ * -prefix[j] ≤ K - prefix[i]
+ * prefix[j] ≥ prefix[i] - K
+ * 
+ * 
+ * 3. Optimization Goal:
+ * To maximize (prefix[i] - prefix[j]), we need to subtract the SMALLEST possible prefix[j]
+ * that still satisfies the constraint prefix[j] ≥ (prefix[i] - K).
+ * 
+ * 
+ * 4. Why Descending Sort + Fenwick Min?
+ * 
+ * - A standard Fenwick tree queries the "prefix" (indices 1 to target).
+ * - By sorting values in DESCENDING order:
+ * Rank 1 = Largest Value
+ * Rank N = Smallest Value
+ * - Therefore, query(map.get(target)) covers all values from Max down to Target.
+ * - This effectively searches the range [target, ∞) in the original number space.
+ * - We store the MINIMUM value in the Fenwick tree to find the best (smallest) prefix[j].
  *
- * APPROACH:
- * 1. Compute prefix sums: prefix[i] = sum of nums[0..i-1]
- * 2. For each prefix[j], we want the largest prefix[i] ≤ prefix[j] - lower_bound
- *    (here lower_bound = prefix[j] - K)
- * 3. Use coordinate compression with a HashSet + Fenwick Tree to efficiently
- *    query the max prefix sum ≤ a certain value
- * 4. Update the Fenwick Tree with the current prefix sum
- *
- * Note: We use Fenwick Tree for "max" instead of count.
+ * TIME COMPLEXITY: O(N log N) due to sorting and Fenwick operations.
+ * SPACE COMPLEXITY: O(N) for the prefix sums and coordinate map.
  */
 
-class FenwickMax {
-    int n;
-    long[] bit;
-
-    public FenwickMax(int n) {
-        this.n = n;
-        this.bit = new long[n + 2]; // 1-based indexing
-        Arrays.fill(bit, Long.MIN_VALUE);
-    }
-
-    // Max update at position i
-    public void update(int i, long val) {
-        i++; // 1-based
-        while (i <= n + 1) {
-            bit[i] = Math.max(bit[i], val);
-            i += i & -i;
-        }
-    }
-
-    // Max query for prefix [0..i]
-    public long query(int i) {
-        i++; // 1-based
-        long res = Long.MIN_VALUE;
-        while (i > 0) {
-            res = Math.max(res, bit[i]);
-            i -= i & -i;
-        }
-        return res;
-    }
-}
-
 public class MaxSubarraySumLEQK {
+
+    // Fenwick Tree modified to track Prefix Minimums
+    static class FenwickMin {
+        int n;
+        long[] bit;
+
+        public FenwickMin(int n) {
+            this.n = n;
+            this.bit = new long[n + 2];
+            // Initialize with Max Value because we are looking for the MINIMUM
+            Arrays.fill(bit, Long.MAX_VALUE);
+        }
+
+        // Update the tree with a value at a specific ranked index
+        public void update(int i, long val) {
+            while (i <= n) {
+                bit[i] = Math.min(bit[i], val);
+                i += i & -i;
+            }
+        }
+
+        // Query the minimum value among all ranks from 1 to i
+        public long query(int i) {
+            long res = Long.MAX_VALUE;
+            while (i > 0) {
+                res = Math.min(res, bit[i]);
+                i -= i & -i;
+            }
+            return res;
+        }
+    }
 
     public int maxSubarraySumNoLargerThanK(int[] nums, int K) {
         int n = nums.length;
         long[] prefix = new long[n + 1];
-        for (int i = 0; i < n; i++) prefix[i + 1] = prefix[i] + nums[i];
+        for (int i = 0; i < n; i++) {
+            prefix[i + 1] = prefix[i] + nums[i];
+        }
 
-        // Step 1: Collect all relevant values for compression
+        // Step 1: Collect all prefix sums and search targets (p - K) for coordinate compression
         Set<Long> set = new HashSet<>();
         for (long p : prefix) {
             set.add(p);
             set.add(p - K);
         }
 
-        // Step 2: Coordinate compression
+        // Step 2: SORT DESCENDING
+        // This maps larger numbers to smaller indices in the Fenwick Tree
         List<Long> sorted = new ArrayList<>(set);
-        Collections.sort(sorted);
-        Map<Long, Integer> map = new HashMap<>();
+        Collections.sort(sorted, Collections.reverseOrder());
 
-        int idx=1;
+        Map<Long, Integer> map = new HashMap<>();
         for (int i = 0; i < sorted.size(); i++) {
-            map.put(sorted.get(i), idx++);
+            map.put(sorted.get(i), i + 1); // 1-based indexing
         }
 
-        // Step 3: Fenwick Tree for max prefix
-        FenwickMax ft = new FenwickMax(idx);
+        FenwickMin ft = new FenwickMin(sorted.size());
+        long maxResult = Long.MIN_VALUE;
 
-        int maxSum = Integer.MIN_VALUE;
-
+        // Step 3: Iterate through prefix sums
         for (long p : prefix) {
-            // Find the largest prefix[i] ≤ p - lower_bound = p - K
+            // Find target index for (p - K)
             int targetIdx = map.get(p - K);
+            
+            // Query for the minimum prefix sum seen so far that is >= (p - K)
+            // Because of descending sort, query(targetIdx) looks at the "Right Tail"
             long bestPrev = ft.query(targetIdx);
-            if (bestPrev != Long.MIN_VALUE) {
-                maxSum = Math.max(maxSum, (int) (p - bestPrev));
+
+            if (bestPrev != Long.MAX_VALUE) {
+                maxResult = Math.max(maxResult, p - bestPrev);
             }
 
-            // Update Fenwick with current prefix sum
+            // Update the Fenwick Tree with the current prefix sum 'p'
             int currIdx=map.get(p);
+            // Store the value of P
             ft.update(currIdx, p);
         }
 
-        return maxSum;
+        return (maxResult == Long.MIN_VALUE) ? 0 : (int) maxResult;
     }
 
-    // ---------------- DRIVER ----------------
     public static void main(String[] args) {
         MaxSubarraySumLEQK solver = new MaxSubarraySumLEQK();
-
+        
         int[] nums = {3, -2, 5, -1};
         int K = 4;
 
@@ -106,6 +131,7 @@ public class MaxSubarraySumLEQK {
 
         System.out.println("Input: " + Arrays.toString(nums));
         System.out.println("Constraint K = " + K);
-        System.out.println("Maximum subarray sum ≤ K: " + result);
+        System.out.println("Maximum subarray sum ≤ K: " + result); 
+        // Expected: 4 (from subarray [5, -1] or [3, -2, 3... wait, 5-1 is the winner here])
     }
 }

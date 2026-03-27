@@ -5,7 +5,7 @@ import java.util.*;
 /*
 PROBLEM:
 Count the number of contiguous subarrays in a given array (can have negatives) 
-whose sum is ≥ S.
+whose sum is <= S.
 
 ---
 
@@ -26,11 +26,17 @@ Cannot incrementally expand/shrink safely.
 
 2) Prefix Sum Reduction:
 ------------------------
-Let prefix[i] = sum of nums[0..i-1]
-Subarray sum from i to j = prefix[j+1] - prefix[i]
-We want:
-    prefix[j+1] - prefix[i] ≥ S
-⇔  prefix[i] ≤ prefix[j+1] - S
+
+WE want ps[i] - ps[j] <=K where i >j
+
+We want ps[j] 
+   -ps[j] <=K-ps[i]
+
+   apply negatives to lhs positive(flips the inequality in the process)
+    ps[j]>=ps[i]-K
+
+    How many values have I previously inserted into the tree that have a rank >= the rank of (p - S)?
+    Hence to ensure only larger values are on the left, we sort in descending order.
 
 ---
 
@@ -89,7 +95,7 @@ public class CountSubarraysSumLEQ {
         }
     }
 
-    public static int countSubarraysGEQ(int[] nums, int S) {
+    public static int countSubarraysLEQ(int[] nums, int S) {
         int n = nums.length;
 
         // Step 1: compute prefix sums
@@ -106,7 +112,9 @@ public class CountSubarraysSumLEQ {
         }
 
         List<Long> allValues = new ArrayList<>(set);
-        Collections.sort(allValues);
+        // For sum <=K we do reserve order so that th bigger p-K are
+        // on the left side now
+        Collections.sort(allValues, Collections.reverseOrder());
 
         Map<Long, Integer> indexMap = new HashMap<>();
         int idx = 1;
@@ -119,20 +127,20 @@ public class CountSubarraysSumLEQ {
 
         int count = 0;
 
-        int totalInserted = 0; // Keep track of elements currently in the Fenwick Tree
 
         for (long p : prefix) {
-            long threshold = p - S;
-            int targetIdx = indexMap.get(threshold);
-            
-            // Logic: Total Elements - Elements smaller than threshold
-            // We want P[i] >= p - K, so we subtract Query(targetIdx - 1)
-            int countSmallerThanThreshold = fenwick.query(targetIdx - 1);
-            count += (totalInserted - countSmallerThanThreshold);
+            long target = p - S;
+            int targetIdx = indexMap.get(target);
 
+            //"How many values have I previously inserted into the tree that have a rank <= the rank of (p - S)?
+            // Why? because we want ps[i]-ps[j]<=K where i > j and so -ps[j]<=K-ps[i] we apply negative on both sids
+            // and flip the sign ps[j]>=ps[i]-K
+            //  How many occurrences of it?
+            count += fenwick.query(targetIdx);  
+
+            // Update fot the current ps[i]
             int currIdx = indexMap.get(p);
             fenwick.update(currIdx, 1);
-            totalInserted++; // Increment total count
         }
 
         return count;
@@ -141,12 +149,12 @@ public class CountSubarraysSumLEQ {
     public static void main(String[] args) {
         int[] nums1 = {2, -1, 3};
         int S1 = 3;
-        System.out.println("Subarrays with sum ≥ " + S1 + ": " + countSubarraysGEQ(nums1, S1));
+        System.out.println("Subarrays with sum <= " + S1 + ": " + countSubarraysLEQ(nums1, S1));
         // Expected: 3 → [2,-1,3], [3], [2,-1,3] includes overlapping counts
 
         int[] nums2 = {1,2,3,4};
         int S2 = 5;
-        System.out.println("Subarrays with sum ≥ " + S2 + ": " + countSubarraysGEQ(nums2, S2));
+        System.out.println("Subarrays with sum <= " + S2 + ": " + countSubarraysLEQ(nums2, S2));
         // Expected: 6 → [2,3],[3,4],[1,2,3],[2,3,4],[1,2,3,4],[5]
     }
 }

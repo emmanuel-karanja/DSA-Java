@@ -1,117 +1,106 @@
 package TreeDP;
-
 /**
- * Binary Tree Cameras Problem (Tree DP with State Compression)
+ * Given a binary tree, place cameras on nodes so that every node is monitored.
+ * - A camera at a node monitors:
+ *     1. The node itself
+ *     2. Its immediate children
+ *     3. Its parent
+ * - Goal: Minimize the total number of cameras needed.
  *
- * Problem:
- * Place cameras on nodes of a binary tree such that every node is monitored.
- * A camera at a node monitors:
- *   - the node itself
- *   - its immediate children
- *   - its parent
+ * INTUITION:
+ * Tree DP with three states per node can elegantly represent coverage.
  *
- * Goal:
- * Minimize the total number of cameras needed.
+ * GOAL:
+ *   Minimize the number of cameras needed to cover the entire tree.
  *
- * ----------------------------
- * DP BREAKDOWN (RUBRIC STYLE)
- * ----------------------------
+ * STATE:
+ *   Each state represents the **coverage status of the node**, NOT the number of cameras at the node.
+ *   For each node:
+ *   - state0: Node is NOT covered (needs a camera from parent)
+ *   - state1: Node IS covered but has NO camera
+ *   - state2: Node HAS a camera
  *
- * 1️⃣ Goal
- * Minimize the number of cameras to monitor all nodes in the tree.
+ *   Each state stores the **minimum number of cameras required** in the subtree rooted at this node given that
+ *   the node is in that state.
+ *   So state2 does not mean “we place a camera and count 1 here only” — it represents **the optimal number of
+ *   cameras for this subtree if this node has a camera**.
  *
- * 2️⃣ State (compressed)
- * Instead of a DP table per node, we define 3 states:
- *   0: Node is NOT covered (needs a camera from parent)
- *   1: Node IS covered (monitored) but has no camera
- *   2: Node HAS a camera
+ * CHOICES:
+ *   At a node:
+ *     1. Place a camera → state2
+ *     2. Do not place a camera → state1 or state0 depending on coverage
  *
- * We will compute these states recursively per node.
+ * RECURRENCE RELATION:
+ *   state0(node) = left[1] + right[1]
+ *       // node not covered → children must cover themselves
  *
- * 3️⃣ Choices / Decisions
- * For each node:
- *   - Place a camera here (state 2)
- *   - Don’t place a camera (then node might be covered by children, state 1)
- *   - If node is a leaf, sometimes it forces parent to place a camera (state 0)
+ *   state2(node) = 1 + min(left[0], left[1], left[2]) + min(right[0], right[1], right[2])
+ *       // place camera here → covers self + children
  *
- * 4️⃣ Recurrence Relation
- * For node:
+ *   state1(node) = min(
+ *       state2(node),
+ *       left[2] + min(right[1], right[2]),
+ *       right[2] + min(left[1], left[2])
+ *   )
+ *       // node covered without camera → either child has camera or node itself has camera
  *
- *   state0 (not covered) = state1_left + state1_right
- *       → this forces parent to place a camera
+ * BASE CASE:
+ *   null node:
+ *     state0 = 0 → trivially "not covered" but needs no camera
+ *     state1 = 0 → trivially "covered"
+ *     state2 = INF → impossible to place camera
  *
- *   state2 (camera here) = 1 + min(child0, child1, child2) for each child
- *       → camera at node covers itself + children
- *
- *   state1 (covered without camera) = min(
- *        child2 + min(child0, child1, child2)
- *   )  
- *
- * This is easier to implement by returning 3 values per node.
- *
- * 5️⃣ Base Cases
- * - Null node:
- *     - state0 = 0 (needs coverage from parent)
- *     - state1 = 0 (null node is trivially covered)
- *     - state2 = large value (can’t place camera)
- *
- * 6️⃣ Evaluation Order Rule
- * - Post-order traversal ensures children states are computed before parent.
- *
- * 7️⃣ Solution
- * - After computing root, minimum cameras = min(state1_root, state2_root)
- *
- * ----------------------------
- * DP PRINCIPLES
- * ----------------------------
- * - Optimal Substructure: min cameras at parent depends only on children states
- * - State Compression: only 3 states per node, no need for a full DP table
- * - Base State: handled explicitly for null nodes
- * - Complexity: O(N), space O(H) recursion stack
+ * KEY INSIGHTS:
+ *   - Post-order traversal ensures children are evaluated before parent.
+ *   - The final answer is min(state1_root, state2_root) since root must be covered.
  */
-class BinaryTreeCameras {
+public class BinaryTreeCameras {
 
     static class Node {
         int val;
         Node left, right;
 
-        Node(int val) {
-            this.val = val;
-        }
+        Node(int val) { this.val = val; }
     }
 
-    static final int INF = 1000000;
+    static final int INF = 1_000_000;
 
-    public static int minCameraCover(Node root) {
-        int[] result = dfs(root);
-        // root must be covered, so min(state1, state2)
-        return Math.min(result[1], result[2]);
-    }
-
-    // Returns {state0, state1, state2} for node
-    // state0 = node not covered i.. covered by both children i.e. left[1]+right[1]
-    // state1 = node covered without camera i.e. = min(coveredBySelfCamera,coveredByChildren) 
-    // state2 = node has camera =1+ min(for all left children)+min(for all right children)
+    /**
+     * Returns {state0, state1, state2} for a node:
+     * - state0: node is NOT covered (needs camera from parent)
+     * - state1: node is covered but has NO camera
+     * - state2: node HAS a camera
+     */
     private static int[] dfs(Node node) {
         if (node == null) {
-            return new int[]{0, 0, INF}; // base state
+            return new int[]{0, 0, INF}; // base case
         }
 
         int[] left = dfs(node.left);
         int[] right = dfs(node.right);
 
-        int state0 = left[1] + right[1]; // node not covered → children must cover
-        
-        //this is state2= 1+min(for all left)+min(for all right)
+        // Node is not covered: children must cover themselves
+        int state0 = left[1] + right[1];
+
+        // Node has camera: 1 for itself + min states of children
         int state2 = 1 + Math.min(left[0], Math.min(left[1], left[2]))
                        + Math.min(right[0], Math.min(right[1], right[2]));
-        int state1 = Math.min(state2, 
-                             Math.min(
-                             left[2] + Math.min(right[1], right[2]), 
-                             right[2] + Math.min(left[1], left[2])
-        ));
+
+        // Node is covered without camera: either child has camera or node has camera
+        int state1 = Math.min(
+                       state2,  // node has camera
+                       Math.min(
+                           left[2] + Math.min(right[1], right[2]),
+                           right[2] + Math.min(left[1], left[2])
+                       ));
 
         return new int[]{state0, state1, state2};
+    }
+
+    public static int minCameraCover(Node root) {
+        int[] states = dfs(root);
+        // Root must be covered: choose covered or has camera
+        return Math.min(states[1], states[2]);
     }
 
     // Example usage
@@ -123,6 +112,6 @@ class BinaryTreeCameras {
         root.left.right = new Node(0);
 
         System.out.println("Minimum cameras needed: " + minCameraCover(root));
+        // Expected output: 2
     }
 }
-

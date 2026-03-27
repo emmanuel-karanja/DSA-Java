@@ -38,6 +38,7 @@ public class CountSubarraysLessThanOrEqualToKMergeSort {
         if (start >= end) return 0;
 
         int mid = start + (end - start) / 2;
+        
         int count = mergeSortAndCount(sum, start, mid, k) + 
                     mergeSortAndCount(sum, mid + 1, end, k);
 

@@ -26,19 +26,27 @@ Cannot incrementally expand/shrink safely.
 
 2) Prefix Sum Reduction:
 ------------------------
-Let prefix[i] = sum of nums[0..i-1]
-Subarray sum from i to j = prefix[j+1] - prefix[i]
-We want:
-    prefix[j+1] - prefix[i] ≥ S
-⇔  prefix[i] ≤ prefix[j+1] - S
+WE want ps[i] - ps[j] >=K where i >j
 
+We want ps[j] 
+   -ps[j] >=K-ps[i]
+
+   apply negatives to lhs positive(flips the inequality in the process)
+    ps[j]>=ps[i]-K[i] 
+
+    The question is: 
+        How many values have I previously inserted into the tree that have a rank <= the rank of (p - S)?
+
+    Therefore to ensure that smaller values are on the left, we sort in ascending order.
+
+    
 ---
 
 3) Efficient Counting with Fenwick Tree:
 ----------------------------------------
-- Collect all prefix values and prefix[j+1] - S for coordinate compression
-- Use a Fenwick Tree to count how many prefix[i] ≤ target for each j
-- Update the tree with the current prefix[j+1]
+- Collect all prefix values and prefix[i] - S for coordinate compression
+- Use a Fenwick Tree to count how many prefix[j] ≤ target for each j
+- Update the tree with the current prefix[i]
 
 What's contained in the fenwick tree at i is the count.
 
@@ -100,7 +108,8 @@ public class CountSubarraysSumGEQ {
 
         List<Long> allValues = new ArrayList<>(set);
         
-        Collections.sort(allValues);
+        // Sort ascending
+        Collections.sort(allValues);   
 
         Map<Long, Integer> indexMap = new HashMap<>();
         int idx = 1;
@@ -108,7 +117,7 @@ public class CountSubarraysSumGEQ {
             indexMap.put(v, idx++);
         }
 
-        // Step 3: Fenwick Tree
+        // Step 3: Fenwick Tree, notice that the n is set to allValues.size()
         Fenwick fenwick = new Fenwick(idx);
 
         int count = 0;
@@ -118,7 +127,10 @@ public class CountSubarraysSumGEQ {
             long target = p - S;
             int targetIdx = indexMap.get(target);
 
-            // How many occurrences of it?
+            //"How many values have I previously inserted into the tree that have a rank <= the rank of (p - S)?
+            // Why? because we want ps[i]-ps[j]>=K where i > j and so -ps[j]>=K ps[i] we apply negative on both sids
+            // and flip the sign ps[j]<=ps[i]-K
+            //  How many occurrences of it?
             count += fenwick.query(targetIdx);  
 
             // Update fot the current ps[i]

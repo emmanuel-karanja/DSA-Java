@@ -195,7 +195,7 @@ class TreeColoring {
         // Initialize: assume node is colored with c i.e.assume leaf case
         // 
         for (int c = 0; c < K; c++) {
-            dp[c] = 1;   // Multiplicative identity
+            dp[c] = 1;   // Multiplicative identity, if this was leaf, there is only 1 way to select each color for this node.
         }
 
         // Combine children
