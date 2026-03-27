@@ -43,7 +43,8 @@ public class CountInversionsLeftToRight {
     }
 
     public static long countInversions(int[] arr) {
-        int n = arr.length;
+        if(arr==null) return 0;
+        final int n = arr.length;
         if (n == 0) return 0;
 
         // 1. Coordinate Compression (Handling Duplicates correctly)

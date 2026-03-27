@@ -128,6 +128,8 @@ public class CountSubarraysSumGEQ {
             int targetIdx = indexMap.get(target);
 
             //"How many values have I previously inserted into the tree that have a rank <= the rank of (p - S)?
+            // rank matters since we sorted them in the set in ascending order so all values at rank i is greater
+            // than all those before iti.e. from 0 to i-1.
             // Why? because we want ps[i]-ps[j]>=K where i > j and so -ps[j]>=K ps[i] we apply negative on both sids
             // and flip the sign ps[j]<=ps[i]-K
             //  How many occurrences of it?

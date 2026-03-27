@@ -42,9 +42,13 @@ public class MaxSubarraySumGEQK {
     }
 
     public int maxSubarraySumAtLeastK(int[] nums, int K) {
-        int n = nums.length;
+        if(nums==null || nums.length==0) return Integer.MIN_VALUE;
+
+        final int n = nums.length;
         long[] prefix = new long[n + 1];
-        for (int i = 0; i < n; i++) prefix[i + 1] = prefix[i] + nums[i];
+        for (int i = 0; i < n; i++) {
+            prefix[i + 1] = prefix[i] + nums[i];
+        }
 
         Set<Long> set = new HashSet<>();
         for (long p : prefix) {
