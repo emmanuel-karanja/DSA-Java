@@ -1,7 +1,20 @@
 /**If you want to represent different symbols with upper and lower i.e. a and Z not be the same, 
  * then, you can simply ignore the case e.g. a url shortener would want to keep them as separate 
  * characters and add a few special chars to make the base something like 10+26+26 like 62 base so
- *  that with 7 symbols, you can represent 62^7 unique shortened urls or Ids*/
+ *  that with 7 symbols, you can represent 62^7 unique shortened urls or Ids
+ * 
+ * "How do you prevent people from guessing the next URL?"If your IDs are sequential (1, 2, 3...), 
+ * the encoded strings will be predictable (000001, 000002).
+ * 
+ * The Solution: Use a Feistel Cipher or a PRNG (Pseudo-Random Number Generator) to "shuffle" the ID before 
+ * encoding it to Base 62. This makes the URL look random (e.g., 8fG2pL) while still mapping back to a unique
+ *  64-bit integer in your database.Summary of the StrategyCompactness: Higher base = Shorter strings.
+ * 
+ * Case Sensitivity: Essential for maximizing the character set without special symbols (which can break URLs).
+ * 
+ * Base 64: If you add + and /, you get Base 64 (Standard for binary-to-text), but those characters often need "URL Encoding" 
+ * (%2B), which defeats the purpose of a "short" URL. That's why Base 62 is the sweet spot for web addresses.
+ * */
 
 public class BaseConverter {
 /**Use the Base 10 or Decimal bridge to turn a M x N conversion into an M+N conversion. */
@@ -31,6 +44,7 @@ public class BaseConverter {
         }
 
         if (isNegative) sb.append("-");
+
         return sb.reverse().toString();
     }
 
@@ -45,6 +59,7 @@ public class BaseConverter {
 
         numStr = numStr.trim().toUpperCase();
         boolean isNegative = numStr.startsWith("-");
+        
         String processingStr = isNegative ? numStr.substring(1) : numStr;
 
         long decimalValue = 0; // Use long to prevent overflow
