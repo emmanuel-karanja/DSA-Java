@@ -36,11 +36,11 @@ public class MissingNumberFromString {
             // Mark as used
             used[num] = true;   
 
-            // Find the next number
+            // Find the next number, len is advance by how many steps? How many steps to take?
             int res = backtrack(s, index + len, used, n, maxDigits);
 
-            // Check if we are at the end
-            if (res != -1) return res;
+            // Pruning, once we find the first missing number we exit.
+            if (res != -1) return res;  
 
             used[num] = false;  // Backtrack
         }
